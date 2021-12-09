@@ -15,11 +15,11 @@ func TestStringNode(t *testing.T) {
 	graph, err := loader.LoadGraph([]byte(graphJson))
 	assert.Nil(t, err)
 
-	done := false
+	var result string
 	logger, _ := zap.NewProduction()
 	engine := engine.NewEngine(graph, logger, func(msgType string, message string) {
-		done = message == "true"
+		result = message
 	})
 	engine.Run(context.Background())
-	assert.True(t, done)
+	assert.Equal(t, result, "true")
 }
