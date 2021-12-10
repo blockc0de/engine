@@ -2,12 +2,11 @@ package loader
 
 import (
 	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/interop"
 	jsoniter "github.com/json-iterator/go"
 )
 
 func LoadGraph(graphJson []byte) (*block.Graph, error) {
-	var graphSchema interop.GraphSchema
+	var graphSchema GraphSchema
 	err := jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal(graphJson, &graphSchema)
 	if err != nil {
 		return nil, err
@@ -101,7 +100,7 @@ func LoadGraph(graphJson []byte) (*block.Graph, error) {
 }
 
 func ExportGraph(graph *block.Graph) ([]byte, error) {
-	schema := interop.NewGraphSchema(graph)
+	schema := NewGraphSchema(graph)
 	return schema.Export()
 }
 

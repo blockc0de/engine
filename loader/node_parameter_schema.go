@@ -1,4 +1,4 @@
-package interop
+package loader
 
 import (
 	"bytes"
@@ -31,6 +31,8 @@ func unmarshalNodeParameterValue(valueType block.NodeParameterTypeEnum, data []b
 		d := block.NodeParameterDecimal{Decimal: decimal.Zero}
 		err := json.Unmarshal(data, &d)
 		return d, err
+	case block.NodeParameterTypeEnumStream:
+		return nil, nil
 	default:
 		return nil, errors.New(fmt.Sprintf("invalid %s value", valueType))
 	}

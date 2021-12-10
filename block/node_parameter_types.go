@@ -21,6 +21,7 @@ var (
 	NodeParameterTypeEnumBool    NodeParameterTypeEnum = "System.Boolean"
 	NodeParameterTypeEnumString  NodeParameterTypeEnum = "System.String"
 	NodeParameterTypeEnumDecimal NodeParameterTypeEnum = "System.Double"
+	NodeParameterTypeEnumStream  NodeParameterTypeEnum = "Stream"
 	NodeParameterTypeEnumUnknown NodeParameterTypeEnum = "Unknown"
 )
 
