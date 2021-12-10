@@ -27,9 +27,13 @@ func (n *OnGraphStartNode) CanExecute() bool {
 	return true
 }
 
-func (n *OnGraphStartNode) SetupEvent(ctx context.Context, executor block.NodeExecutor) error {
-	executor.ExecuteNode(ctx, n, nil)
+func (n *OnGraphStartNode) SetupEvent(ctx context.Context, scheduler block.NodeScheduler) error {
+	scheduler.AddCycle(n, nil)
 	return nil
+}
+
+func (n *OnGraphStartNode) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
+	scheduler.NextNode(ctx, n)
 }
 
 func (n *OnGraphStartNode) GetCustomAttributes(t reflect.Type) []interface{} {
@@ -43,6 +47,10 @@ func (n *OnGraphStartNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *OnGraphStartNode) OnExecution(context.Context, block.NodeExecutor) error {
+func (n *OnGraphStartNode) OnExecution(context.Context, block.NodeScheduler) error {
+	return nil
+}
+
+func (n *OnGraphStartNode) OnStop() error {
 	return nil
 }

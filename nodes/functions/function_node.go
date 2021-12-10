@@ -45,8 +45,8 @@ func (n *FunctionNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *FunctionNode) OnExecution(ctx context.Context, executor block.NodeExecutor) error {
-	n.Context = NewFunctionContext(n)
-	executor.SetUserData("CurrentFunctionContext", n.Context)
+func (n *FunctionNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+	//n.Context = NewFunctionContext(n)
+	//scheduler.SetUserData("CurrentFunctionContext", n.Context)
 	return nil
 }

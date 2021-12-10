@@ -7,88 +7,123 @@ import (
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
 	"github.com/blockc0de/engine/nodes/functions"
-	"go.uber.org/zap"
+	"math/big"
 	"reflect"
 	"time"
 )
 
+type Event struct {
+	CycleCost func(cost *big.Int)
+	AppendLog func(msgType string, message string)
+}
+
 type Engine struct {
 	Graph         *block.Graph
 	ExecutedNodes []block.Node
-	Trace         block.GraphTrace
-	running       bool
-	logger        *zap.Logger
-	appendLog     func(string, string)
-	userData      map[string]interface{}
+
+	running            bool
+	stopping           bool
+	context            context.Context
+	cancel             context.CancelFunc
+	event              Event
+	currentCycle       *GraphExecutionCycle
+	pendingCyclesQueue chan *GraphExecutionCycle
 }
 
-func NewEngine(graph *block.Graph, logger *zap.Logger, appendLog func(string, string)) *Engine {
-	cycle := new(Engine)
-	cycle.Graph = graph
-	cycle.Trace = block.NewGraphTrace()
-	cycle.ExecutedNodes = make([]block.Node, 0)
-
-	cycle.appendLog = appendLog
-	cycle.logger = logger.Named("Engine")
-	return cycle
+func NewEngine(graph *block.Graph, event Event) *Engine {
+	engine := Engine{
+		Graph:         graph,
+		event:         event,
+		ExecutedNodes: make([]block.Node, 0),
+	}
+	return &engine
 }
 
-func (c *Engine) Run(ctx context.Context) error {
-	if c.running {
-		return errors.New("already running")
+func (e *Engine) Run(ctx context.Context) error {
+	if e.running {
+		return errors.New("engine is running")
 	}
 
-	c.running = true
+	e.running = true
+	e.stopping = false
+	e.ExecutedNodes = e.ExecutedNodes[:0]
+	e.context, e.cancel = context.WithCancel(ctx)
+	e.pendingCyclesQueue = make(chan *GraphExecutionCycle, 128)
 
-	for _, node := range c.Graph.NodeList {
-		if node.Data().NodeBlockType == attributes.NodeTypeEnumConnector {
-			connectorNode, ok := node.(block.ConnectorNode)
+	e.startNodes()
+
+loop:
+	for {
+		select {
+		case <-ctx.Done():
+			e.Stop()
+		case cycle, ok := <-e.pendingCyclesQueue:
 			if !ok {
-				return errors.New("non connector node")
+				break loop
 			}
-			if err := connectorNode.SetupConnector(ctx, c); err != nil {
-				c.appendLog("error", "Can't setup the connector : "+node.Data().FriendlyName+", "+err.Error())
-				c.Stop()
-				return err
+			if e.stopping {
+				continue
+			}
+
+			lastCycleAt := cycle.StartNode.Data().LastCycleAt
+			nodeCycleLimit := cycle.StartNode.Data().NodeCycleLimit
+			if lastCycleAt+nodeCycleLimit > time.Now().UnixMilli() {
+				e.AppendLog("warn", "Reach node cycle limit'"+cycle.StartNode.Data().FriendlyName+"'")
+				continue
+			}
+
+			e.currentCycle = cycle
+			cycle.StartNode.Data().LastCycleAt = time.Now().UnixMilli()
+
+			cycle.Execute(e.context)
+
+			if e.event.CycleCost != nil {
+				e.event.CycleCost(cycle.GetCycleExecutedGasPrice())
 			}
 		}
 	}
 
-	eventNodes := c.Graph.GetEventNodes()
-	for _, node := range eventNodes {
-		if onGraphStartNode, ok := node.(*nodes.OnGraphStartNode); ok {
-			if err := onGraphStartNode.SetupEvent(ctx, c); err != nil {
-				c.appendLog("error", "Can't setup the event : "+node.Data().FriendlyName+", "+err.Error())
-				c.Stop()
-				return err
-			}
-		}
-	}
+	e.stopNodes()
 
-	entryPointNode := c.Graph.GetFirstEntryPointNode()
-	if entryPointNode == nil {
-		return errors.New("entry point node not found")
-	}
+	e.cancel = nil
+	e.context = nil
+	e.running = false
+	e.stopping = false
 
-	c.ExecuteNode(ctx, entryPointNode, nil)
 	return nil
 }
 
-func (c *Engine) Stop() {
-	if !c.running {
+func (e *Engine) Stop() {
+	if !e.running || e.stopping {
 		return
+	}
+
+	e.stopping = true
+
+	e.cancel()
+	close(e.pendingCyclesQueue)
+}
+
+func (e *Engine) AppendLog(msgType string, message string) {
+	if e.event.AppendLog != nil {
+		e.event.AppendLog(msgType, message)
 	}
 }
 
-func (c *Engine) NextNode(ctx context.Context, node block.Node) bool {
+func (e *Engine) AddCycle(startNode block.StartNode, parameters block.NodeParameters) {
+	cycle := NewGraphExecutionCycle(e, time.Now().Unix(), startNode, parameters)
+	e.pendingCyclesQueue <- cycle
+}
+
+func (e *Engine) NextNode(ctx context.Context, node block.Node) bool {
 	if node.Data().OutNode != nil {
-		return c.ExecuteNode(ctx, node.Data().OutNode, node)
+		return e.ExecuteNode(ctx, node.Data().OutNode, node)
 	}
 	return false
 }
 
-func (c *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromNode block.Node) bool {
-	if !c.running {
+func (e *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromNode block.Node) bool {
+	if !e.running || e.stopping || e.currentCycle == nil {
 		return false
 	}
 
@@ -99,7 +134,7 @@ func (c *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 		return false
 	}
 
-	traceItem := c.addExecutedNode(node)
+	traceItem := e.currentCycle.addExecutedNode(node)
 
 	if node.Data().NodeType != reflect.TypeOf(new(nodes.EntryPointNode)).String() &&
 		node.Data().NodeType != reflect.TypeOf(new(functions.FunctionNode)).String() {
@@ -111,9 +146,9 @@ func (c *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 	startTime := time.Now()
 	executableNode.Data().CurrentTraceItem = traceItem
 
-	err := executableNode.OnExecution(ctx, c)
+	err := executableNode.OnExecution(ctx, e)
 	if err != nil {
-		c.logger.Error("Error on node execution '"+node.Data().FriendlyName+"'", zap.Error(err))
+		e.AppendLog("error", "Error on node execution '"+node.Data().FriendlyName+"', "+err.Error())
 
 		if executableNode.Data().CurrentTraceItem != nil {
 			executableNode.Data().CurrentTraceItem.ExecutionError = err
@@ -126,25 +161,74 @@ func (c *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 		traceItem.ExecutionTime = elapsedTime.Milliseconds()
 	}
 
-	return c.NextNode(ctx, node)
+	return e.NextNode(ctx, node)
 }
 
-func (c *Engine) AppendLog(msgType string, message string) {
-	if c.appendLog != nil {
-		c.appendLog(msgType, message)
+func (e *Engine) startNodes() {
+	// Init connectors
+	for _, node := range e.Graph.NodeList {
+		if node.Data().NodeBlockType == attributes.NodeTypeEnumConnector {
+			connectorNode, ok := node.(block.ConnectorNode)
+			if !ok {
+				return
+			}
+			if err := connectorNode.SetupConnector(e.context, e); err != nil {
+				e.AppendLog("error", "Can't setup the connector: "+node.Data().FriendlyName+", "+err.Error())
+				e.Stop()
+				return
+			}
+		}
 	}
+
+	// Setup event
+	eventNodes := e.Graph.GetEventNodes()
+	for _, node := range eventNodes {
+		if onGraphStartNode, ok := node.(*nodes.OnGraphStartNode); ok {
+			if err := onGraphStartNode.SetupEvent(e.context, e); err != nil {
+				e.AppendLog("error", "Can't setup the event: "+node.Data().FriendlyName+", "+err.Error())
+				e.Stop()
+				return
+			}
+		}
+	}
+
+	// Execute entry point node
+	entryPointNode := e.Graph.GetFirstEntryPointNode()
+	if entryPointNode == nil {
+		e.AppendLog("error", "Entry point node not found")
+		e.Stop()
+		return
+	}
+
+	e.AddCycle(entryPointNode.(*nodes.EntryPointNode), nil)
 }
 
-func (c *Engine) GetUserData(key string) interface{} {
-	data, _ := c.userData[key]
-	return data
-}
+func (e *Engine) stopNodes() {
+	for _, node := range e.Graph.NodeList {
+		if node.Data().NodeBlockType == attributes.NodeTypeEnumEvent {
+			eventNode, ok := node.(block.EventNode)
+			if !ok {
+				continue
+			}
 
-func (c *Engine) SetUserData(key string, data interface{}) {
-	c.userData[key] = data
-}
+			if err := eventNode.OnStop(); err != nil {
+				e.AppendLog("error", "Can't release the connector "+eventNode.Data().FriendlyName+": "+err.Error())
+			}
+		}
+	}
 
-func (c *Engine) addExecutedNode(node block.Node) *block.NodeTrace {
-	c.ExecutedNodes = append(c.ExecutedNodes, node)
-	return c.Trace.AppendTrace(node)
+	for _, node := range e.Graph.NodeList {
+		if node.Data().NodeBlockType == attributes.NodeTypeEnumConnector {
+			connectorNode, ok := node.(block.ConnectorNode)
+			if !ok {
+				continue
+			}
+
+			if err := connectorNode.OnStop(); err != nil {
+				e.AppendLog("error", "Can't release the event "+connectorNode.Data().FriendlyName+": "+err.Error())
+			}
+		}
+	}
+
+	e.AppendLog("warn", "Stop requested for graph id "+e.Graph.Id)
 }

@@ -11,8 +11,8 @@ type GraphTrace struct {
 	stack []*NodeTrace
 }
 
-func NewGraphTrace() GraphTrace {
-	return GraphTrace{stack: make([]*NodeTrace, 0)}
+func NewGraphTrace() *GraphTrace {
+	return &GraphTrace{stack: make([]*NodeTrace, 0)}
 }
 
 func (trace *GraphTrace) AppendTrace(node Node) *NodeTrace {

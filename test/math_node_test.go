@@ -5,7 +5,6 @@ import (
 	"github.com/blockc0de/engine"
 	"github.com/blockc0de/engine/loader"
 	"github.com/stretchr/testify/assert"
-	"go.uber.org/zap"
 	"testing"
 )
 
@@ -16,10 +15,17 @@ func TestMathNode(t *testing.T) {
 	assert.Nil(t, err)
 
 	var result string
-	logger, _ := zap.NewProduction()
-	engine := engine.NewEngine(graph, logger, func(msgType string, message string) {
-		result = message
-	})
-	engine.Run(context.Background())
+	var e *engine.Engine
+	event := engine.Event{
+		AppendLog: func(msgType string, message string) {
+			if result == "" {
+				e.Stop()
+				result = message
+			}
+		},
+	}
+	e = engine.NewEngine(graph, event)
+	e.Run(context.Background())
+
 	assert.Equal(t, result, "-40.45")
 }

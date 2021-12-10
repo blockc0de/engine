@@ -12,27 +12,28 @@ type Node interface {
 	CanBeExecuted() bool
 	GetCustomAttributes(reflect.Type) []interface{}
 	ComputeParameterValue(string, interface{}) interface{}
-	OnStop() error
 }
 
-type RootNode interface {
-	Node
-	BeginCycle(context.Context, NodeExecutor) error
+type StartNode interface {
+	ExecutableNode
+	BeginCycle(context.Context, NodeScheduler)
 }
 
 type EventNode interface {
 	Node
-	SetupEvent(context.Context, NodeExecutor) error
+	SetupEvent(context.Context, NodeScheduler) error
+	OnStop() error
 }
 
 type ConnectorNode interface {
 	Node
-	SetupConnector(context.Context, NodeExecutor) error
+	SetupConnector(context.Context, NodeScheduler) error
+	OnStop() error
 }
 
 type ExecutableNode interface {
 	Node
-	OnExecution(context.Context, NodeExecutor) error
+	OnExecution(context.Context, NodeScheduler) error
 }
 
 // NodeBase Base class for all nodes
@@ -58,10 +59,6 @@ func (n *NodeBase) GetCustomAttributes(reflect.Type) []interface{} {
 
 func (n *NodeBase) ComputeParameterValue(id string, value interface{}) interface{} {
 	return value
-}
-
-func (n *NodeBase) OnStop() error {
-	return nil
 }
 
 // Nodes The node slice of sort interface is implemented

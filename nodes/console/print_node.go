@@ -53,7 +53,7 @@ func (n *PrintNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *PrintNode) OnExecution(ctx context.Context, executor block.NodeExecutor) error {
+func (n *PrintNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
 	var converter block.NodeParameterConverter
 	message := n.Data().InParameters.Get("message")
 	messageVal, ok := converter.ToString(message.ComputeValue())
@@ -61,6 +61,6 @@ func (n *PrintNode) OnExecution(ctx context.Context, executor block.NodeExecutor
 		return errors.New("invalid message")
 	}
 
-	executor.AppendLog("info", messageVal)
+	scheduler.AppendLog("info", messageVal)
 	return nil
 }

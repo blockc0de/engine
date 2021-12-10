@@ -37,6 +37,10 @@ func (n *EntryPointNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *EntryPointNode) OnExecution(context.Context, block.NodeExecutor) error {
+func (n *EntryPointNode) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
+	scheduler.NextNode(ctx, n)
+}
+
+func (n *EntryPointNode) OnExecution(context.Context, block.NodeScheduler) error {
 	return nil
 }

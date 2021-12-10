@@ -64,7 +64,7 @@ func (n *StringContainsNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *StringContainsNode) OnExecution(ctx context.Context, executor block.NodeExecutor) error {
+func (n *StringContainsNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
 	inParameterString := n.Data().InParameters.Get("string")
 	inParameterToSearch := n.Data().InParameters.Get("toSearch")
 
@@ -81,13 +81,13 @@ func (n *StringContainsNode) OnExecution(ctx context.Context, executor block.Nod
 
 	if strings.Index(strings.ToLower(stringVal), strings.ToLower(toSearchVal)) == -1 {
 		if outNode, ok := n.Data().OutParameters.Get("false").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, executor)
+			return outNode.OnExecution(ctx, scheduler)
 		}
 		return nil
 	}
 
 	if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
-		return outNode.OnExecution(ctx, executor)
+		return outNode.OnExecution(ctx, scheduler)
 	}
 	return nil
 }

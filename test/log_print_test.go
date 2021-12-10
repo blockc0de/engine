@@ -5,7 +5,6 @@ import (
 	"github.com/blockc0de/engine"
 	"github.com/blockc0de/engine/loader"
 	"github.com/stretchr/testify/assert"
-	"go.uber.org/zap"
 	"testing"
 )
 
@@ -15,11 +14,18 @@ func TestLogPrint(t *testing.T) {
 	graph, err := loader.LoadGraph([]byte(graphJson))
 	assert.Nil(t, err)
 
-	done := false
-	logger, _ := zap.NewProduction()
-	engine := engine.NewEngine(graph, logger, func(msgType string, message string) {
-		done = msgType == "info" && message == "hello world!"
-	})
-	engine.Run(context.Background())
-	assert.True(t, done)
+	var result string
+	var e *engine.Engine
+	event := engine.Event{
+		AppendLog: func(msgType string, message string) {
+			if result == "" {
+				e.Stop()
+				result = message
+			}
+		},
+	}
+	e = engine.NewEngine(graph, event)
+	e.Run(context.Background())
+
+	assert.Equal(t, result, "hello world!")
 }
