@@ -1,11 +1,11 @@
 package loader_test
 
 import (
+	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/loader"
+	"github.com/blockc0de/engine/nodes/math"
+	"github.com/blockc0de/engine/nodes/variable"
 	"github.com/google/uuid"
-	"github.com/graphlinq-go/engine/block"
-	"github.com/graphlinq-go/engine/loader"
-	"github.com/graphlinq-go/engine/nodes/math"
-	"github.com/graphlinq-go/engine/nodes/variable"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
 	"testing"

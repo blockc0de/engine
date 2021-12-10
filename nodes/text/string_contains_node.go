@@ -3,8 +3,8 @@ package text
 import (
 	"context"
 	"errors"
-	"github.com/graphlinq-go/engine/attributes"
-	"github.com/graphlinq-go/engine/block"
+	"github.com/blockc0de/engine/attributes"
+	"github.com/blockc0de/engine/block"
 	"reflect"
 	"strings"
 )

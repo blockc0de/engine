@@ -2,8 +2,8 @@ package test
 
 import (
 	"context"
-	"github.com/graphlinq-go/engine"
-	"github.com/graphlinq-go/engine/loader"
+	"github.com/blockc0de/engine"
+	"github.com/blockc0de/engine/loader"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"testing"

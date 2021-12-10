@@ -1,4 +1,4 @@
-module github.com/graphlinq-go/engine
+module github.com/blockc0de/engine
 
 go 1.17
 

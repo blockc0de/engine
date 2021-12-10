@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/graphlinq-go/engine/block"
+	"github.com/blockc0de/engine/block"
 	"github.com/shopspring/decimal"
 )
 

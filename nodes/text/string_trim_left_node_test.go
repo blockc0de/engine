@@ -1,9 +1,9 @@
 package text
 
 import (
+	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/nodes/variable"
 	"github.com/google/uuid"
-	"github.com/graphlinq-go/engine/block"
-	"github.com/graphlinq-go/engine/nodes/variable"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

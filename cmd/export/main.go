@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/graphlinq-go/engine/loader"
+	"github.com/blockc0de/engine/loader"
 	"io/ioutil"
 )
 

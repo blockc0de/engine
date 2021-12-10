@@ -1,7 +1,7 @@
 package block
 
 import (
-	"github.com/graphlinq-go/engine/attributes"
+	"github.com/blockc0de/engine/attributes"
 	"reflect"
 )
 

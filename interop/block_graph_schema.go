@@ -1,7 +1,7 @@
 package interop
 
 import (
-	"github.com/graphlinq-go/engine/block"
+	"github.com/blockc0de/engine/block"
 	jsoniter "github.com/json-iterator/go"
 )
 

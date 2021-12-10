@@ -1,8 +1,8 @@
 package block
 
 import (
+	"github.com/blockc0de/engine/attributes"
 	"github.com/google/uuid"
-	"github.com/graphlinq-go/engine/attributes"
 )
 
 type Graph struct {

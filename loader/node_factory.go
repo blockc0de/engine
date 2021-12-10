@@ -2,13 +2,13 @@ package loader
 
 import (
 	"errors"
-	"github.com/graphlinq-go/engine/block"
-	"github.com/graphlinq-go/engine/nodes"
-	"github.com/graphlinq-go/engine/nodes/console"
-	"github.com/graphlinq-go/engine/nodes/functions"
-	"github.com/graphlinq-go/engine/nodes/math"
-	"github.com/graphlinq-go/engine/nodes/text"
-	"github.com/graphlinq-go/engine/nodes/variable"
+	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/nodes"
+	"github.com/blockc0de/engine/nodes/console"
+	"github.com/blockc0de/engine/nodes/functions"
+	"github.com/blockc0de/engine/nodes/math"
+	"github.com/blockc0de/engine/nodes/text"
+	"github.com/blockc0de/engine/nodes/variable"
 	"reflect"
 )
 

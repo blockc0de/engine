@@ -1,8 +1,8 @@
 package loader
 
 import (
-	"github.com/graphlinq-go/engine/block"
-	"github.com/graphlinq-go/engine/interop"
+	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/interop"
 	jsoniter "github.com/json-iterator/go"
 )
 

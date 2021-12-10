@@ -1,9 +1,9 @@
 package math
 
 import (
+	"github.com/blockc0de/engine/attributes"
+	"github.com/blockc0de/engine/block"
 	"github.com/cockroachdb/apd"
-	"github.com/graphlinq-go/engine/attributes"
-	"github.com/graphlinq-go/engine/block"
 	"github.com/shopspring/decimal"
 	"reflect"
 )
