@@ -55,8 +55,8 @@ func (e *Engine) Run(ctx context.Context) error {
 loop:
 	for {
 		select {
-		case <-ctx.Done():
-			e.Stop()
+		//case <-ctx.Done():
+		//	e.Stop()
 		case cycle, ok := <-e.pendingCyclesQueue:
 			if !ok {
 				break loop
@@ -111,6 +111,10 @@ func (e *Engine) AppendLog(msgType string, message string) {
 }
 
 func (e *Engine) AddCycle(startNode block.StartNode, parameters block.NodeParameters) {
+	if !e.running || e.stopping {
+		return
+	}
+
 	cycle := NewGraphExecutionCycle(e, time.Now().Unix(), startNode, parameters)
 	e.pendingCyclesQueue <- cycle
 }
@@ -165,6 +169,8 @@ func (e *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 }
 
 func (e *Engine) startNodes() {
+	var count int
+
 	// Init connectors
 	for _, node := range e.Graph.NodeList {
 		if node.Data().NodeBlockType == attributes.NodeTypeEnumConnector {
@@ -177,30 +183,33 @@ func (e *Engine) startNodes() {
 				e.Stop()
 				return
 			}
+			count += 1
 		}
 	}
 
 	// Setup event
 	eventNodes := e.Graph.GetEventNodes()
 	for _, node := range eventNodes {
-		if onGraphStartNode, ok := node.(*nodes.OnGraphStartNode); ok {
+		if onGraphStartNode, ok := node.(block.EventNode); ok {
 			if err := onGraphStartNode.SetupEvent(e.context, e); err != nil {
 				e.AppendLog("error", "Can't setup the event: "+node.Data().FriendlyName+", "+err.Error())
 				e.Stop()
 				return
 			}
+			count += 1
 		}
 	}
 
 	// Execute entry point node
 	entryPointNode := e.Graph.GetFirstEntryPointNode()
-	if entryPointNode == nil {
-		e.AppendLog("error", "Entry point node not found")
-		e.Stop()
-		return
+	if entryPointNode != nil {
+		count += 1
+		e.AddCycle(entryPointNode.(*nodes.EntryPointNode), nil)
 	}
 
-	e.AddCycle(entryPointNode.(*nodes.EntryPointNode), nil)
+	if count == 0 {
+		e.Stop()
+	}
 }
 
 func (e *Engine) stopNodes() {

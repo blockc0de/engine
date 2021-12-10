@@ -1,7 +1,6 @@
 package text
 
 import (
-	"fmt"
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes/variable"
 	"github.com/google/uuid"
@@ -22,5 +21,4 @@ func TestStringToLowerNode(t *testing.T) {
 
 	result := stringToLower.ComputeParameterValue(stringToLower.Data().OutParameters.Get("string").Id, nil)
 	assert.Equal(t, string(result.(block.NodeParameterString)), "abcde")
-	fmt.Println(stringToLower.Data().OutParameters.Get("string").ComputeValue())
 }

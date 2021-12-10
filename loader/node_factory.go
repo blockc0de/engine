@@ -8,6 +8,7 @@ import (
 	"github.com/blockc0de/engine/nodes/functions"
 	"github.com/blockc0de/engine/nodes/math"
 	"github.com/blockc0de/engine/nodes/text"
+	"github.com/blockc0de/engine/nodes/time"
 	"github.com/blockc0de/engine/nodes/variable"
 	"reflect"
 )
@@ -54,6 +55,9 @@ var (
 
 		// Log
 		{reflect.TypeOf(new(console.PrintNode)).String(), console.NewPrintNode},
+
+		// Time
+		{reflect.TypeOf(new(time.TimerNode)).String(), time.NewTimerNode},
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},

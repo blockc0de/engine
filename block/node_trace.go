@@ -1,7 +1,7 @@
 package block
 
 import (
-	"strconv"
+	"fmt"
 	"strings"
 )
 
@@ -38,9 +38,9 @@ func NewNodeTrace(node Node) *NodeTrace {
 
 func (trace *NodeTrace) String() string {
 	lines := make([]string, 0)
-	lines = append(lines, "at "+trace.node.Data().NodeType+" "+strconv.FormatInt(trace.ExecutionTime, 10)+"ms ("+trace.nodeId+")")
+	lines = append(lines, fmt.Sprintf("at %24s %6dms %12s", trace.node.Data().NodeType, trace.ExecutionTime, trace.nodeId))
 	if trace.ExecutionError != nil {
-		lines = append(lines, "Exception occurred : "+trace.ExecutionError.Error())
+		lines = append(lines, "Exception occurred: "+trace.ExecutionError.Error())
 	}
 	for key, val := range trace.parameters {
 		lines = append(lines, "-- "+key+" = "+val)

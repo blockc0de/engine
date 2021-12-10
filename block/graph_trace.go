@@ -44,8 +44,8 @@ func (trace *GraphTrace) String() string {
 	}
 
 	sort.Reverse(sort.StringSlice(traces))
-	return "Total execution time : " + strconv.FormatInt(totalExecutionTime, 10) + "ms\n" +
-		"Execution success : " + executionSuccessText + "\n" +
+	return "Total execution time: " + strconv.FormatInt(totalExecutionTime, 10) + "ms\n" +
+		"Execution success: " + executionSuccessText + "\n" +
 		strings.Join(traces, "\n") + "\n" +
 		"Stack count: " + strconv.Itoa(len(trace.stack))
 }
