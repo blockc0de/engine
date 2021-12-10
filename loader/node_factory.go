@@ -17,6 +17,7 @@ type nodeCreator struct {
 	Creator func(id string, graph *block.Graph) (block.Node, error)
 }
 
+// the registry for the node type and creator
 var (
 	nodeCreators = []nodeCreator{
 		// Common
@@ -67,9 +68,8 @@ func init() {
 	}
 }
 
-type NodeFactory struct{}
-
-func (NodeFactory) NewNode(nodeType string, id string, graph *block.Graph) (block.Node, error) {
+// NewNode create node instance by node type
+func NewNode(nodeType string, id string, graph *block.Graph) (block.Node, error) {
 	creator, ok := nodeCreatorsMapper[nodeType]
 	if !ok {
 		return nil, errors.New("node creator unregistered")

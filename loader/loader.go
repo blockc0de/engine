@@ -5,6 +5,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
+// LoadGraph import graph from JSON string.
 func LoadGraph(graphJson []byte) (*block.Graph, error) {
 	var graphSchema GraphSchema
 	err := jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal(graphJson, &graphSchema)
@@ -15,9 +16,8 @@ func LoadGraph(graphJson []byte) (*block.Graph, error) {
 	graph := block.NewGraph("", graphSchema.Name)
 
 	// Load nodes
-	var nodeFactory NodeFactory
 	for _, nodeSchema := range graphSchema.Nodes {
-		node, err := nodeFactory.NewNode(nodeSchema.Type, nodeSchema.Id, graph)
+		node, err := NewNode(nodeSchema.Type, nodeSchema.Id, graph)
 		if err != nil {
 			return nil, err
 		}
@@ -99,11 +99,13 @@ func LoadGraph(graphJson []byte) (*block.Graph, error) {
 	return graph, nil
 }
 
+// ExportGraph export graph to JSON format.
 func ExportGraph(graph *block.Graph) ([]byte, error) {
 	schema := NewGraphSchema(graph)
 	return schema.Export()
 }
 
+// ExportNodeSchema export schema of all nodes to JSON format.
 func ExportNodeSchema() ([]byte, error) {
 	nodes := make([]block.Node, 0, len(nodeCreators))
 	for _, creator := range nodeCreators {
