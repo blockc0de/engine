@@ -21,13 +21,13 @@ type StartNode interface {
 
 type EventNode interface {
 	Node
-	SetupEvent(context.Context, NodeScheduler) error
+	SetupEvent(NodeScheduler) error
 	OnStop() error
 }
 
 type ConnectorNode interface {
 	Node
-	SetupConnector(context.Context, NodeScheduler) error
+	SetupConnector(NodeScheduler) error
 	OnStop() error
 }
 

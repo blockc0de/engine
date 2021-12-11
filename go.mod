@@ -10,6 +10,7 @@ require (
 require (
 	github.com/cockroachdb/apd v1.1.0
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/itchyny/timefmt-go v0.1.3
 	github.com/json-iterator/go v1.1.12
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
@@ -20,7 +21,7 @@ require (
 )
 
 require (
-	go.uber.org/atomic v1.9.0 // indirect
-	go.uber.org/multierr v1.7.0 // indirect
-	go.uber.org/zap v1.19.1
+	github.com/kr/pretty v0.1.0 // indirect
+	github.com/lib/pq v1.10.4 // indirect
+	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 )

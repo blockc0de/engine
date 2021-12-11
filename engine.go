@@ -55,8 +55,8 @@ func (e *Engine) Run(ctx context.Context) error {
 loop:
 	for {
 		select {
-		//case <-ctx.Done():
-		//	e.Stop()
+		case <-ctx.Done():
+			e.Stop()
 		case cycle, ok := <-e.pendingCyclesQueue:
 			if !ok {
 				break loop
@@ -75,7 +75,11 @@ loop:
 			e.currentCycle = cycle
 			cycle.StartNode.Data().LastCycleAt = time.Now().UnixMilli()
 
-			cycle.Execute(e.context)
+			c, _ := context.WithTimeout(e.context, time.Second*time.Duration(cycle.GetCycleMaxExecutionTime()))
+			cycle.Execute(c)
+			if c.Err() != nil {
+				e.AppendLog("error", "Timeout occurred on last cycle from graph id: "+cycle.engine.Graph.Id)
+			}
 
 			if e.event.CycleCost != nil {
 				e.event.CycleCost(cycle.GetCycleExecutedGasPrice())
@@ -178,7 +182,8 @@ func (e *Engine) startNodes() {
 			if !ok {
 				return
 			}
-			if err := connectorNode.SetupConnector(e.context, e); err != nil {
+
+			if err := connectorNode.SetupConnector(e); err != nil {
 				e.AppendLog("error", "Can't setup the connector: "+node.Data().FriendlyName+", "+err.Error())
 				e.Stop()
 				return
@@ -190,8 +195,9 @@ func (e *Engine) startNodes() {
 	// Setup event
 	eventNodes := e.Graph.GetEventNodes()
 	for _, node := range eventNodes {
-		if onGraphStartNode, ok := node.(block.EventNode); ok {
-			if err := onGraphStartNode.SetupEvent(e.context, e); err != nil {
+		if eventNode, ok := node.(block.EventNode); ok {
+
+			if err := eventNode.SetupEvent(e); err != nil {
 				e.AppendLog("error", "Can't setup the event: "+node.Data().FriendlyName+", "+err.Error())
 				e.Stop()
 				return
@@ -239,5 +245,5 @@ func (e *Engine) stopNodes() {
 		}
 	}
 
-	e.AppendLog("warn", "Stop requested for graph id "+e.Graph.Id)
+	e.AppendLog("warn", "Stop requested for graph id: "+e.Graph.Id)
 }

@@ -27,7 +27,7 @@ func (n *OnGraphStartNode) CanExecute() bool {
 	return true
 }
 
-func (n *OnGraphStartNode) SetupEvent(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *OnGraphStartNode) SetupEvent(scheduler block.NodeScheduler) error {
 	scheduler.AddCycle(n, nil)
 	return nil
 }

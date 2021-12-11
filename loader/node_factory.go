@@ -58,6 +58,9 @@ var (
 
 		// Time
 		{reflect.TypeOf(new(time.TimerNode)).String(), time.NewTimerNode},
+		{reflect.TypeOf(new(time.GetTimestampNode)).String(), time.NewGetTimestampNode},
+		{reflect.TypeOf(new(time.ParseTimestampNode)).String(), time.NewParseTimestampNode},
+		{reflect.TypeOf(new(time.FormatTimestampNode)).String(), time.NewFormatTimestampNode},
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},

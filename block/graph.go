@@ -6,19 +6,25 @@ import (
 )
 
 type Graph struct {
-	Id       string
-	Name     string
-	Nodes    map[string]Node
-	NodeList []Node
+	Id              string
+	Name            string
+	Nodes           map[string]Node
+	NodeList        []Node
+	MemoryVariables map[string]interface{}
 }
 
 func NewGraph(id, name string) *Graph {
-	graph := new(Graph)
-	graph.Id = id
-	graph.Name = name
-	graph.NodeList = make([]Node, 0)
-	graph.Nodes = make(map[string]Node)
-	return graph
+	graph := Graph{
+		Id:              id,
+		Name:            name,
+		Nodes:           make(map[string]Node),
+		NodeList:        make([]Node, 0),
+		MemoryVariables: make(map[string]interface{}),
+	}
+	if id == "" {
+		id = uuid.New().String()
+	}
+	return &graph
 }
 
 func (g *Graph) AddNode(node Node) {

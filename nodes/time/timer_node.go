@@ -18,7 +18,8 @@ var (
 
 type TimerNode struct {
 	block.NodeBase
-	timer *time.Timer
+	timer  *time.Timer
+	cancel context.CancelFunc
 }
 
 func NewTimerNode(id string, graph *block.Graph) (block.Node, error) {
@@ -39,22 +40,25 @@ func (n *TimerNode) CanExecute() bool {
 	return true
 }
 
-func (n *TimerNode) SetupEvent(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *TimerNode) SetupEvent(scheduler block.NodeScheduler) error {
 	seconds, err := n.getIntervalInSeconds()
 	if err != nil {
 		return err
 	}
 
 	n.timer = time.NewTimer(seconds)
+	ctx, cancel := context.WithCancel(context.Background())
+	n.cancel = cancel
+
 	go func() {
-	loop:
 		for {
 			select {
 			case <-ctx.Done():
-				break loop
+				scheduler.Stop()
+				return
 			case _, ok := <-n.timer.C:
 				if !ok {
-					break loop
+					return
 				}
 				scheduler.AddCycle(n, nil)
 			}
