@@ -2,7 +2,7 @@ package time
 
 import (
 	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/nodes/variable"
+	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -11,11 +11,11 @@ import (
 func TestParseTimestampNode(t *testing.T) {
 	graph := block.NewGraph("", "test")
 
-	dateString, err := variable.NewStringNode(uuid.New().String(), graph)
+	dateString, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	dateString.Data().OutParameters.Get("value").Value = block.NodeParameterString("2021/12/11 13:57:26")
 
-	format, err := variable.NewStringNode(uuid.New().String(), graph)
+	format, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	format.Data().OutParameters.Get("value").Value = block.NodeParameterString("%Y/%m/%d %H:%M:%S")
 

@@ -1,14 +1,15 @@
 package loader_test
 
 import (
+	"testing"
+
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/loader"
 	"github.com/blockc0de/engine/nodes/math"
-	"github.com/blockc0de/engine/nodes/variable"
+	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 var (
@@ -18,12 +19,12 @@ var (
 func TestExportGraph(t *testing.T) {
 	graph := block.NewGraph("", "test")
 
-	a, err := variable.NewDecimalNode(uuid.New().String(), graph)
+	a, err := vars.NewDecimalNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	a.Data().OutParameters.Get("value").Value = block.NodeParameterDecimal{Decimal: decimal.NewFromInt(10)}
 	graph.AddNode(a)
 
-	b, err := variable.NewDecimalNode(uuid.New().String(), graph)
+	b, err := vars.NewDecimalNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	b.Data().OutParameters.Get("value").Value = block.NodeParameterDecimal{Decimal: decimal.NewFromInt(20)}
 	graph.AddNode(b)

@@ -2,7 +2,7 @@ package text
 
 import (
 	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/nodes/variable"
+	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -11,15 +11,15 @@ import (
 func TestStringReplaceNode(t *testing.T) {
 	graph := block.NewGraph("", "test")
 
-	original, err := variable.NewStringNode(uuid.New().String(), graph)
+	original, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	original.Data().OutParameters.Get("value").Value = block.NodeParameterString("aaaaabc")
 
-	toReplace, err := variable.NewStringNode(uuid.New().String(), graph)
+	toReplace, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	toReplace.Data().OutParameters.Get("value").Value = block.NodeParameterString("aaaaa")
 
-	replaceText, err := variable.NewStringNode(uuid.New().String(), graph)
+	replaceText, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	replaceText.Data().OutParameters.Get("value").Value = block.NodeParameterString("11111")
 

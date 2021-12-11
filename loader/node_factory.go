@@ -2,6 +2,8 @@ package loader
 
 import (
 	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
 	"github.com/blockc0de/engine/nodes/console"
@@ -9,8 +11,7 @@ import (
 	"github.com/blockc0de/engine/nodes/math"
 	"github.com/blockc0de/engine/nodes/text"
 	"github.com/blockc0de/engine/nodes/time"
-	"github.com/blockc0de/engine/nodes/variable"
-	"reflect"
+	"github.com/blockc0de/engine/nodes/vars"
 )
 
 type nodeCreator struct {
@@ -27,9 +28,9 @@ var (
 		{reflect.TypeOf(new(nodes.StopGraphNode)).String(), nodes.NewStopGraphNode},
 
 		// Base Variable
-		{reflect.TypeOf(new(variable.StringNode)).String(), variable.NewStringNode},
-		{reflect.TypeOf(new(variable.DecimalNode)).String(), variable.NewDecimalNode},
-		{reflect.TypeOf(new(variable.BoolNode)).String(), variable.NewBoolNode},
+		{reflect.TypeOf(new(vars.StringNode)).String(), vars.NewStringNode},
+		{reflect.TypeOf(new(vars.DecimalNode)).String(), vars.NewDecimalNode},
+		{reflect.TypeOf(new(vars.BoolNode)).String(), vars.NewBoolNode},
 
 		// Math
 		{reflect.TypeOf(new(math.AddNode)).String(), math.NewAddNode},

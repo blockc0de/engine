@@ -2,7 +2,7 @@ package math
 
 import (
 	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/nodes/variable"
+	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
@@ -12,11 +12,11 @@ import (
 func TestSubNode(t *testing.T) {
 	graph := block.NewGraph("", "test")
 
-	a, err := variable.NewDecimalNode(uuid.New().String(), graph)
+	a, err := vars.NewDecimalNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	a.Data().OutParameters.Get("value").Value = block.NodeParameterDecimal{Decimal: decimal.NewFromInt(99)}
 
-	b, err := variable.NewDecimalNode(uuid.New().String(), graph)
+	b, err := vars.NewDecimalNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	b.Data().OutParameters.Get("value").Value = block.NodeParameterDecimal{Decimal: decimal.NewFromInt(9)}
 

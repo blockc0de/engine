@@ -2,7 +2,7 @@ package text
 
 import (
 	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/nodes/variable"
+	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -11,15 +11,15 @@ import (
 func TestStringConcatNode(t *testing.T) {
 	graph := block.NewGraph("", "test")
 
-	a, err := variable.NewStringNode(uuid.New().String(), graph)
+	a, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	a.Data().OutParameters.Get("value").Value = block.NodeParameterString("abc")
 
-	b, err := variable.NewStringNode(uuid.New().String(), graph)
+	b, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	b.Data().OutParameters.Get("value").Value = block.NodeParameterString("def")
 
-	delimiter, err := variable.NewStringNode(uuid.New().String(), graph)
+	delimiter, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	delimiter.Data().OutParameters.Get("value").Value = block.NodeParameterString(",")
 

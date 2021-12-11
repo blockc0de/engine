@@ -1,22 +1,23 @@
 package math
 
 import (
+	"testing"
+
 	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/nodes/variable"
+	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestTruncNode(t *testing.T) {
 	graph := block.NewGraph("", "test")
 
-	number, err := variable.NewDecimalNode(uuid.New().String(), graph)
+	number, err := vars.NewDecimalNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	number.Data().OutParameters.Get("value").Value = block.NodeParameterDecimal{Decimal: decimal.NewFromFloat(5.5566)}
 
-	precision, err := variable.NewDecimalNode(uuid.New().String(), graph)
+	precision, err := vars.NewDecimalNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	precision.Data().OutParameters.Get("value").Value = block.NodeParameterDecimal{Decimal: decimal.NewFromInt(3)}
 

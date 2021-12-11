@@ -2,7 +2,7 @@ package time
 
 import (
 	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/nodes/variable"
+	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
@@ -12,11 +12,11 @@ import (
 func TestFormatTimestampNode(t *testing.T) {
 	graph := block.NewGraph("", "test")
 
-	timestamp, err := variable.NewStringNode(uuid.New().String(), graph)
+	timestamp, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	timestamp.Data().OutParameters.Get("value").Value = block.NodeParameterDecimal{Decimal: decimal.NewFromInt(1639202246)}
 
-	format, err := variable.NewStringNode(uuid.New().String(), graph)
+	format, err := vars.NewStringNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	format.Data().OutParameters.Get("value").Value = block.NodeParameterString("%Y/%m/%d %H:%M:%S")
 

@@ -2,7 +2,7 @@ package math
 
 import (
 	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/nodes/variable"
+	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
@@ -12,7 +12,7 @@ import (
 func TestFloorNode(t *testing.T) {
 	graph := block.NewGraph("", "test")
 
-	number, err := variable.NewDecimalNode(uuid.New().String(), graph)
+	number, err := vars.NewDecimalNode(uuid.New().String(), graph)
 	assert.Nil(t, err)
 	number.Data().OutParameters.Get("value").Value = block.NodeParameterDecimal{Decimal: decimal.NewFromFloat(2.3323546)}
 
