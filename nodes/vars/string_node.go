@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	stringNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringNode", FriendlyName: "String", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Variable", BlockLimitPerGraph: -1}}
+	stringNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringNode", FriendlyName: "String", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Base Variable", BlockLimitPerGraph: -1}}
 	stringNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "A string is a data type used in programming, such as an integer and floating point unit, but is used to represent text rather than numbers. It is comprised of a set of characters that can also contain spaces and numbers."}}
 )
 

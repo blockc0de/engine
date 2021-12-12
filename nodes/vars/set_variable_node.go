@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	setVariableNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "SetVariable", FriendlyName: "Set variable", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Variable", BlockLimitPerGraph: -1}}
+	setVariableNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "SetVariable", FriendlyName: "Set variable", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Base Variable", BlockLimitPerGraph: -1}}
 	setVariableNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Set a variable value (can be any type) in the graph memory context"}}
 )
 

@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	isVariableExistNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "IsVariableExist", FriendlyName: "Is Variable Exist", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Variable", BlockLimitPerGraph: -1}}
+	isVariableExistNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "IsVariableExist", FriendlyName: "Is Variable Exist", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Base Variable", BlockLimitPerGraph: -1}}
 	isVariableExistNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Check if a variable exist in the graph memory context"}}
 )
 

@@ -2,6 +2,7 @@ package loader
 
 import (
 	"errors"
+	"github.com/blockc0de/engine/nodes/encoding"
 	"reflect"
 
 	"github.com/blockc0de/engine/block"
@@ -65,6 +66,9 @@ var (
 		{reflect.TypeOf(new(time.GetTimestampNode)).String(), time.NewGetTimestampNode},
 		{reflect.TypeOf(new(time.ParseTimestampNode)).String(), time.NewParseTimestampNode},
 		{reflect.TypeOf(new(time.FormatTimestampNode)).String(), time.NewFormatTimestampNode},
+
+		// JSON
+		{reflect.TypeOf(new(encoding.LastNodeToJsonNode)).String(), encoding.NewLastNodeToJsonNode},
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},

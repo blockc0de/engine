@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	boolNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "BoolNode", FriendlyName: "Boolean", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Variable", BlockLimitPerGraph: -1}}
+	boolNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "BoolNode", FriendlyName: "Boolean", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Base Variable", BlockLimitPerGraph: -1}}
 	boolNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "In computer science, the Boolean data type is a data type that has one of two possible values (usually denoted true and false) which is intended to represent the two truth values of logic and Boolean algebra."}}
 )
 
