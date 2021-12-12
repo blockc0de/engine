@@ -2,8 +2,9 @@ package loader
 
 import (
 	"errors"
-	"github.com/blockc0de/engine/nodes/encoding"
 	"reflect"
+
+	"github.com/blockc0de/engine/nodes/encoding"
 
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
@@ -69,6 +70,8 @@ var (
 
 		// JSON
 		{reflect.TypeOf(new(encoding.LastNodeToJsonNode)).String(), encoding.NewLastNodeToJsonNode},
+		{reflect.TypeOf(new(encoding.CreateJsonObjectNode)).String(), encoding.NewCreateJsonObjectNode},
+		{reflect.TypeOf(new(encoding.AddJsonPropertyNode)).String(), encoding.NewAddJsonPropertyNode},
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},

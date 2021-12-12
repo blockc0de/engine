@@ -3,9 +3,11 @@ package encoding
 import (
 	"context"
 	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
-	"reflect"
+	jsoniter "github.com/json-iterator/go"
 )
 
 var (
@@ -55,13 +57,18 @@ func (n *LastNodeToJsonNode) OnExecution(context.Context, block.NodeScheduler) e
 	}
 
 	if !n.Data().LastExecutionFrom.Data().CanBeSerialized {
-		n.NodeData.OutParameters.Get("json").Value = []byte(`{"error":"This node can't be serialized"}`)
+		n.NodeData.OutParameters.Get("json").Value = block.NodeParameterString(`{"error":"This node can't be serialized"}`)
 	} else {
 		object := make(map[string]interface{})
 		for _, parameter := range n.Data().LastExecutionFrom.Data().OutParameters {
 			object[parameter.Name] = parameter.ComputeValue()
 		}
-		n.NodeData.OutParameters.Get("json").Value = object
+
+		data, err := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(&object)
+		if err != nil {
+			return err
+		}
+		n.NodeData.OutParameters.Get("json").Value = block.NodeParameterString(data)
 	}
 
 	return nil
