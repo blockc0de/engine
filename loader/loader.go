@@ -13,7 +13,7 @@ func LoadGraph(graphJson []byte) (*block.Graph, error) {
 		return nil, err
 	}
 
-	graph := block.NewGraph("", graphSchema.Name)
+	graph := block.NewGraph(graphSchema.ProjectId, graphSchema.Name)
 
 	// Load nodes
 	for _, nodeSchema := range graphSchema.Nodes {

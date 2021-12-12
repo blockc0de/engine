@@ -6,9 +6,10 @@ import (
 )
 
 type GraphSchema struct {
-	graph *block.Graph `json:"-"`
-	Name  string       `json:"name"`
-	Nodes []NodeSchema `json:"nodes"`
+	graph     *block.Graph `json:"-"`
+	ProjectId string       `json:"project_id"`
+	Name      string       `json:"name"`
+	Nodes     []NodeSchema `json:"nodes"`
 }
 
 func NewGraphSchema(graph *block.Graph) GraphSchema {

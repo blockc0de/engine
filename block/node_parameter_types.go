@@ -21,7 +21,7 @@ var (
 	NodeParameterTypeEnumBool    NodeParameterTypeEnum = "System.Boolean"
 	NodeParameterTypeEnumString  NodeParameterTypeEnum = "System.String"
 	NodeParameterTypeEnumDecimal NodeParameterTypeEnum = "System.Double"
-	NodeParameterTypeEnumStream  NodeParameterTypeEnum = "Stream"
+	NodeParameterTypeEnumObject  NodeParameterTypeEnum = "System.Object"
 	NodeParameterTypeEnumUnknown NodeParameterTypeEnum = "Unknown"
 )
 
@@ -86,6 +86,8 @@ type NodeParameterConverter struct {
 
 func (NodeParameterConverter) ToBool(val interface{}) (bool, bool) {
 	switch val.(type) {
+	case bool:
+		return val.(bool), true
 	case NodeParameterBool:
 		return bool(val.(NodeParameterBool)), true
 	case NodeParameterString:
@@ -104,6 +106,8 @@ func (NodeParameterConverter) ToBool(val interface{}) (bool, bool) {
 
 func (NodeParameterConverter) ToString(val interface{}) (string, bool) {
 	switch val.(type) {
+	case string:
+		return val.(string), true
 	case Node:
 		node := val.(Node)
 		if node != nil {
@@ -128,6 +132,8 @@ func (NodeParameterConverter) ToString(val interface{}) (string, bool) {
 
 func (NodeParameterConverter) ToDecimal(val interface{}) (decimal.Decimal, bool) {
 	switch val.(type) {
+	case float64:
+		return decimal.NewFromFloat(val.(float64)), true
 	case NodeParameterBool:
 		b := val.(NodeParameterBool)
 		if b {

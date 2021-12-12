@@ -19,7 +19,7 @@ type nodeCreator struct {
 	Creator func(id string, graph *block.Graph) (block.Node, error)
 }
 
-// the registry for the node type and creator
+// The registry for the node type and creator
 var (
 	nodeCreators = []nodeCreator{
 		// Common
@@ -27,10 +27,13 @@ var (
 		{reflect.TypeOf(new(nodes.OnGraphStartNode)).String(), nodes.NewOnGraphStartNode},
 		{reflect.TypeOf(new(nodes.StopGraphNode)).String(), nodes.NewStopGraphNode},
 
-		// Base Variable
+		// Variable
 		{reflect.TypeOf(new(vars.StringNode)).String(), vars.NewStringNode},
 		{reflect.TypeOf(new(vars.DecimalNode)).String(), vars.NewDecimalNode},
 		{reflect.TypeOf(new(vars.BoolNode)).String(), vars.NewBoolNode},
+		{reflect.TypeOf(new(vars.SetVariableNode)).String(), vars.NewSetVariableNode},
+		{reflect.TypeOf(new(vars.GetVariableNode)).String(), vars.NewGetVariableNode},
+		{reflect.TypeOf(new(vars.IsVariableExistNode)).String(), vars.NewIsVariableExistNode},
 
 		// Math
 		{reflect.TypeOf(new(math.AddNode)).String(), math.NewAddNode},
@@ -67,20 +70,35 @@ var (
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},
 	}
 
-	nodeCreatorsMapper = make(map[string]func(id string, graph *block.Graph) (block.Node, error))
+	nodeCreatorMapper = make(map[string]func(id string, graph *block.Graph) (block.Node, error))
 )
 
 func init() {
 	for _, item := range nodeCreators {
-		nodeCreatorsMapper[item.Name] = item.Creator
+		nodeCreatorMapper[item.Name] = item.Creator
 	}
 }
 
 // NewNode create node instance by node type
 func NewNode(nodeType string, id string, graph *block.Graph) (block.Node, error) {
-	creator, ok := nodeCreatorsMapper[nodeType]
+	creator, ok := nodeCreatorMapper[nodeType]
 	if !ok {
-		return nil, errors.New("node creator unregistered")
+		return nil, errors.New("node unregistered")
 	}
 	return creator(id, graph)
+}
+
+// RegisterNodeType register a new node type, use reflection to create a node when loading a graph
+func RegisterNodeType(nodeType string, creator func(id string, graph *block.Graph) (block.Node, error)) error {
+	creator, ok := nodeCreatorMapper[nodeType]
+	if !ok {
+		return errors.New("node already registered")
+	}
+
+	nodeCreatorMapper[nodeType] = creator
+	nodeCreators = append(nodeCreators, nodeCreator{
+		Name:    nodeType,
+		Creator: creator,
+	})
+	return nil
 }

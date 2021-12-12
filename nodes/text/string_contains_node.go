@@ -71,23 +71,23 @@ func (n *StringContainsNode) OnExecution(ctx context.Context, scheduler block.No
 	var converter block.NodeParameterConverter
 	stringVal, ok := converter.ToString(inParameterString.ComputeValue())
 	if !ok {
-		return errors.New("invalid input parameter")
+		return errors.New("invalid parameter")
 	}
 
 	toSearchVal, ok := converter.ToString(inParameterToSearch.ComputeValue())
 	if !ok {
-		return errors.New("invalid input parameter")
+		return errors.New("invalid parameter")
 	}
 
-	if strings.Index(strings.ToLower(stringVal), strings.ToLower(toSearchVal)) == -1 {
+	if strings.Index(strings.ToLower(stringVal), strings.ToLower(toSearchVal)) >= 0 {
+		if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
+			return outNode.OnExecution(ctx, scheduler)
+		}
+	} else {
 		if outNode, ok := n.Data().OutParameters.Get("false").Value.(block.ExecutableNode); ok && outNode != nil {
 			return outNode.OnExecution(ctx, scheduler)
 		}
-		return nil
 	}
 
-	if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
-		return outNode.OnExecution(ctx, scheduler)
-	}
 	return nil
 }

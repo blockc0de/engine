@@ -77,7 +77,7 @@ loop:
 
 			c, _ := context.WithTimeout(e.context, time.Second*time.Duration(cycle.GetCycleMaxExecutionTime()))
 			cycle.Execute(c)
-			if c.Err() != nil {
+			if c.Err() != context.Canceled {
 				e.AppendLog("error", "Timeout occurred on last cycle from graph id: "+cycle.engine.Graph.Id)
 			}
 
