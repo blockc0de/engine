@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+
 	"github.com/shopspring/decimal"
 )
 
@@ -22,6 +23,7 @@ var (
 	NodeParameterTypeEnumString  NodeParameterTypeEnum = "System.String"
 	NodeParameterTypeEnumDecimal NodeParameterTypeEnum = "System.Double"
 	NodeParameterTypeEnumObject  NodeParameterTypeEnum = "System.Object"
+	NodeParameterTypeEnumArray   NodeParameterTypeEnum = "System.Collections.Generic.List"
 	NodeParameterTypeEnumUnknown NodeParameterTypeEnum = "Unknown"
 )
 

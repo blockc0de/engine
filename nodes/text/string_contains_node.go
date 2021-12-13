@@ -2,11 +2,11 @@ package text
 
 import (
 	"context"
-	"errors"
-	"github.com/blockc0de/engine/attributes"
-	"github.com/blockc0de/engine/block"
 	"reflect"
 	"strings"
+
+	"github.com/blockc0de/engine/attributes"
+	"github.com/blockc0de/engine/block"
 )
 
 var (
@@ -71,12 +71,12 @@ func (n *StringContainsNode) OnExecution(ctx context.Context, scheduler block.No
 	var converter block.NodeParameterConverter
 	stringVal, ok := converter.ToString(inParameterString.ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "string"}
 	}
 
 	toSearchVal, ok := converter.ToString(inParameterToSearch.ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "toSearch"}
 	}
 
 	if strings.Index(strings.ToLower(stringVal), strings.ToLower(toSearchVal)) >= 0 {

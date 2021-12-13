@@ -2,11 +2,11 @@ package encoding
 
 import (
 	"context"
-	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
 	"github.com/tidwall/gjson"
-	"reflect"
 )
 
 var (
@@ -66,12 +66,12 @@ func (n *JsonSelectorNodeNode) OnExecution(context.Context, block.NodeScheduler)
 	var converter block.NodeParameterConverter
 	js, ok := converter.ToString(n.NodeData.InParameters.Get("json").ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "json"}
 	}
 
 	selector, ok := converter.ToString(n.NodeData.InParameters.Get("selector").ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "selector"}
 	}
 
 	n.NodeData.OutParameters.Get("value").Value = block.NodeParameterString(gjson.Get(js, selector).String())

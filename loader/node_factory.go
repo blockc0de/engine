@@ -2,8 +2,11 @@ package loader
 
 import (
 	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
+	"github.com/blockc0de/engine/nodes/array"
 	"github.com/blockc0de/engine/nodes/console"
 	"github.com/blockc0de/engine/nodes/encoding"
 	"github.com/blockc0de/engine/nodes/functions"
@@ -11,7 +14,6 @@ import (
 	"github.com/blockc0de/engine/nodes/text"
 	"github.com/blockc0de/engine/nodes/time"
 	"github.com/blockc0de/engine/nodes/vars"
-	"reflect"
 )
 
 type nodeCreator struct {
@@ -75,6 +77,14 @@ var (
 		{reflect.TypeOf(new(encoding.LastNodeToJsonNode)).String(), encoding.NewLastNodeToJsonNode},
 		{reflect.TypeOf(new(encoding.JsonToJsonObjectNode)).String(), encoding.NewJsonToJsonObjectNode},
 		{reflect.TypeOf(new(encoding.JsonDeserializeToArrayNode)).String(), encoding.NewJsonDeserializeToArrayNode},
+
+		// Array
+		{reflect.TypeOf(new(array.CreateArrayNode)).String(), array.NewCreateArrayNode},
+		{reflect.TypeOf(new(array.AddElementNode)).String(), array.NewAddElementNode},
+		{reflect.TypeOf(new(array.GetArraySizeNode)).String(), array.NewGetArraySizeNode},
+		{reflect.TypeOf(new(array.GetElementAtIndexNode)).String(), array.NewGetElementAtIndexNode},
+		{reflect.TypeOf(new(array.EachElementArrayNode)).String(), array.NewEachElementArrayNode},
+		{reflect.TypeOf(new(array.ClearArrayNode)).String(), array.NewClearArrayNode},
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},

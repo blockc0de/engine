@@ -2,10 +2,10 @@ package vars
 
 import (
 	"context"
-	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
-	"reflect"
 )
 
 var (
@@ -59,7 +59,7 @@ func (n *SetVariableNode) OnExecution(context.Context, block.NodeScheduler) erro
 	name := n.Data().InParameters.Get("name")
 	nameVal, ok := converter.ToString(name.ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "name"}
 	}
 
 	value := n.Data().InParameters.Get("value")

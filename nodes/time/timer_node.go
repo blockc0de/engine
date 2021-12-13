@@ -2,7 +2,6 @@ package time
 
 import (
 	"context"
-	"errors"
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
 	"math/big"
@@ -111,7 +110,7 @@ func (n *TimerNode) getIntervalInSeconds() (time.Duration, error) {
 	intervalInSeconds := n.Data().InParameters.Get("intervalInSeconds")
 	intervalInSecondsVal, ok := converter.ToDecimal(intervalInSeconds.ComputeValue())
 	if !ok {
-		return 0, errors.New("invalid parameter")
+		return 0, block.ErrInvalidParameter{Name: "intervalInSeconds"}
 	}
 
 	seconds := intervalInSecondsVal.IntPart()

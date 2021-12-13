@@ -3,11 +3,11 @@ package encoding
 import (
 	"context"
 	"encoding/json"
-	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
 	jsoniter "github.com/json-iterator/go"
-	"reflect"
 )
 
 var (
@@ -67,12 +67,12 @@ func (n *MergeJsonNodeNode) OnExecution(context.Context, block.NodeScheduler) er
 	var converter block.NodeParameterConverter
 	json1, ok := converter.ToString(n.NodeData.InParameters.Get("json1").ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "json1"}
 	}
 
 	json2, ok := converter.ToString(n.NodeData.InParameters.Get("json2").ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "json2"}
 	}
 
 	var object1 map[string]interface{}

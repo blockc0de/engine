@@ -3,9 +3,10 @@ package encoding
 import (
 	"context"
 	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
-	"reflect"
 )
 
 var (
@@ -74,12 +75,12 @@ func (n *AddJsonValueNode) OnExecution(context.Context, block.NodeScheduler) err
 	var converter block.NodeParameterConverter
 	keyVal, ok := converter.ToString(key.ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "key"}
 	}
 
 	valueVal, ok := converter.ToString(value.ComputeValue())
 	if !ok {
-		return errors.New("invalid parameter")
+		return block.ErrInvalidParameter{Name: "value"}
 	}
 
 	v := n.NodeData.InParameters.Get("jsonObject").ComputeValue()
