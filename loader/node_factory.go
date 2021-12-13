@@ -67,6 +67,8 @@ var (
 		{reflect.TypeOf(new(time.FormatTimestampNode)).String(), time.NewFormatTimestampNode},
 
 		// JSON
+		{reflect.TypeOf(new(encoding.MergeJsonNodeNode)).String(), encoding.NewMergeJsonNodeNode},
+		{reflect.TypeOf(new(encoding.JsonSelectorNodeNode)).String(), encoding.NewJsonSelectorNodeNode},
 		{reflect.TypeOf(new(encoding.CreateJsonObjectNode)).String(), encoding.NewCreateJsonObjectNode},
 		{reflect.TypeOf(new(encoding.AddJsonValueNode)).String(), encoding.NewAddJsonValueNode},
 		{reflect.TypeOf(new(encoding.ConvertToJsonNode)).String(), encoding.NewConvertToJsonNode},
