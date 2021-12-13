@@ -74,6 +74,7 @@ var (
 		{reflect.TypeOf(new(encoding.ConvertToJsonNode)).String(), encoding.NewConvertToJsonNode},
 		{reflect.TypeOf(new(encoding.LastNodeToJsonNode)).String(), encoding.NewLastNodeToJsonNode},
 		{reflect.TypeOf(new(encoding.JsonToJsonObjectNode)).String(), encoding.NewJsonToJsonObjectNode},
+		{reflect.TypeOf(new(encoding.JsonDeserializeToArrayNode)).String(), encoding.NewJsonDeserializeToArrayNode},
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},
