@@ -2,10 +2,9 @@ package encoding
 
 import (
 	"context"
-	"reflect"
-
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"reflect"
 )
 
 var (

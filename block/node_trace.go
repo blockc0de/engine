@@ -38,7 +38,7 @@ func NewNodeTrace(node Node) *NodeTrace {
 
 func (trace *NodeTrace) String() string {
 	lines := make([]string, 0)
-	lines = append(lines, fmt.Sprintf("at %24s %6dms %12s", trace.node.Data().NodeType, trace.ExecutionTime, trace.nodeId))
+	lines = append(lines, fmt.Sprintf("at %48s %6dms %12s", trace.node.Data().NodeType, trace.ExecutionTime, trace.nodeId))
 	if trace.ExecutionError != nil {
 		lines = append(lines, "Exception occurred: "+trace.ExecutionError.Error())
 	}

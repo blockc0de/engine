@@ -2,18 +2,16 @@ package loader
 
 import (
 	"errors"
-	"reflect"
-
-	"github.com/blockc0de/engine/nodes/encoding"
-
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
 	"github.com/blockc0de/engine/nodes/console"
+	"github.com/blockc0de/engine/nodes/encoding"
 	"github.com/blockc0de/engine/nodes/functions"
 	"github.com/blockc0de/engine/nodes/math"
 	"github.com/blockc0de/engine/nodes/text"
 	"github.com/blockc0de/engine/nodes/time"
 	"github.com/blockc0de/engine/nodes/vars"
+	"reflect"
 )
 
 type nodeCreator struct {
@@ -69,9 +67,11 @@ var (
 		{reflect.TypeOf(new(time.FormatTimestampNode)).String(), time.NewFormatTimestampNode},
 
 		// JSON
-		{reflect.TypeOf(new(encoding.LastNodeToJsonNode)).String(), encoding.NewLastNodeToJsonNode},
 		{reflect.TypeOf(new(encoding.CreateJsonObjectNode)).String(), encoding.NewCreateJsonObjectNode},
-		{reflect.TypeOf(new(encoding.AddJsonPropertyNode)).String(), encoding.NewAddJsonPropertyNode},
+		{reflect.TypeOf(new(encoding.AddJsonValueNode)).String(), encoding.NewAddJsonValueNode},
+		{reflect.TypeOf(new(encoding.ConvertToJsonNode)).String(), encoding.NewConvertToJsonNode},
+		{reflect.TypeOf(new(encoding.LastNodeToJsonNode)).String(), encoding.NewLastNodeToJsonNode},
+		{reflect.TypeOf(new(encoding.JsonToJsonObjectNode)).String(), encoding.NewJsonToJsonObjectNode},
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},

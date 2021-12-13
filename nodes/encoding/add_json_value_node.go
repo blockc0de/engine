@@ -3,23 +3,22 @@ package encoding
 import (
 	"context"
 	"errors"
-	"reflect"
-
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"reflect"
 )
 
 var (
-	addJsonPropertyNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddJsonPropertyNode", FriendlyName: "Add JSON Property", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
-	addJsonPropertyNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Add a property into a JSON Object"}}
+	addJsonValueNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddJsonValueNode", FriendlyName: "Add JSON Property", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	addJsonValueNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Add a property into a JSON Object"}}
 )
 
-type AddJsonPropertyNode struct {
+type AddJsonValueNode struct {
 	block.NodeBase
 }
 
-func NewAddJsonPropertyNode(id string, graph *block.Graph) (block.Node, error) {
-	node := new(AddJsonPropertyNode)
+func NewAddJsonValueNode(id string, graph *block.Graph) (block.Node, error) {
+	node := new(AddJsonValueNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
 
 	jsonObject, err := block.NewNodeParameter(node, "jsonObject", block.NodeParameterTypeEnumObject, true, nil)
@@ -49,26 +48,26 @@ func NewAddJsonPropertyNode(id string, graph *block.Graph) (block.Node, error) {
 	return node, nil
 }
 
-func (n *AddJsonPropertyNode) CanExecute() bool {
+func (n *AddJsonValueNode) CanExecute() bool {
 	return true
 }
 
-func (n *AddJsonPropertyNode) CanBeExecuted() bool {
+func (n *AddJsonValueNode) CanBeExecuted() bool {
 	return true
 }
 
-func (n *AddJsonPropertyNode) GetCustomAttributes(t reflect.Type) []interface{} {
+func (n *AddJsonValueNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	switch t {
 	case reflect.TypeOf(attributes.NodeDefinition{}):
-		return addJsonPropertyNodeDefinition
+		return addJsonValueNodeDefinition
 	case reflect.TypeOf(attributes.NodeGraphDescription{}):
-		return addJsonPropertyNodeGraphDescription
+		return addJsonValueNodeGraphDescription
 	default:
 		return nil
 	}
 }
 
-func (n *AddJsonPropertyNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *AddJsonValueNode) OnExecution(context.Context, block.NodeScheduler) error {
 	key := n.NodeData.InParameters.Get("key")
 	value := n.NodeData.InParameters.Get("value")
 
@@ -83,11 +82,16 @@ func (n *AddJsonPropertyNode) OnExecution(context.Context, block.NodeScheduler) 
 		return errors.New("invalid parameter")
 	}
 
-	jsonObject, ok := n.NodeData.InParameters.Get("jsonObject").Value.(map[string]interface{})
+	v := n.NodeData.InParameters.Get("jsonObject").ComputeValue()
+	if v == nil {
+		return errors.New("invalid json object")
+	}
+	jsonObject, ok := v.(map[string]interface{})
 	if !ok {
 		return errors.New("invalid json object")
 	}
 
 	jsonObject[keyVal] = valueVal
+	n.NodeData.OutParameters.Get("jsonObjectOut").Value = jsonObject
 	return nil
 }
