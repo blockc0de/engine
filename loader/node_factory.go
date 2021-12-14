@@ -59,9 +59,6 @@ var (
 		{reflect.TypeOf(new(text.StringTrimLeftNode)).String(), text.NewStringTrimLeftNode},
 		{reflect.TypeOf(new(text.StringTrimRightNode)).String(), text.NewStringTrimRightNode},
 
-		// Log
-		{reflect.TypeOf(new(console.PrintNode)).String(), console.NewPrintNode},
-
 		// Time
 		{reflect.TypeOf(new(time.TimerNode)).String(), time.NewTimerNode},
 		{reflect.TypeOf(new(time.GetTimestampNode)).String(), time.NewGetTimestampNode},
@@ -80,11 +77,14 @@ var (
 
 		// Array
 		{reflect.TypeOf(new(array.CreateArrayNode)).String(), array.NewCreateArrayNode},
-		{reflect.TypeOf(new(array.AddElementNode)).String(), array.NewAddElementNode},
 		{reflect.TypeOf(new(array.GetArraySizeNode)).String(), array.NewGetArraySizeNode},
+		{reflect.TypeOf(new(array.AddElementNode)).String(), array.NewAddElementNode},
 		{reflect.TypeOf(new(array.GetElementAtIndexNode)).String(), array.NewGetElementAtIndexNode},
 		{reflect.TypeOf(new(array.EachElementArrayNode)).String(), array.NewEachElementArrayNode},
 		{reflect.TypeOf(new(array.ClearArrayNode)).String(), array.NewClearArrayNode},
+
+		// Log
+		{reflect.TypeOf(new(console.PrintNode)).String(), console.NewPrintNode},
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},
