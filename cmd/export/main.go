@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/blockc0de/engine/loader"
+	"github.com/blockc0de/engine/interop"
 	"io/ioutil"
 )
 
 func main() {
-	schema, err := loader.ExportNodeSchema()
+	schema, err := interop.ExportNodeSchema()
 	if err != nil {
 		panic(err)
 	}

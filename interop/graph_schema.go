@@ -1,4 +1,4 @@
-package loader
+package interop
 
 import (
 	"github.com/blockc0de/engine/block"
