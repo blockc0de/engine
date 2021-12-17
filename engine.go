@@ -3,13 +3,14 @@ package engine
 import (
 	"context"
 	"errors"
+	"math/big"
+	"reflect"
+	"time"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
 	"github.com/blockc0de/engine/nodes/functions"
-	"math/big"
-	"reflect"
-	"time"
 )
 
 type Event struct {
@@ -77,8 +78,8 @@ loop:
 
 			c, _ := context.WithTimeout(e.context, time.Second*time.Duration(cycle.GetCycleMaxExecutionTime()))
 			cycle.Execute(c)
-			if c.Err() != context.Canceled {
-				e.AppendLog("error", "Timeout occurred on last cycle from graph id: "+cycle.engine.Graph.Id)
+			if c.Err() != nil && c.Err() != context.Canceled {
+				e.AppendLog("error", "Timeout occurred on last cycle from graph hash: "+cycle.engine.Graph.Hash)
 			}
 
 			if e.event.CycleCost != nil {
@@ -245,5 +246,5 @@ func (e *Engine) stopNodes() {
 		}
 	}
 
-	e.AppendLog("warn", "Stop requested for graph id: "+e.Graph.Id)
+	e.AppendLog("warn", "Stop requested for graph hash: "+e.Graph.Hash)
 }

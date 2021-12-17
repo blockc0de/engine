@@ -6,23 +6,20 @@ import (
 )
 
 type Graph struct {
-	Id              string
+	Hash            string
 	Name            string
 	Nodes           map[string]Node
 	NodeList        []Node
 	MemoryVariables map[string]interface{}
 }
 
-func NewGraph(id, name string) *Graph {
+func NewGraph(hash, name string) *Graph {
 	graph := Graph{
-		Id:              id,
+		Hash:            hash,
 		Name:            name,
 		Nodes:           make(map[string]Node),
 		NodeList:        make([]Node, 0),
 		MemoryVariables: make(map[string]interface{}),
-	}
-	if id == "" {
-		id = uuid.New().String()
 	}
 	return &graph
 }
