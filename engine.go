@@ -24,6 +24,7 @@ type Engine struct {
 
 	running            bool
 	stopping           bool
+	singleCycle        bool
 	context            context.Context
 	cancel             context.CancelFunc
 	event              Event
@@ -84,6 +85,10 @@ loop:
 
 			if e.event.CycleCost != nil {
 				e.event.CycleCost(cycle.GetCycleExecutedGasPrice())
+			}
+
+			if e.singleCycle {
+				e.Stop()
 			}
 		}
 	}
@@ -211,6 +216,9 @@ func (e *Engine) startNodes() {
 	entryPointNode := e.Graph.GetFirstEntryPointNode()
 	if entryPointNode != nil {
 		count += 1
+		if count == 1 {
+			e.singleCycle = true
+		}
 		e.AddCycle(entryPointNode.(*nodes.EntryPointNode), nil)
 	}
 
