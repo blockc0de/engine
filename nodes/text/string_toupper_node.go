@@ -1,10 +1,11 @@
 package text
 
 import (
-	"github.com/blockc0de/engine/attributes"
-	"github.com/blockc0de/engine/block"
 	"reflect"
 	"strings"
+
+	"github.com/blockc0de/engine/attributes"
+	"github.com/blockc0de/engine/block"
 )
 
 var (

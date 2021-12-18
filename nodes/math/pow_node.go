@@ -1,11 +1,12 @@
 package math
 
 import (
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
 	"github.com/cockroachdb/apd"
 	"github.com/shopspring/decimal"
-	"reflect"
 )
 
 var (

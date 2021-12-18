@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/blockc0de/engine/interop"
 	"io/ioutil"
+
+	"github.com/blockc0de/engine/interop"
 )
 
 func main() {

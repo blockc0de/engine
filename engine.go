@@ -5,6 +5,7 @@ import (
 	"errors"
 	"math/big"
 	"reflect"
+	"sort"
 	"time"
 
 	"github.com/blockc0de/engine/attributes"
@@ -13,10 +14,47 @@ import (
 	"github.com/blockc0de/engine/nodes/functions"
 )
 
+var (
+	onGraphStartNode block.Node
+)
+
+func init() {
+	var err error
+	onGraphStartNode, err = nodes.NewOnGraphStartNode("", nil)
+	if err != nil {
+		panic(err)
+	}
+}
+
 type Event struct {
 	CycleCost func(cost *big.Int)
 	AppendLog func(msgType string, message string)
 }
+
+// EventNodeSlice attaches the methods of Interface to []block.EventNode, sorting in increasing order.
+type EventNodeSlice []block.EventNode
+
+func (x EventNodeSlice) Len() int { return len(x) }
+
+func (x EventNodeSlice) Less(i, j int) bool {
+	iIsOnGraphStartNode := x[i].Data().FriendlyName == onGraphStartNode.Data().FriendlyName
+	jIsOnGraphStartNode := x[j].Data().FriendlyName == onGraphStartNode.Data().FriendlyName
+	if iIsOnGraphStartNode && jIsOnGraphStartNode {
+		return i < j
+	}
+	if iIsOnGraphStartNode {
+		return true
+	}
+	if jIsOnGraphStartNode {
+		return false
+	}
+	return i < j
+}
+
+func (x EventNodeSlice) Swap(i, j int) { x[i], x[j] = x[j], x[i] }
+
+// Sort is a convenience method: x.Sort() calls Sort(x).
+func (x EventNodeSlice) Sort() { sort.Sort(x) }
 
 type Engine struct {
 	Graph         *block.Graph
@@ -200,16 +238,14 @@ func (e *Engine) startNodes() {
 
 	// Setup event
 	eventNodes := e.Graph.GetEventNodes()
-	for _, node := range eventNodes {
-		if eventNode, ok := node.(block.EventNode); ok {
-
-			if err := eventNode.SetupEvent(e); err != nil {
-				e.AppendLog("error", "Can't setup the event: "+node.Data().FriendlyName+", "+err.Error())
-				e.Stop()
-				return
-			}
-			count += 1
+	EventNodeSlice(eventNodes).Sort()
+	for _, eventNode := range eventNodes {
+		if err := eventNode.SetupEvent(e); err != nil {
+			e.AppendLog("error", "Can't setup the event: "+eventNode.Data().FriendlyName+", "+err.Error())
+			e.Stop()
+			return
 		}
+		count += 1
 	}
 
 	// Execute entry point node

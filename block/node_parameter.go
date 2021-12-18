@@ -2,6 +2,7 @@ package block
 
 import (
 	"errors"
+
 	"github.com/google/uuid"
 )
 

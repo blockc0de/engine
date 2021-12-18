@@ -1,12 +1,13 @@
 package math
 
 import (
+	"testing"
+
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestPercentageDiffNode(t *testing.T) {

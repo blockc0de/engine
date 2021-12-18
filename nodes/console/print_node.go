@@ -3,10 +3,11 @@ package console
 import (
 	"context"
 	"errors"
-	"github.com/blockc0de/engine/attributes"
-	"github.com/blockc0de/engine/block"
 	"math/big"
 	"reflect"
+
+	"github.com/blockc0de/engine/attributes"
+	"github.com/blockc0de/engine/block"
 )
 
 var (

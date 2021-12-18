@@ -2,10 +2,11 @@ package test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/blockc0de/engine"
 	"github.com/blockc0de/engine/interop"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestJsonNode(t *testing.T) {

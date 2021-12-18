@@ -64,6 +64,5 @@ func (n *SetVariableNode) OnExecution(context.Context, block.NodeScheduler) erro
 
 	value := n.Data().InParameters.Get("value")
 	n.Data().Graph.MemoryVariables[nameVal] = value.ComputeValue()
-
 	return nil
 }

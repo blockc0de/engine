@@ -1,11 +1,12 @@
 package text
 
 import (
+	"testing"
+
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes/vars"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestStringReplaceNode(t *testing.T) {

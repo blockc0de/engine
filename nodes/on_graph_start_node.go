@@ -2,13 +2,14 @@ package nodes
 
 import (
 	"context"
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
-	"reflect"
 )
 
 var (
-	onGraphStartNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnGraphStartNode", FriendlyName: "On Graph Start", NodeType: attributes.NodeTypeEnumEntryPoint, GroupName: "Common", BlockLimitPerGraph: -1}}
+	onGraphStartNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnGraphStartNode", FriendlyName: "On Graph Start", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Common", BlockLimitPerGraph: -1}}
 	onGraphStartNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "This event is called when the graph start, usefull for initialize variables"}}
 )
 

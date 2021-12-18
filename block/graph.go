@@ -63,14 +63,16 @@ func (g *Graph) FindOutParameterNode(id string) Node {
 	return nil
 }
 
-func (g *Graph) GetEventNodes() []Node {
-	nodes := make([]Node, 0)
+func (g *Graph) GetEventNodes() []EventNode {
+	nodes := make([]EventNode, 0)
 	for _, node := range g.NodeList {
 		if node.Data().IsEventNode {
-			nodes = append(nodes, node)
+			eventNode, ok := node.(EventNode)
+			if ok {
+				nodes = append(nodes, eventNode)
+			}
 		}
 	}
-	Nodes(nodes).Sort()
 	return nodes
 }
 

@@ -2,11 +2,12 @@ package engine
 
 import (
 	"context"
+	"math/big"
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes/functions"
-	"math/big"
-	"reflect"
 )
 
 type GraphExecutionCycle struct {

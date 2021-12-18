@@ -2,11 +2,12 @@ package time
 
 import (
 	"context"
-	"github.com/blockc0de/engine/attributes"
-	"github.com/blockc0de/engine/block"
 	"math/big"
 	"reflect"
 	"time"
+
+	"github.com/blockc0de/engine/attributes"
+	"github.com/blockc0de/engine/block"
 )
 
 var (

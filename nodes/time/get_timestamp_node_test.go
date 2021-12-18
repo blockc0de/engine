@@ -1,12 +1,13 @@
 package time
 
 import (
-	"github.com/blockc0de/engine/block"
-	"github.com/google/uuid"
-	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
 	"time"
+
+	"github.com/blockc0de/engine/block"
+	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetTimestamp(t *testing.T) {

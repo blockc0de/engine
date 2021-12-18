@@ -3,10 +3,11 @@ package encoding
 import (
 	"context"
 	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
 	jsoniter "github.com/json-iterator/go"
-	"reflect"
 )
 
 var (

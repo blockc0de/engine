@@ -3,7 +3,6 @@ package block
 import (
 	"context"
 	"reflect"
-	"sort"
 )
 
 type Node interface {
@@ -60,26 +59,3 @@ func (n *NodeBase) GetCustomAttributes(reflect.Type) []interface{} {
 func (n *NodeBase) ComputeParameterValue(id string, value interface{}) interface{} {
 	return value
 }
-
-// Nodes The node slice of sort interface is implemented
-// event node is at the front of the slice.
-type Nodes []Node
-
-func (x Nodes) Len() int { return len(x) }
-
-func (x Nodes) Less(i, j int) bool {
-	if x[i].Data().IsEventNode && x[j].Data().IsEventNode {
-		return i < j
-	}
-	if x[i].Data().IsEventNode {
-		return true
-	}
-	if x[j].Data().IsEventNode {
-		return false
-	}
-	return i < j
-}
-
-func (x Nodes) Swap(i, j int) { x[i], x[j] = x[j], x[i] }
-
-func (x Nodes) Sort() { sort.Sort(x) }

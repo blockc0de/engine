@@ -1,11 +1,12 @@
 package time
 
 import (
+	"reflect"
+	"time"
+
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
 	"github.com/itchyny/timefmt-go"
-	"reflect"
-	"time"
 )
 
 var (
