@@ -4,6 +4,8 @@ import (
 	"errors"
 	"reflect"
 
+	"github.com/blockc0de/engine/nodes/ethereum"
+
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
 	"github.com/blockc0de/engine/nodes/array"
@@ -88,6 +90,10 @@ var (
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},
+
+		// Ethereum
+		{reflect.TypeOf(new(ethereum.EthConnection)).String(), ethereum.NewEthConnection},
+		{reflect.TypeOf(new(ethereum.OnNewBlockEventNode)).String(), ethereum.NewOnNewBlockEventNode},
 	}
 
 	nodeCreatorMapper = make(map[string]func(id string, graph *block.Graph) (block.Node, error))

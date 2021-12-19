@@ -41,7 +41,12 @@ func NewGraphExecutionCycle(engine *Engine,
 }
 
 func (c *GraphExecutionCycle) Execute(ctx context.Context) {
-	c.StartNode.Data().OutParameters = c.StartNodeInstantiatedParameters
+	for idx := range c.StartNode.Data().OutParameters {
+		if idx >= len(c.StartNodeInstantiatedParameters) {
+			break
+		}
+		*c.StartNode.Data().OutParameters[idx] = *c.StartNodeInstantiatedParameters[idx]
+	}
 	c.StartNode.BeginCycle(ctx, c.engine)
 }
 
