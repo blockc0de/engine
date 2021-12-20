@@ -56,7 +56,11 @@ func (n *JsonToJsonObjectNode) ComputeParameterValue(parameterId string, value i
 		}
 
 		object := make(map[string]interface{})
-		jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal([]byte(data), &object)
+		json := jsoniter.ConfigCompatibleWithStandardLibrary
+		if err := json.Unmarshal([]byte(data), &object); err != nil {
+			return nil
+		}
+
 		return object
 	}
 	return value

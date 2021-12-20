@@ -16,7 +16,6 @@ var (
 
 type EthConnection struct {
 	block.NodeBase
-	cancel       context.CancelFunc
 	Web3Client   *ethclient.Client `json:"-"`
 	SocketClient *ethclient.Client `json:"-"`
 }

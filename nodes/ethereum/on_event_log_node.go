@@ -59,27 +59,20 @@ func (n *OnEventLogNode) CanExecute() bool {
 }
 
 func (n *OnEventLogNode) handleRead(scheduler block.NodeScheduler) {
-	for {
-		select {
-		case eventLog, ok := <-n.ch:
-			if !ok {
-				return
-			}
-
-			data, err := eventLog.MarshalJSON()
-			if err != nil {
-				scheduler.AppendLog("error", fmt.Sprintf("Failed to marshal event log, reason: %s", err.Error()))
-				break
-			}
-
-			p, err := block.NewDynamicNodeParameter(n, "eventLog", block.NodeParameterTypeEnumString, false)
-			if err != nil {
-				scheduler.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
-				break
-			}
-			p.Value = block.NodeParameterString(data)
-			scheduler.AddCycle(n, []*block.NodeParameter{p})
+	for eventLog := range n.ch {
+		data, err := eventLog.MarshalJSON()
+		if err != nil {
+			scheduler.AppendLog("error", fmt.Sprintf("Failed to marshal event log, reason: %s", err.Error()))
+			break
 		}
+
+		p, err := block.NewDynamicNodeParameter(n, "eventLog", block.NodeParameterTypeEnumString, false)
+		if err != nil {
+			scheduler.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
+			break
+		}
+		p.Value = block.NodeParameterString(data)
+		scheduler.AddCycle(n, []*block.NodeParameter{p})
 	}
 }
 
@@ -103,7 +96,9 @@ func (n *OnEventLogNode) SetupEvent(scheduler block.NodeScheduler) error {
 	n.ch = make(chan types.Log, 64)
 	n.client = connection.SocketClient
 
-	ctx, _ := context.WithTimeout(context.Background(), time.Second*30)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+
 	filter := ethereum.FilterQuery{Addresses: []common.Address{common.HexToAddress(contract)}}
 	n.subscription, err = connection.SocketClient.SubscribeFilterLogs(ctx, filter, n.ch)
 	if err != nil {

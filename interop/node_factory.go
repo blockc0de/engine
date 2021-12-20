@@ -4,6 +4,8 @@ import (
 	"errors"
 	"reflect"
 
+	"github.com/blockc0de/engine/nodes/ethereum/web3util"
+
 	"github.com/blockc0de/engine/nodes/ethereum"
 
 	"github.com/blockc0de/engine/block"
@@ -91,7 +93,13 @@ var (
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},
 
-		// Ethereum
+		// Web3.Util
+		{reflect.TypeOf(new(web3util.HexToIntegerNode)).String(), web3util.NewHexToIntegerNode},
+		{reflect.TypeOf(new(web3util.IntegerToHexNode)).String(), web3util.NewIntegerToHexNode},
+		{reflect.TypeOf(new(web3util.FromWeiNode)).String(), web3util.NewFromWeiNode},
+		{reflect.TypeOf(new(web3util.ToWeiNode)).String(), web3util.NewToWeiNode},
+
+		// Blockchain.Ethereum
 		{reflect.TypeOf(new(ethereum.EthConnection)).String(), ethereum.NewEthConnection},
 		{reflect.TypeOf(new(ethereum.GetBalanceNode)).String(), ethereum.NewGetBalanceNode},
 		{reflect.TypeOf(new(ethereum.OnNewBlockEventNode)).String(), ethereum.NewOnNewBlockEventNode},
@@ -118,7 +126,7 @@ func NewNode(nodeType string, id string, graph *block.Graph) (block.Node, error)
 
 // RegisterNodeType register a new node type, use reflection to create a node when loading a graph
 func RegisterNodeType(nodeType string, creator func(id string, graph *block.Graph) (block.Node, error)) error {
-	creator, ok := nodeCreatorMapper[nodeType]
+	_, ok := nodeCreatorMapper[nodeType]
 	if !ok {
 		return errors.New("node already registered")
 	}

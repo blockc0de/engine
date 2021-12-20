@@ -3,7 +3,6 @@ package interop
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	"github.com/blockc0de/engine/block"
@@ -11,7 +10,7 @@ import (
 )
 
 func unmarshalNodeParameterValue(valueType block.NodeParameterTypeEnum, data []byte) (interface{}, error) {
-	if data == nil || bytes.Compare(data, []byte("null")) == 0 {
+	if data == nil || bytes.Equal(data, []byte("null")) {
 		return nil, nil
 	}
 
@@ -33,7 +32,7 @@ func unmarshalNodeParameterValue(valueType block.NodeParameterTypeEnum, data []b
 		err := json.Unmarshal(data, &d)
 		return d, err
 	default:
-		return nil, errors.New(fmt.Sprintf("invalid %s value", valueType))
+		return nil, fmt.Errorf("invalid %s value", valueType)
 	}
 }
 

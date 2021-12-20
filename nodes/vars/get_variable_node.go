@@ -55,7 +55,10 @@ func (n *GetVariableNode) ComputeParameterValue(parameterId string, value interf
 			return nil
 		}
 
-		value, _ := n.Data().Graph.MemoryVariables[nameVal]
+		value, ok := n.Data().Graph.MemoryVariables[nameVal]
+		if !ok {
+			return nil
+		}
 		return value
 	}
 	return value

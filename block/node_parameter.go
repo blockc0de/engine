@@ -8,7 +8,7 @@ import (
 
 type NodeParameter struct {
 	Id          string
-	Node        Node `json:"-"'`
+	Node        Node `json:"-"`
 	Name        string
 	Value       interface{}
 	ValueType   NodeParameterTypeEnum

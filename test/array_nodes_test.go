@@ -28,7 +28,8 @@ func TestArrayNode(t *testing.T) {
 		},
 	}
 	e = engine.NewEngine(graph, event)
-	e.Run(context.Background())
+	err = e.Run(context.Background())
+	assert.Nil(t, err)
 
 	assert.Equal(t, result, []string{"2", "2", "1", "2", "[\"1\",\"2\"]"})
 }

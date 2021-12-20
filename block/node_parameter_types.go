@@ -51,19 +51,19 @@ func (b NodeParameterBool) MarshalJSON() ([]byte, error) {
 }
 
 func (b *NodeParameterBool) UnmarshalJSON(data []byte) error {
-	if bytes.Compare(data, []byte(`"0"`)) == 0 {
+	if bytes.Equal(data, []byte(`"0"`)) {
 		*b = false
 		return nil
 	}
-	if bytes.Compare(data, []byte(`"1"`)) == 0 {
+	if bytes.Equal(data, []byte(`"1"`)) {
 		*b = true
 		return nil
 	}
-	if bytes.Compare(data, []byte(`"true"`)) == 0 {
+	if bytes.Equal(data, []byte(`"true"`)) {
 		*b = true
 		return nil
 	}
-	if bytes.Compare(data, []byte(`"false"`)) == 0 {
+	if bytes.Equal(data, []byte(`"false"`)) {
 		*b = false
 		return nil
 	}
@@ -87,70 +87,63 @@ type NodeParameterConverter struct {
 }
 
 func (NodeParameterConverter) ToBool(val interface{}) (bool, bool) {
-	switch val.(type) {
+	switch val := val.(type) {
 	case bool:
-		return val.(bool), true
+		return val, true
 	case NodeParameterBool:
-		return bool(val.(NodeParameterBool)), true
+		return bool(val), true
 	case NodeParameterString:
-		s := val.(NodeParameterString)
-		if s == "0" || s == "false" {
+		if val == "0" || val == "false" {
 			return false, true
 		}
 		return true, true
 	case NodeParameterDecimal:
-		d := val.(NodeParameterDecimal)
-		return !d.IsZero(), true
+		return !val.IsZero(), true
 	default:
 		return false, false
 	}
 }
 
 func (NodeParameterConverter) ToString(val interface{}) (string, bool) {
-	switch val.(type) {
+	switch val := val.(type) {
 	case string:
-		return val.(string), true
+		return val, true
 	case Node:
-		node := val.(Node)
-		if node != nil {
-			return node.Data().Id, true
+		if val != nil {
+			return val.Data().Id, true
 		}
 		return "", false
 	case NodeParameterBool:
-		b := val.(NodeParameterBool)
-		if b {
+		if val {
 			return "true", true
 		}
 		return "false", true
 	case NodeParameterString:
-		return string(val.(NodeParameterString)), true
+		return string(val), true
 	case NodeParameterDecimal:
-		d := val.(NodeParameterDecimal)
-		return d.String(), true
+		return val.String(), true
 	default:
 		return "", false
 	}
 }
 
 func (NodeParameterConverter) ToDecimal(val interface{}) (decimal.Decimal, bool) {
-	switch val.(type) {
+	switch val := val.(type) {
 	case float64:
-		return decimal.NewFromFloat(val.(float64)), true
+		return decimal.NewFromFloat(val), true
 	case NodeParameterBool:
-		b := val.(NodeParameterBool)
-		if b {
+		if val {
 			return decimal.NewFromInt(1), true
 		}
 		return decimal.Zero, true
 	case NodeParameterString:
-		s := val.(NodeParameterString)
-		d, err := decimal.NewFromString(string(s))
+		d, err := decimal.NewFromString(string(val))
 		if err != nil {
 			return decimal.Zero, false
 		}
 		return d, true
 	case NodeParameterDecimal:
-		return val.(NodeParameterDecimal).Decimal, true
+		return val.Decimal, true
 	default:
 		return decimal.Zero, false
 	}

@@ -52,38 +52,33 @@ func (n *OnNewBlockEventNode) CanExecute() bool {
 }
 
 func (n *OnNewBlockEventNode) handleRead(scheduler block.NodeScheduler) {
-	for {
-		select {
-		case header, ok := <-n.ch:
-			if !ok {
-				return
-			}
-
-			ctx, _ := context.WithTimeout(context.Background(), time.Second*30)
-			fullBlock, err := n.client.BlockByHash(ctx, header.Hash())
-			if err != nil {
-				scheduler.AppendLog("error", fmt.Sprintf("Failed to get block by hash, reason: %s", err.Error()))
-				break
-			}
-
-			v := struct {
-				Header       *types.Header      `json:"header"`
-				Transactions types.Transactions `json:"transactions"`
-			}{header, fullBlock.Transactions()}
-			data, err := json.Marshal(v)
-			if err != nil {
-				scheduler.AppendLog("error", fmt.Sprintf("Failed to marshal block, reason: %s", err.Error()))
-				break
-			}
-
-			p, err := block.NewDynamicNodeParameter(n, "block", block.NodeParameterTypeEnumString, false)
-			if err != nil {
-				scheduler.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
-				break
-			}
-			p.Value = block.NodeParameterString(data)
-			scheduler.AddCycle(n, []*block.NodeParameter{p})
+	for header := range n.ch {
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+		fullBlock, err := n.client.BlockByHash(ctx, header.Hash())
+		if err != nil {
+			cancel()
+			scheduler.AppendLog("error", fmt.Sprintf("Failed to get block by hash, reason: %s", err.Error()))
+			break
 		}
+		cancel()
+
+		v := struct {
+			Header       *types.Header      `json:"header"`
+			Transactions types.Transactions `json:"transactions"`
+		}{header, fullBlock.Transactions()}
+		data, err := json.Marshal(v)
+		if err != nil {
+			scheduler.AppendLog("error", fmt.Sprintf("Failed to marshal block, reason: %s", err.Error()))
+			break
+		}
+
+		p, err := block.NewDynamicNodeParameter(n, "block", block.NodeParameterTypeEnumString, false)
+		if err != nil {
+			scheduler.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
+			break
+		}
+		p.Value = block.NodeParameterString(data)
+		scheduler.AddCycle(n, []*block.NodeParameter{p})
 	}
 }
 
@@ -101,7 +96,9 @@ func (n *OnNewBlockEventNode) SetupEvent(scheduler block.NodeScheduler) error {
 	n.ch = make(chan *types.Header, 64)
 	n.client = connection.SocketClient
 
-	ctx, _ := context.WithTimeout(context.Background(), time.Second*30)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+
 	n.subscription, err = connection.SocketClient.SubscribeNewHead(ctx, n.ch)
 	if err != nil {
 		return err

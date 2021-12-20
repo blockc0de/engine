@@ -79,7 +79,7 @@ func (n *StringContainsNode) OnExecution(ctx context.Context, scheduler block.No
 		return block.ErrInvalidParameter{Name: "toSearch"}
 	}
 
-	if strings.Index(strings.ToLower(stringVal), strings.ToLower(toSearchVal)) >= 0 {
+	if strings.Contains(strings.ToLower(stringVal), strings.ToLower(toSearchVal)) {
 		if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
 			return outNode.OnExecution(ctx, scheduler)
 		}

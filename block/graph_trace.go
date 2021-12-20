@@ -1,7 +1,6 @@
 package block
 
 import (
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -31,7 +30,8 @@ func (trace *GraphTrace) String() string {
 	var executionSuccessText = "FALSE"
 	traces := make([]string, 0, len(trace.stack))
 
-	for _, item := range trace.stack {
+	for i := len(trace.stack); i >= 0; i-- {
+		item := trace.stack[i]
 		if item.ExecutionError != nil {
 			errCount += 1
 		}
@@ -42,8 +42,6 @@ func (trace *GraphTrace) String() string {
 	if errCount == 0 {
 		executionSuccessText = "TRUE"
 	}
-
-	sort.Reverse(sort.StringSlice(traces))
 	return "Total execution time: " + strconv.FormatInt(totalExecutionTime, 10) + "ms\n" +
 		"Execution success: " + executionSuccessText + "\n" +
 		strings.Join(traces, "\n") + "\n" +

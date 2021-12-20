@@ -29,7 +29,8 @@ func TestTimeNodes(t *testing.T) {
 		},
 	}
 	e = engine.NewEngine(graph, event)
-	e.Run(context.Background())
+	err = e.Run(context.Background())
+	assert.Nil(t, err)
 
 	ts, err := strconv.ParseInt(result, 10, 64)
 	assert.Nil(t, err)

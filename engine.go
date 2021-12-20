@@ -115,11 +115,12 @@ loop:
 			e.currentCycle = cycle
 			cycle.StartNode.Data().LastCycleAt = time.Now().UnixMilli()
 
-			c, _ := context.WithTimeout(e.context, time.Second*time.Duration(cycle.GetCycleMaxExecutionTime()))
+			c, cancel := context.WithTimeout(e.context, time.Second*time.Duration(cycle.GetCycleMaxExecutionTime()))
 			cycle.Execute(c)
 			if c.Err() != nil && c.Err() != context.Canceled {
 				e.AppendLog("error", "Timeout occurred on last cycle from graph hash: "+cycle.engine.Graph.Hash)
 			}
+			cancel()
 
 			if e.event.CycleCost != nil {
 				e.event.CycleCost(cycle.GetCycleExecutedGasPrice())
@@ -207,7 +208,7 @@ func (e *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 		}
 	}
 
-	elapsedTime := time.Now().Sub(startTime)
+	elapsedTime := time.Since(startTime)
 	executableNode.Data().CurrentTraceItem = nil
 	if traceItem != nil {
 		traceItem.ExecutionTime = elapsedTime.Milliseconds()

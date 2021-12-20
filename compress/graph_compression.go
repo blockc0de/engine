@@ -5,9 +5,12 @@ import "encoding/base64"
 type GraphCompression struct {
 }
 
-func (GraphCompression) CompressGraphData(input []byte) string {
-	compressed := GzipCompression{}.Compress(input)
-	return base64.StdEncoding.EncodeToString(compressed)
+func (GraphCompression) CompressGraphData(input []byte) (string, error) {
+	compressed, err := GzipCompression{}.Compress(input)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(compressed), nil
 }
 
 func (GraphCompression) DecompressGraphData(input string) ([]byte, error) {

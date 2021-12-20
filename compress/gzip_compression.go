@@ -9,15 +9,19 @@ import (
 type GzipCompression struct {
 }
 
-func (GzipCompression) Compress(input []byte) []byte {
+func (GzipCompression) Compress(input []byte) ([]byte, error) {
 	buffer := bytes.NewBuffer(nil)
 	gzipWriter := gzip.NewWriter(buffer)
 
-	gzipWriter.Write(input)
+	_, err := gzipWriter.Write(input)
+	if err != nil {
+		return nil, err
+	}
+
 	gzipWriter.Close()
 	compressed := buffer.Bytes()
 
-	return compressed
+	return compressed, nil
 }
 
 func (GzipCompression) Decompress(input []byte) ([]byte, error) {
