@@ -22,9 +22,8 @@ var (
 
 type OnNewBlockEventNode struct {
 	block.NodeBase
-	cancel       context.CancelFunc
 	ch           chan *types.Header
-	client       *ethclient.Client `json:"-"`
+	client       *ethclient.Client
 	subscription ethereum.Subscription
 }
 
@@ -52,7 +51,7 @@ func (n *OnNewBlockEventNode) CanExecute() bool {
 	return true
 }
 
-func (n *OnNewBlockEventNode) onNewBLock(scheduler block.NodeScheduler) {
+func (n *OnNewBlockEventNode) handleRead(scheduler block.NodeScheduler) {
 	for {
 		select {
 		case header, ok := <-n.ch:
@@ -64,6 +63,7 @@ func (n *OnNewBlockEventNode) onNewBLock(scheduler block.NodeScheduler) {
 			fullBlock, err := n.client.BlockByHash(ctx, header.Hash())
 			if err != nil {
 				scheduler.AppendLog("error", fmt.Sprintf("Failed to get block by hash, reason: %s", err.Error()))
+				break
 			}
 
 			v := struct {
@@ -73,11 +73,13 @@ func (n *OnNewBlockEventNode) onNewBLock(scheduler block.NodeScheduler) {
 			data, err := json.Marshal(v)
 			if err != nil {
 				scheduler.AppendLog("error", fmt.Sprintf("Failed to marshal block, reason: %s", err.Error()))
+				break
 			}
 
 			p, err := block.NewDynamicNodeParameter(n, "block", block.NodeParameterTypeEnumString, false)
 			if err != nil {
 				scheduler.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
+				break
 			}
 			p.Value = block.NodeParameterString(data)
 			scheduler.AddCycle(n, []*block.NodeParameter{p})
@@ -98,13 +100,14 @@ func (n *OnNewBlockEventNode) SetupEvent(scheduler block.NodeScheduler) error {
 	var err error
 	n.ch = make(chan *types.Header, 64)
 	n.client = connection.SocketClient
+
 	ctx, _ := context.WithTimeout(context.Background(), time.Second*30)
 	n.subscription, err = connection.SocketClient.SubscribeNewHead(ctx, n.ch)
 	if err != nil {
 		return err
 	}
 
-	go n.onNewBLock(scheduler)
+	go n.handleRead(scheduler)
 
 	return nil
 }
