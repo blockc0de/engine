@@ -74,7 +74,8 @@ func (n *JsonSelectorNodeNode) OnExecution(context.Context, block.NodeScheduler)
 		return block.ErrInvalidParameter{Name: "selector"}
 	}
 
-	n.NodeData.OutParameters.Get("value").Value = block.NodeParameterString(gjson.Get(js, selector).String())
+	value := gjson.Get(js, selector)
+	n.NodeData.OutParameters.Get("value").Value = block.NodeParameterString(value.String())
 
 	return nil
 }

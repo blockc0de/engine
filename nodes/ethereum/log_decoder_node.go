@@ -1,10 +1,9 @@
 package ethereum
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
+	"math/big"
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
@@ -95,6 +94,10 @@ func (n *LogDecoderNode) OnExecution(ctx context.Context, scheduler block.NodeSc
 	}
 
 	result, err := n.decodeEventLog(abiInstance, &log)
+	if err != nil {
+		return err
+	}
+
 	data, err := json.Marshal(result)
 	if err != nil {
 		return err
@@ -106,15 +109,9 @@ func (n *LogDecoderNode) OnExecution(ctx context.Context, scheduler block.NodeSc
 }
 
 func (n *LogDecoderNode) decodeEventLog(abiInstance *abi.ABI, log *types.Log) (eventLog, error) {
-	var event *abi.Event
-	for _, ev := range abiInstance.Events {
-		if bytes.Equal(ev.ID[:], log.Topics[0][:]) {
-			event = &ev
-			break
-		}
-	}
-	if event == nil {
-		return eventLog{}, errors.New("mismatch")
+	event, err := abiInstance.EventByID(log.Topics[0])
+	if err != nil {
+		return eventLog{}, err
 	}
 
 	inputs, err := abiInstance.Unpack(event.Name, log.Data)
@@ -124,21 +121,26 @@ func (n *LogDecoderNode) decodeEventLog(abiInstance *abi.ABI, log *types.Log) (e
 
 	nextInput := 0
 	nextIndex := 1
-	result := make([]interface{}, len(event.Inputs))
+	allInputs := make([]interface{}, len(event.Inputs))
 	for idx, input := range event.Inputs {
 		if !input.Indexed {
-			result[idx] = inputs[nextInput]
+			allInputs[idx] = inputs[nextInput]
 			nextInput++
 		} else {
 			switch input.Type.String() {
 			case "address":
-				result[idx] = common.BytesToAddress(log.Topics[nextIndex].Bytes())
+				allInputs[idx] = common.BytesToAddress(log.Topics[nextIndex].Bytes())
 			default:
-				result[idx] = log.Topics[nextIndex]
+				allInputs[idx] = log.Topics[nextIndex]
 			}
 			nextIndex++
 		}
 	}
 
-	return eventLog{Event: event.RawName, Inputs: result}, nil
+	for idx, input := range allInputs {
+		if bn, ok := input.(*big.Int); ok {
+			allInputs[idx] = bn.String()
+		}
+	}
+	return eventLog{Event: event.RawName, Inputs: allInputs}, nil
 }
