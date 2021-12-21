@@ -104,6 +104,9 @@ var (
 		{reflect.TypeOf(new(ethereum.GetBalanceNode)).String(), ethereum.NewGetBalanceNode},
 		{reflect.TypeOf(new(ethereum.OnNewBlockEventNode)).String(), ethereum.NewOnNewBlockEventNode},
 		{reflect.TypeOf(new(ethereum.OnEventLogNode)).String(), ethereum.NewOnEventLogNode},
+		{reflect.TypeOf(new(ethereum.JsonAbiNode)).String(), ethereum.NewJsonAbiNode},
+		{reflect.TypeOf(new(ethereum.AbiDecoderNode)).String(), ethereum.NewAbiDecoderNode},
+		{reflect.TypeOf(new(ethereum.LogDecoderNode)).String(), ethereum.NewLogDecoderNode},
 	}
 
 	nodeCreatorMapper = make(map[string]func(id string, graph *block.Graph) (block.Node, error))
