@@ -8,10 +8,9 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/accounts/abi"
-
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"github.com/ethereum/go-ethereum/accounts/abi"
 )
 
 var (

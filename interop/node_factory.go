@@ -102,6 +102,7 @@ var (
 		// Blockchain.Ethereum
 		{reflect.TypeOf(new(ethereum.EthConnection)).String(), ethereum.NewEthConnection},
 		{reflect.TypeOf(new(ethereum.GetBalanceNode)).String(), ethereum.NewGetBalanceNode},
+		{reflect.TypeOf(new(ethereum.GetErc20TokenInfoNode)).String(), ethereum.NewGetErc20TokenInfoNode},
 		{reflect.TypeOf(new(ethereum.OnNewBlockEventNode)).String(), ethereum.NewOnNewBlockEventNode},
 		{reflect.TypeOf(new(ethereum.OnEventLogNode)).String(), ethereum.NewOnEventLogNode},
 		{reflect.TypeOf(new(ethereum.JsonAbiNode)).String(), ethereum.NewJsonAbiNode},
