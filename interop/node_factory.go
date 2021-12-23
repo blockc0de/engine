@@ -4,6 +4,8 @@ import (
 	"errors"
 	"reflect"
 
+	"github.com/blockc0de/engine/nodes/branch"
+
 	"github.com/blockc0de/engine/nodes/ethereum/web3util"
 
 	"github.com/blockc0de/engine/nodes/ethereum"
@@ -40,6 +42,10 @@ var (
 		{reflect.TypeOf(new(vars.SetVariableNode)).String(), vars.NewSetVariableNode},
 		{reflect.TypeOf(new(vars.GetVariableNode)).String(), vars.NewGetVariableNode},
 		{reflect.TypeOf(new(vars.IsVariableExistNode)).String(), vars.NewIsVariableExistNode},
+
+		// Condition
+		{reflect.TypeOf(new(branch.DecimalBranchNode)).String(), branch.NewDecimalBranchNode},
+		{reflect.TypeOf(new(branch.DecimalRangeBranchNode)).String(), branch.NewDecimalRangeBranchNode},
 
 		// Math
 		{reflect.TypeOf(new(math.AddNode)).String(), math.NewAddNode},
