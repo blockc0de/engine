@@ -51,21 +51,20 @@ func (n *HexToIntegerNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *HexToIntegerNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("integer").Id {
-		hex := n.Data().InParameters.Get("hex")
 		var converter block.NodeParameterConverter
-		hexVal, ok := converter.ToString(hex.ComputeValue())
+		hex, ok := converter.ToString(n.Data().InParameters.Get("hex").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		hexVal = strings.ToLower(hexVal)
-		hexVal = strings.TrimPrefix(hexVal, "0x")
+		hex = strings.ToLower(hex)
+		hex = strings.TrimPrefix(hex, "0x")
 
-		for len(hexVal) > 0 && hexVal[0] == '0' {
-			hexVal = hexVal[1:]
+		for len(hex) > 0 && hex[0] == '0' {
+			hex = hex[1:]
 		}
 
-		bn, err := hexutil.DecodeBig("0x" + hexVal)
+		bn, err := hexutil.DecodeBig("0x" + hex)
 		if err != nil {
 			return nil
 		}

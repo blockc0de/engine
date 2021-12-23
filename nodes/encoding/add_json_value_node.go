@@ -69,16 +69,13 @@ func (n *AddJsonValueNode) GetCustomAttributes(t reflect.Type) []interface{} {
 }
 
 func (n *AddJsonValueNode) OnExecution(context.Context, block.NodeScheduler) error {
-	key := n.NodeData.InParameters.Get("key")
-	value := n.NodeData.InParameters.Get("value")
-
 	var converter block.NodeParameterConverter
-	keyVal, ok := converter.ToString(key.ComputeValue())
+	key, ok := converter.ToString(n.NodeData.InParameters.Get("key").ComputeValue())
 	if !ok {
 		return block.ErrInvalidParameter{Name: "key"}
 	}
 
-	valueVal, ok := converter.ToString(value.ComputeValue())
+	value, ok := converter.ToString(n.NodeData.InParameters.Get("value").ComputeValue())
 	if !ok {
 		return block.ErrInvalidParameter{Name: "value"}
 	}
@@ -92,7 +89,7 @@ func (n *AddJsonValueNode) OnExecution(context.Context, block.NodeScheduler) err
 		return errors.New("invalid json object")
 	}
 
-	jsonObject[keyVal] = valueVal
+	jsonObject[key] = value
 	n.NodeData.OutParameters.Get("jsonObjectOut").Value = jsonObject
 	return nil
 }

@@ -49,14 +49,13 @@ func (n *IntegerToHexNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *IntegerToHexNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("hex").Id {
-		integer := n.Data().InParameters.Get("integer")
 		var converter block.NodeParameterConverter
-		integerVal, ok := converter.ToDecimal(integer.ComputeValue())
+		integer, ok := converter.ToDecimal(n.Data().InParameters.Get("integer").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		return block.NodeParameterString(hexutil.EncodeBig(integerVal.BigInt()))
+		return block.NodeParameterString(hexutil.EncodeBig(integer.BigInt()))
 	}
 	return value
 }

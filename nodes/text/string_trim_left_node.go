@@ -55,21 +55,18 @@ func (n *StringTrimLeftNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *StringTrimLeftNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("string").Id {
-		str := n.Data().InParameters.Get("input")
-		cutset := n.Data().InParameters.Get("cutset")
-
 		var converter block.NodeParameterConverter
-		stringVal, ok := converter.ToString(str.ComputeValue())
+		s, ok := converter.ToString(n.Data().InParameters.Get("input").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		cursetVal, ok := converter.ToString(cutset.ComputeValue())
+		cutset, ok := converter.ToString(n.Data().InParameters.Get("cutset").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		return block.NodeParameterString(strings.TrimLeft(stringVal, cursetVal))
+		return block.NodeParameterString(strings.TrimLeft(s, cutset))
 	}
 	return value
 }

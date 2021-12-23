@@ -60,27 +60,23 @@ func (n *StringConcatNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *StringConcatNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("string").Id {
-		stringA := n.Data().InParameters.Get("stringA")
-		stringB := n.Data().InParameters.Get("stringB")
-		delimiter := n.Data().InParameters.Get("delimiter")
-
 		var converter block.NodeParameterConverter
-		stringAVal, ok := converter.ToString(stringA.ComputeValue())
+		stringA, ok := converter.ToString(n.Data().InParameters.Get("stringA").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		stringBVal, ok := converter.ToString(stringB.ComputeValue())
+		stringB, ok := converter.ToString(n.Data().InParameters.Get("stringB").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		delimiterVal, ok := converter.ToString(delimiter.ComputeValue())
+		delimiter, ok := converter.ToString(n.Data().InParameters.Get("delimiter").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		return block.NodeParameterString(stringAVal + delimiterVal + stringBVal)
+		return block.NodeParameterString(stringA + delimiter + stringB)
 	}
 	return value
 }

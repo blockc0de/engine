@@ -4,17 +4,14 @@ import (
 	"errors"
 	"reflect"
 
-	"github.com/blockc0de/engine/nodes/branch"
-
-	"github.com/blockc0de/engine/nodes/ethereum/web3util"
-
-	"github.com/blockc0de/engine/nodes/ethereum"
-
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
 	"github.com/blockc0de/engine/nodes/array"
+	"github.com/blockc0de/engine/nodes/branch"
 	"github.com/blockc0de/engine/nodes/console"
 	"github.com/blockc0de/engine/nodes/encoding"
+	"github.com/blockc0de/engine/nodes/ethereum"
+	"github.com/blockc0de/engine/nodes/ethereum/web3util"
 	"github.com/blockc0de/engine/nodes/functions"
 	"github.com/blockc0de/engine/nodes/math"
 	"github.com/blockc0de/engine/nodes/text"
@@ -44,6 +41,8 @@ var (
 		{reflect.TypeOf(new(vars.IsVariableExistNode)).String(), vars.NewIsVariableExistNode},
 
 		// Condition
+		{reflect.TypeOf(new(branch.BoolBranchNode)).String(), branch.NewBoolBranchNode},
+		{reflect.TypeOf(new(branch.StringBranchNode)).String(), branch.NewStringBranchNode},
 		{reflect.TypeOf(new(branch.DecimalBranchNode)).String(), branch.NewDecimalBranchNode},
 		{reflect.TypeOf(new(branch.DecimalRangeBranchNode)).String(), branch.NewDecimalRangeBranchNode},
 

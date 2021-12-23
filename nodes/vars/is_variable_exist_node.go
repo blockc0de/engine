@@ -58,13 +58,12 @@ func (n *IsVariableExistNode) GetCustomAttributes(t reflect.Type) []interface{} 
 }
 func (n *IsVariableExistNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
 	var converter block.NodeParameterConverter
-	name := n.Data().InParameters.Get("name")
-	nameVal, ok := converter.ToString(name.ComputeValue())
+	name, ok := converter.ToString(n.Data().InParameters.Get("name").ComputeValue())
 	if !ok {
 		return block.ErrInvalidParameter{Name: "name"}
 	}
 
-	_, exist := n.Data().Graph.MemoryVariables[nameVal]
+	_, exist := n.Data().Graph.MemoryVariables[name]
 	if exist {
 		if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
 			return outNode.OnExecution(ctx, scheduler)

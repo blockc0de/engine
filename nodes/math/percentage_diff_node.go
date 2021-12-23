@@ -55,22 +55,19 @@ func (n *PercentageDiffNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *PercentageDiffNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("value").Id {
-		a := n.Data().InParameters.Get("a")
-		b := n.Data().InParameters.Get("b")
-
 		var converter block.NodeParameterConverter
-		aVal, ok := converter.ToDecimal(a.ComputeValue())
+		a, ok := converter.ToDecimal(n.Data().InParameters.Get("a").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		bVal, ok := converter.ToDecimal(b.ComputeValue())
+		b, ok := converter.ToDecimal(n.Data().InParameters.Get("b").ComputeValue())
 		if !ok {
 			return nil
 		}
 
 		return block.NodeParameterDecimal{
-			Decimal: bVal.Sub(aVal).Div(aVal.Abs()).Mul(decimal.NewFromInt(100))}
+			Decimal: b.Sub(a).Div(a.Abs()).Mul(decimal.NewFromInt(100))}
 	}
 	return value
 }

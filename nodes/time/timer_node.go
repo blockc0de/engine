@@ -96,13 +96,12 @@ func (n *TimerNode) OnStop() error {
 
 func (n *TimerNode) getIntervalInSeconds() (time.Duration, error) {
 	var converter block.NodeParameterConverter
-	intervalInSeconds := n.Data().InParameters.Get("intervalInSeconds")
-	intervalInSecondsVal, ok := converter.ToDecimal(intervalInSeconds.ComputeValue())
+	intervalInSeconds, ok := converter.ToDecimal(n.Data().InParameters.Get("intervalInSeconds").ComputeValue())
 	if !ok {
 		return 0, block.ErrInvalidParameter{Name: "intervalInSeconds"}
 	}
 
-	seconds := intervalInSecondsVal.IntPart()
+	seconds := intervalInSeconds.IntPart()
 	if seconds < 0 {
 		seconds = 1
 	}

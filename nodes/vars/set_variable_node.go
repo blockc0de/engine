@@ -56,13 +56,12 @@ func (n *SetVariableNode) GetCustomAttributes(t reflect.Type) []interface{} {
 }
 func (n *SetVariableNode) OnExecution(context.Context, block.NodeScheduler) error {
 	var converter block.NodeParameterConverter
-	name := n.Data().InParameters.Get("name")
-	nameVal, ok := converter.ToString(name.ComputeValue())
+	name, ok := converter.ToString(n.Data().InParameters.Get("name").ComputeValue())
 	if !ok {
 		return block.ErrInvalidParameter{Name: "name"}
 	}
 
 	value := n.Data().InParameters.Get("value")
-	n.Data().Graph.MemoryVariables[nameVal] = value.ComputeValue()
+	n.Data().Graph.MemoryVariables[name] = value.ComputeValue()
 	return nil
 }

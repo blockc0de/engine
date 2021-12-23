@@ -49,13 +49,12 @@ func (n *CeilNode) GetCustomAttributes(t reflect.Type) []interface{} {
 func (n *CeilNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("value").Id {
 		var converter block.NodeParameterConverter
-		number := n.Data().InParameters.Get("number")
-		numberVal, ok := converter.ToDecimal(number.ComputeValue())
+		number, ok := converter.ToDecimal(n.Data().InParameters.Get("number").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		return block.NodeParameterDecimal{Decimal: numberVal.Ceil()}
+		return block.NodeParameterDecimal{Decimal: number.Ceil()}
 	}
 	return value
 }

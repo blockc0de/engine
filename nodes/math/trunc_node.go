@@ -54,20 +54,17 @@ func (n *TruncNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *TruncNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("value").Id {
-		number := n.Data().InParameters.Get("number")
-		precision := n.Data().InParameters.Get("precision")
-
 		var converter block.NodeParameterConverter
-		numberVal, ok := converter.ToDecimal(number.ComputeValue())
+		number, ok := converter.ToDecimal(n.Data().InParameters.Get("number").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		precisionVal, ok := converter.ToDecimal(precision.ComputeValue())
+		precision, ok := converter.ToDecimal(n.Data().InParameters.Get("precision").ComputeValue())
 		if !ok {
 			return nil
 		}
-		return block.NodeParameterDecimal{Decimal: numberVal.Truncate(int32(precisionVal.IntPart()))}
+		return block.NodeParameterDecimal{Decimal: number.Truncate(int32(precision.IntPart()))}
 	}
 	return value
 }

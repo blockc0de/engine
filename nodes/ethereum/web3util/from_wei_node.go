@@ -63,21 +63,18 @@ func (n *FromWeiNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *FromWeiNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("value").Id {
-		wei := n.Data().InParameters.Get("wei")
-		decimals := n.Data().InParameters.Get("decimals")
-
 		var converter block.NodeParameterConverter
-		weiVal, ok := converter.ToDecimal(wei.ComputeValue())
+		wei, ok := converter.ToDecimal(n.Data().InParameters.Get("wei").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		decimalsVal, ok := converter.ToDecimal(decimals.ComputeValue())
+		decimals, ok := converter.ToDecimal(n.Data().InParameters.Get("decimals").ComputeValue())
 		if !ok {
-			decimalsVal = decimal.NewFromInt(18)
+			decimals = decimal.NewFromInt(18)
 		}
 
-		return block.NodeParameterDecimal{Decimal: WeiToDecimal(weiVal.BigInt(), int(decimalsVal.IntPart()))}
+		return block.NodeParameterDecimal{Decimal: WeiToDecimal(wei.BigInt(), int(decimals.IntPart()))}
 	}
 	return value
 }

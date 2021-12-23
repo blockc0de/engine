@@ -54,16 +54,13 @@ func (n *RoundNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *RoundNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("value").Id {
-		number := n.Data().InParameters.Get("number")
-		places := n.Data().InParameters.Get("places")
-
 		var converter block.NodeParameterConverter
-		numberVal, ok := converter.ToDecimal(number.ComputeValue())
+		numberVal, ok := converter.ToDecimal(n.Data().InParameters.Get("number").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		placesVal, ok := converter.ToDecimal(places.ComputeValue())
+		placesVal, ok := converter.ToDecimal(n.Data().InParameters.Get("places").ComputeValue())
 		if !ok {
 			return nil
 		}

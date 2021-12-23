@@ -56,23 +56,20 @@ func (n *PowNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *PowNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("value").Id {
-		a := n.Data().InParameters.Get("a")
-		b := n.Data().InParameters.Get("b")
-
 		var converter block.NodeParameterConverter
-		aVal, ok := converter.ToDecimal(a.ComputeValue())
+		a, ok := converter.ToDecimal(n.Data().InParameters.Get("a").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		bVal, ok := converter.ToDecimal(b.ComputeValue())
+		b, ok := converter.ToDecimal(n.Data().InParameters.Get("b").ComputeValue())
 		if !ok {
 			return nil
 		}
 
 		d, _, _ := apd.NewFromString("0")
-		x, _, _ := apd.NewFromString(aVal.String())
-		y, _, _ := apd.NewFromString(bVal.String())
+		x, _, _ := apd.NewFromString(a.String())
+		y, _, _ := apd.NewFromString(b.String())
 		if _, err := apd.BaseContext.Pow(d, x, y); err != nil {
 			return nil
 		}

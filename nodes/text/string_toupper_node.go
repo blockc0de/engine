@@ -50,13 +50,12 @@ func (n *StringToUpperNode) GetCustomAttributes(t reflect.Type) []interface{} {
 func (n *StringToUpperNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("string").Id {
 		var converter block.NodeParameterConverter
-		str := n.Data().InParameters.Get("input")
-		stringVal, ok := converter.ToString(str.ComputeValue())
+		s, ok := converter.ToString(n.Data().InParameters.Get("input").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		return block.NodeParameterString(strings.ToUpper(stringVal))
+		return block.NodeParameterString(strings.ToUpper(s))
 	}
 	return value
 }

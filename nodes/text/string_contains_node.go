@@ -34,17 +34,17 @@ func NewStringContainsNode(id string, graph *block.Graph) (block.Node, error) {
 	}
 	node.NodeData.InParameters.Append(toSearch)
 
-	retTrue, err := block.NewNodeParameter(node, "true", block.NodeParameterTypeEnumNode, false, nil)
+	t, err := block.NewNodeParameter(node, "true", block.NodeParameterTypeEnumNode, false, nil)
 	if err != nil {
 		return nil, err
 	}
-	node.NodeData.OutParameters.Append(retTrue)
+	node.NodeData.OutParameters.Append(t)
 
-	retFalse, err := block.NewNodeParameter(node, "false", block.NodeParameterTypeEnumNode, false, nil)
+	f, err := block.NewNodeParameter(node, "false", block.NodeParameterTypeEnumNode, false, nil)
 	if err != nil {
 		return nil, err
 	}
-	node.NodeData.OutParameters.Append(retFalse)
+	node.NodeData.OutParameters.Append(f)
 
 	return node, err
 }
@@ -65,21 +65,18 @@ func (n *StringContainsNode) GetCustomAttributes(t reflect.Type) []interface{} {
 }
 
 func (n *StringContainsNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
-	inParameterString := n.Data().InParameters.Get("string")
-	inParameterToSearch := n.Data().InParameters.Get("toSearch")
-
 	var converter block.NodeParameterConverter
-	stringVal, ok := converter.ToString(inParameterString.ComputeValue())
+	s, ok := converter.ToString(n.Data().InParameters.Get("string").ComputeValue())
 	if !ok {
 		return block.ErrInvalidParameter{Name: "string"}
 	}
 
-	toSearchVal, ok := converter.ToString(inParameterToSearch.ComputeValue())
+	toSearch, ok := converter.ToString(n.Data().InParameters.Get("toSearch").ComputeValue())
 	if !ok {
 		return block.ErrInvalidParameter{Name: "toSearch"}
 	}
 
-	if strings.Contains(strings.ToLower(stringVal), strings.ToLower(toSearchVal)) {
+	if strings.Contains(strings.ToLower(s), strings.ToLower(toSearch)) {
 		if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
 			return outNode.OnExecution(ctx, scheduler)
 		}

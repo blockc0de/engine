@@ -61,27 +61,23 @@ func (n *StringReplaceNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *StringReplaceNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("string").Id {
-		original := n.Data().InParameters.Get("original")
-		toReplace := n.Data().InParameters.Get("toReplace")
-		replaceText := n.Data().InParameters.Get("replaceText")
-
 		var converter block.NodeParameterConverter
-		originalAVal, ok := converter.ToString(original.ComputeValue())
+		original, ok := converter.ToString(n.Data().InParameters.Get("original").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		toReplaceVal, ok := converter.ToString(toReplace.ComputeValue())
+		toReplace, ok := converter.ToString(n.Data().InParameters.Get("toReplace").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		replaceTextVal, ok := converter.ToString(replaceText.ComputeValue())
+		replaceText, ok := converter.ToString(n.Data().InParameters.Get("replaceText").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		return block.NodeParameterString(strings.ReplaceAll(originalAVal, toReplaceVal, replaceTextVal))
+		return block.NodeParameterString(strings.ReplaceAll(original, toReplace, replaceText))
 	}
 	return value
 }

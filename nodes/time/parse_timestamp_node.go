@@ -56,21 +56,18 @@ func (n *ParseTimestampNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *ParseTimestampNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
 	if parameterId == n.Data().OutParameters.Get("timestamp").Id {
-		dateString := n.Data().InParameters.Get("dateString")
-		format := n.Data().InParameters.Get("format")
-
 		var converter block.NodeParameterConverter
-		dateStringVal, ok := converter.ToString(dateString.ComputeValue())
+		dateString, ok := converter.ToString(n.Data().InParameters.Get("dateString").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		formatVal, ok := converter.ToString(format.ComputeValue())
+		format, ok := converter.ToString(n.Data().InParameters.Get("format").ComputeValue())
 		if !ok {
 			return nil
 		}
 
-		t, err := timefmt.Parse(dateStringVal, formatVal)
+		t, err := timefmt.Parse(dateString, format)
 		if err != nil {
 			return nil
 		}
