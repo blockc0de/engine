@@ -23,7 +23,7 @@ type EthConnection struct {
 func NewEthConnection(id string, graph *block.Graph) (block.Node, error) {
 	node := new(EthConnection)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
-	node.NodeData.IsEventNode = false
+	node.NodeData.CanBeSerialized = false
 
 	url, err := block.NewNodeParameter(node, "url", block.NodeParameterTypeEnumString, true, nil)
 	if err != nil {
@@ -104,5 +104,13 @@ func (n *EthConnection) OnExecution(context.Context, block.NodeScheduler) error 
 }
 
 func (n *EthConnection) OnStop() error {
+	if n.Web3Client != nil {
+		n.Web3Client.Close()
+	}
+
+	if n.SocketClient != nil {
+		n.SocketClient.Close()
+	}
+
 	return nil
 }
