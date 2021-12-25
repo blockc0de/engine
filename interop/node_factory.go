@@ -14,6 +14,7 @@ import (
 	"github.com/blockc0de/engine/nodes/ethereum/web3util"
 	"github.com/blockc0de/engine/nodes/functions"
 	"github.com/blockc0de/engine/nodes/math"
+	"github.com/blockc0de/engine/nodes/messaging/telegram"
 	"github.com/blockc0de/engine/nodes/text"
 	"github.com/blockc0de/engine/nodes/time"
 	"github.com/blockc0de/engine/nodes/vars"
@@ -113,6 +114,10 @@ var (
 		{reflect.TypeOf(new(ethereum.JsonAbiNode)).String(), ethereum.NewJsonAbiNode},
 		{reflect.TypeOf(new(ethereum.AbiDecoderNode)).String(), ethereum.NewAbiDecoderNode},
 		{reflect.TypeOf(new(ethereum.LogDecoderNode)).String(), ethereum.NewLogDecoderNode},
+
+		// Telegram
+		{reflect.TypeOf(new(telegram.BotInstanceNode)).String(), telegram.NewBotInstanceNode},
+		{reflect.TypeOf(new(telegram.SendMessageNode)).String(), telegram.NewSendMessageNode},
 	}
 
 	nodeCreatorMapper = make(map[string]func(id string, graph *block.Graph) (block.Node, error))
