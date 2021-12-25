@@ -1,11 +1,11 @@
 package encoding
 
 import (
+	"encoding/json"
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
-	jsoniter "github.com/json-iterator/go"
 )
 
 var (
@@ -56,7 +56,6 @@ func (n *JsonToJsonObjectNode) ComputeParameterValue(parameterId string, value i
 		}
 
 		object := make(map[string]interface{})
-		json := jsoniter.ConfigCompatibleWithStandardLibrary
 		if err := json.Unmarshal([]byte(data), &object); err != nil {
 			return nil
 		}

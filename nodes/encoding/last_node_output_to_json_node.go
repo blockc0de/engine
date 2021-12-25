@@ -2,12 +2,12 @@ package encoding
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
-	jsoniter "github.com/json-iterator/go"
 )
 
 var (
@@ -64,7 +64,7 @@ func (n *LastNodeToJsonNode) OnExecution(context.Context, block.NodeScheduler) e
 			object[parameter.Name] = parameter.ComputeValue()
 		}
 
-		data, err := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(&object)
+		data, err := json.Marshal(&object)
 		if err != nil {
 			return err
 		}

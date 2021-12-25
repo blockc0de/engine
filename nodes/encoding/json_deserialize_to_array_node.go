@@ -1,11 +1,11 @@
 package encoding
 
 import (
+	"encoding/json"
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
-	jsoniter "github.com/json-iterator/go"
 )
 
 var (
@@ -56,7 +56,7 @@ func (n *JsonDeserializeToArrayNode) ComputeParameterValue(parameterId string, v
 		}
 
 		var array []interface{}
-		if err := jsoniter.Unmarshal([]byte(data), &array); err != nil {
+		if err := json.Unmarshal([]byte(data), &array); err != nil {
 			return nil
 		}
 		return &array

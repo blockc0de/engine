@@ -7,7 +7,6 @@ import (
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
-	jsoniter "github.com/json-iterator/go"
 )
 
 var (
@@ -88,7 +87,7 @@ func (n *MergeJsonNodeNode) OnExecution(context.Context, block.NodeScheduler) er
 	for key, val := range object2 {
 		object1[key] = val
 	}
-	data, err := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(object1)
+	data, err := json.Marshal(object1)
 	if err != nil {
 		return err
 	}
