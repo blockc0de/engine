@@ -118,6 +118,7 @@ var (
 		// Telegram
 		{reflect.TypeOf(new(telegram.BotInstanceNode)).String(), telegram.NewBotInstanceNode},
 		{reflect.TypeOf(new(telegram.SendMessageNode)).String(), telegram.NewSendMessageNode},
+		{reflect.TypeOf(new(telegram.OnMessageTelegramBotNode)).String(), telegram.NewOnMessageTelegramBotNode},
 	}
 
 	nodeCreatorMapper = make(map[string]func(id string, graph *block.Graph) (block.Node, error))

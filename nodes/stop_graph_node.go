@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	stopGraphNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StopGraphNode", FriendlyName: "Stop Graph", NodeType: attributes.NodeTypeEnumEntryPoint, GroupName: "Common", BlockLimitPerGraph: -1}}
+	stopGraphNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StopGraphNode", FriendlyName: "Stop Graph", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Common", BlockLimitPerGraph: -1}}
 	stopGraphNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Stop the execution of the current graph"}}
 	stopGraphNodeGasConfiguration = []interface{}{attributes.NodeGasConfiguration{BlockGasPrice: big.NewInt(0)}}
 )
