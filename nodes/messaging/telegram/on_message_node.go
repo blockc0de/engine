@@ -86,7 +86,7 @@ func (n *OnMessageTelegramBotNode) pollingUpdates(bot *tgbotapi.BotAPI, schedule
 
 		fromId, err := block.NewDynamicNodeParameter(n, "fromId", block.NodeParameterTypeEnumDecimal, false)
 		if err != nil {
-			continue3
+			continue
 
 		}
 		fromId.Value = block.NodeParameterDecimal{Decimal: decimal.NewFromInt(update.Message.From.ID)}
