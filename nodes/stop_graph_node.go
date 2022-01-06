@@ -2,7 +2,6 @@ package nodes
 
 import (
 	"context"
-	"math/big"
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
@@ -12,7 +11,6 @@ import (
 var (
 	stopGraphNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StopGraphNode", FriendlyName: "Stop Graph", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Common", BlockLimitPerGraph: -1}}
 	stopGraphNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Stop the execution of the current graph"}}
-	stopGraphNodeGasConfiguration = []interface{}{attributes.NodeGasConfiguration{BlockGasPrice: big.NewInt(0)}}
 )
 
 type StopGraphNode struct {
@@ -35,8 +33,6 @@ func (n *StopGraphNode) GetCustomAttributes(t reflect.Type) []interface{} {
 		return stopGraphNodeDefinition
 	case reflect.TypeOf(attributes.NodeGraphDescription{}):
 		return stopGraphNodeGraphDescription
-	case reflect.TypeOf(attributes.NodeGasConfiguration{}):
-		return stopGraphNodeGasConfiguration
 	default:
 		return nil
 	}

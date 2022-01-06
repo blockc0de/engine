@@ -3,7 +3,6 @@ package console
 import (
 	"context"
 	"errors"
-	"math/big"
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
@@ -11,9 +10,8 @@ import (
 )
 
 var (
-	printNodeDefinition                = []interface{}{attributes.NodeDefinition{NodeName: "PrintNode", FriendlyName: "Print", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Log", BlockLimitPerGraph: -1}}
-	printNodeGraphDescription          = []interface{}{attributes.NodeGraphDescription{Description: "Display a message in the console logs"}}
-	printNodeGraphNodeGasConfiguration = []interface{}{attributes.NodeGasConfiguration{BlockGasPrice: big.NewInt(10000000000000)}}
+	printNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "PrintNode", FriendlyName: "Print", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Log", BlockLimitPerGraph: -1}}
+	printNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Display a message in the console logs"}}
 )
 
 type PrintNode struct {
@@ -47,8 +45,6 @@ func (n *PrintNode) GetCustomAttributes(t reflect.Type) []interface{} {
 		return printNodeDefinition
 	case reflect.TypeOf(attributes.NodeGraphDescription{}):
 		return printNodeGraphDescription
-	case reflect.TypeOf(attributes.NodeGasConfiguration{}):
-		return printNodeGraphNodeGasConfiguration
 	default:
 		return nil
 	}
