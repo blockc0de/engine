@@ -206,6 +206,8 @@ func (e *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 		if executableNode.Data().CurrentTraceItem != nil {
 			executableNode.Data().CurrentTraceItem.ExecutionError = err
 		}
+
+		return false
 	}
 
 	elapsedTime := time.Since(startTime)

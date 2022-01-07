@@ -76,7 +76,7 @@ func (n *AbiDecoderNode) OnExecution(ctx context.Context, scheduler block.NodeSc
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "abi"}
 	}
-	abiInstance, ok := value.(*abi.ABI)
+	abiInstance, ok := value.(abi.ABI)
 	if !ok {
 		return block.ErrInvalidParameter{Name: "abi"}
 	}
@@ -108,7 +108,7 @@ func (n *AbiDecoderNode) OnExecution(ctx context.Context, scheduler block.NodeSc
 	return nil
 }
 
-func (n *AbiDecoderNode) decodeMethodInput(abiInstance *abi.ABI, input string) (methodInput, error) {
+func (n *AbiDecoderNode) decodeMethodInput(abiInstance abi.ABI, input string) (methodInput, error) {
 	data, err := hex.DecodeString(input)
 	if err != nil {
 		return methodInput{}, err

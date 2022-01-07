@@ -76,7 +76,7 @@ func (n *LogDecoderNode) OnExecution(ctx context.Context, scheduler block.NodeSc
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "abi"}
 	}
-	abiInstance, ok := value.(*abi.ABI)
+	abiInstance, ok := value.(abi.ABI)
 	if !ok {
 		return block.ErrInvalidParameter{Name: "abi"}
 	}
@@ -108,7 +108,7 @@ func (n *LogDecoderNode) OnExecution(ctx context.Context, scheduler block.NodeSc
 	return nil
 }
 
-func (n *LogDecoderNode) decodeEventLog(abiInstance *abi.ABI, log *types.Log) (eventLog, error) {
+func (n *LogDecoderNode) decodeEventLog(abiInstance abi.ABI, log *types.Log) (eventLog, error) {
 	event, err := abiInstance.EventByID(log.Topics[0])
 	if err != nil {
 		return eventLog{}, err

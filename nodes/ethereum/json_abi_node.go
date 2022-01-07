@@ -54,7 +54,7 @@ func (n *JsonAbiNode) ComputeParameterValue(parameterId string, value interface{
 		}
 
 		if n.oldValue == value {
-			return &n.contractAbi
+			return n.contractAbi
 		}
 
 		var converter block.NodeParameterConverter
@@ -71,7 +71,7 @@ func (n *JsonAbiNode) ComputeParameterValue(parameterId string, value interface{
 		n.oldValue = value
 		n.contractAbi = contractAbi
 
-		return &contractAbi
+		return contractAbi
 	}
 	return value
 }
