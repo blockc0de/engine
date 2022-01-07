@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	onNewBlockEventNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnNewBlockEventNode", FriendlyName: "On Ethereum Block", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Blockchain.Ethereum", BlockLimitPerGraph: -1}}
+	onNewBlockEventNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnNewBlockEventNode", FriendlyName: "On Ethereum Block", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Blockchain.Ethereum", BlockLimitPerGraph: 1}}
 	onNewBlockEventNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Event that occurs everytime a new ethereum block is minted"}}
 )
 
