@@ -33,7 +33,7 @@ func NewErc20AbiNode(id string, graph *block.Graph) (block.Node, error) {
 	node := new(Erc20AbiNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
 
-	abi, err := block.NewDynamicNodeParameter(node, "abi", block.NodeParameterTypeEnumString, false)
+	abi, err := block.NewDynamicNodeParameter(node, "abi", block.NodeParameterTypeEnumObject, false)
 	if err != nil {
 		return nil, err
 	}
