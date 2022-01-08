@@ -17,7 +17,7 @@ func WeiToDecimal(value *big.Int, decimals int) decimal.Decimal {
 }
 
 var (
-	fromWeiNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FromWeiNode", FriendlyName: "Wei To Decimals", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Web3.Util", BlockLimitPerGraph: -1}}
+	fromWeiNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FromWeiNode", FriendlyName: "Wei To Decimals", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Web3.Util"}}
 	fromWeiNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Converts any wei value into a decimals value"}}
 )
 

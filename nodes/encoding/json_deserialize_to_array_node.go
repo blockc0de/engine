@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	jsonDeserializeToArrayNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "JsonDeserializeToArrayNode", FriendlyName: "JSON Deserialize To Array", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	jsonDeserializeToArrayNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "JsonDeserializeToArrayNode", FriendlyName: "JSON Deserialize To Array", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON"}}
 	jsonDeserializeToArrayNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Convert a plain json string to a array"}}
 )
 

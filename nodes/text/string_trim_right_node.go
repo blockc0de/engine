@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	stringTrimRightNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringTrimRightNode", FriendlyName: "Trim Right String", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String", BlockLimitPerGraph: -1}}
+	stringTrimRightNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringTrimRightNode", FriendlyName: "Trim Right String", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String"}}
 	stringTrimRightNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Returns a slice of the string with all trailing."}}
 )
 

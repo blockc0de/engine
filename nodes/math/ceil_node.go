@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	ceilNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "CeilNode", FriendlyName: "Ceiling", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	ceilNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "CeilNode", FriendlyName: "Ceiling", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	ceilNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Ceiling the value"}}
 )
 

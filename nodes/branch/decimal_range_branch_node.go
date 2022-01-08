@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	decimalRangeBranchNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "DecimalRangeBranchNode", FriendlyName: "Decimal Range Branch", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Base Condition", BlockLimitPerGraph: -1}}
+	decimalRangeBranchNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "DecimalRangeBranchNode", FriendlyName: "Decimal Range Branch", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Base Condition"}}
 	decimalRangeBranchNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Trigger a condition of a node execution based over a range of values (included in a min or max number)"}}
 )
 

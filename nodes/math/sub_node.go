@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	subNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "SubtractNode", FriendlyName: "Substract A - B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	subNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "SubtractNode", FriendlyName: "Substract A - B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	subNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Calculate the substraction of value of A - B (both sent in params) and return it as out parameter."}}
 )
 

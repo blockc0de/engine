@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	divNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "DivideNode", FriendlyName: "Divide A / B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	divNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "DivideNode", FriendlyName: "Divide A / B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	divNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Calculate the division of value of A / B (both sent in params) and return it as out parameter, zero division are forbidden."}}
 )
 

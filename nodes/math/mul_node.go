@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	mulNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "MultiplyNode", FriendlyName: "Multiply A * B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	mulNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "MultiplyNode", FriendlyName: "Multiply A * B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	mulNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Calculate the multiplication of value of A * B (both sent in params) and return it as out parameter."}}
 )
 

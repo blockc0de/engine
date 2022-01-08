@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	percentageDiffNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "PercentageDiffNode", FriendlyName: "Percentage Difference", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	percentageDiffNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "PercentageDiffNode", FriendlyName: "Percentage Difference", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	percentageDiffNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Calculate the percentage difference of value of A from B (both sent in params) and return difference as out parameter."}}
 )
 

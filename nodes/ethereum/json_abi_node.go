@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	jsonAbiNodeDefinition             = []interface{}{attributes.NodeDefinition{NodeName: "JsonAbiNode", FriendlyName: "JSON ABI", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Blockchain.Ethereum", BlockLimitPerGraph: -1}}
+	jsonAbiNodeDefinition             = []interface{}{attributes.NodeDefinition{NodeName: "JsonAbiNode", FriendlyName: "JSON ABI", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Blockchain.Ethereum"}}
 	jsonAbiNodeGraphDescription       = []interface{}{attributes.NodeGraphDescription{Description: "A string that contain a JSON ABI"}}
 	jsonAbiNodeIDEParametersAttribute = []interface{}{attributes.NodeIDEParametersAttribute{IsScriptInput: true, ScriptType: "json"}}
 )

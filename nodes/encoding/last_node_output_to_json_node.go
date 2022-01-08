@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	lastNodeToJsonNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "LastNodeToJsonNode", FriendlyName: "Last Node To JSON", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	lastNodeToJsonNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "LastNodeToJsonNode", FriendlyName: "Last Node To JSON", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON"}}
 	lastNodeToJsonNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Serialize the last node executed in the graph to JSON data"}}
 )
 

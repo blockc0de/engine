@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	eachElementArrayNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "EachElementArrayNode", FriendlyName: "Each Element In Array", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array", BlockLimitPerGraph: -1}}
+	eachElementArrayNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "EachElementArrayNode", FriendlyName: "Each Element In Array", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array"}}
 	eachElementArrayNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Loop on all element in a array"}}
 )
 

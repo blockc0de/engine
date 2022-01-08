@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	addElementNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddArrayElementNode", FriendlyName: "Add Array Element", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array", BlockLimitPerGraph: -1}}
+	addElementNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddArrayElementNode", FriendlyName: "Add Array Element", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array"}}
 	addElementNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Add a element to the array"}}
 )
 

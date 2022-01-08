@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	clearArrayNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ClearArrayNode", FriendlyName: "Clear Array", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array", BlockLimitPerGraph: -1}}
+	clearArrayNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ClearArrayNode", FriendlyName: "Clear Array", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array"}}
 	clearArrayNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Clear all elements in an array"}}
 )
 

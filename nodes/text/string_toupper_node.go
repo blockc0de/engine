@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	stringToUpperNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringToUpperNode", FriendlyName: "String To Upper", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String", BlockLimitPerGraph: -1}}
+	stringToUpperNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringToUpperNode", FriendlyName: "String To Upper", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String"}}
 	stringToUpperNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Returns s with all Unicode letters mapped to their upper case."}}
 )
 

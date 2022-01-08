@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	getVariableNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetVariable", FriendlyName: "Get variable", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Base Variable", BlockLimitPerGraph: -1}}
+	getVariableNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetVariable", FriendlyName: "Get variable", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Base Variable"}}
 	getVariableNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Return the value of the variable pre computed from a Set variable block"}}
 )
 

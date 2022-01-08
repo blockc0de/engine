@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	getBalanceNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetEtherBalanceNode", FriendlyName: "Get Ether Balance", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Blockchain.Ethereum", BlockLimitPerGraph: -1}}
+	getBalanceNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetEtherBalanceNode", FriendlyName: "Get Ether Balance", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Blockchain.Ethereum"}}
 	getBalanceNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Get the balance of address in ether"}}
 )
 

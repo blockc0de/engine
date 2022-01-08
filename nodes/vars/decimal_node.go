@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	decimalNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "DecimalNode", FriendlyName: "Decimal", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Base Variable", BlockLimitPerGraph: -1}}
+	decimalNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "DecimalNode", FriendlyName: "Decimal", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Base Variable"}}
 	decimalNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "The decimal data type is an exact numeric data type defined by its precision (total number of digits) and scale (number of digits to the right of the decimal point). ... Scale can be 0 (no digits to the right of the decimal point)."}}
 )
 

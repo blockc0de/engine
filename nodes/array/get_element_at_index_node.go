@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	getElementAtIndexNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetElementAtIndexNode", FriendlyName: "Get Array Element At Index", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array", BlockLimitPerGraph: -1}}
+	getElementAtIndexNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetElementAtIndexNode", FriendlyName: "Get Array Element At Index", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array"}}
 	getElementAtIndexNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Get a element from a array at a specific index"}}
 )
 

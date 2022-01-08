@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	formatTimestampNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FormatTimestamp", FriendlyName: "Format Timestamp", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Time", BlockLimitPerGraph: -1}}
+	formatTimestampNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FormatTimestamp", FriendlyName: "Format Timestamp", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Time"}}
 	formatTimestampNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Format a timestamp with a given pattern"}}
 )
 

@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	hexToIntegerDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "HexToIntegerNode", FriendlyName: "Hex To Integer", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Web3.Util", BlockLimitPerGraph: -1}}
+	hexToIntegerDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "HexToIntegerNode", FriendlyName: "Hex To Integer", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Web3.Util"}}
 	hexToIntegerGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Returns the number representation of a given HEX value."}}
 )
 

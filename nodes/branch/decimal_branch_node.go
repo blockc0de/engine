@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	decimalBranchNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "DecimalBranchNode", FriendlyName: "Decimal Branch", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Base Condition", BlockLimitPerGraph: -1}}
+	decimalBranchNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "DecimalBranchNode", FriendlyName: "Decimal Branch", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Base Condition"}}
 	decimalBranchNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Trigger different node path on a condition based on a decimal variable value state (equals to, greater or equals, lower then, lower or equals..)."}}
 )
 

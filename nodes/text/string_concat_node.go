@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	stringConcatNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringConcatNode", FriendlyName: "Concat String", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String", BlockLimitPerGraph: -1}}
+	stringConcatNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringConcatNode", FriendlyName: "Concat String", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String"}}
 	stringConcatNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Split two string by a specific delimiter and return it as out parameter."}}
 )
 

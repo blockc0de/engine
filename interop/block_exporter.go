@@ -1,6 +1,9 @@
 package interop
 
 import (
+	"errors"
+	"reflect"
+
 	"github.com/blockc0de/engine/block"
 	jsoniter "github.com/json-iterator/go"
 )
@@ -16,11 +19,28 @@ func LoadGraph(graphJson []byte) (*block.Graph, error) {
 	graph := block.NewGraph(graphSchema.ProjectId, graphSchema.Name)
 
 	// Load nodes
+	counter := make(map[string]int)
 	for _, nodeSchema := range graphSchema.Nodes {
 		node, err := NewNode(nodeSchema.Type, nodeSchema.Id, graph)
 		if err != nil {
 			return nil, err
 		}
+
+		if node.Data().BlockLimitPerGraph > 0 {
+			id := reflect.TypeOf(node).String()
+			count, ok := counter[id]
+			if count >= node.Data().BlockLimitPerGraph {
+				return nil, errors.New("block limit per graph")
+			}
+
+			if !ok {
+				count = 1
+			} else {
+				count += 1
+			}
+			counter[id] = count
+		}
+
 		graph.AddNode(node)
 	}
 

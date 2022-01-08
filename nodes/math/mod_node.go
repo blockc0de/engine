@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	modNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ModuloNode", FriendlyName: "Modulo A % B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	modNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ModuloNode", FriendlyName: "Modulo A % B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	modNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Calculate the Modulo of value of A % B (both sent in params) and return it as out parameter."}}
 )
 

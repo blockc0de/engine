@@ -21,7 +21,7 @@ func init() {
 }
 
 var (
-	erc20AbiNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "Erc20AbiNode", FriendlyName: "ERC20 ABI", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Blockchain.Ethereum", BlockLimitPerGraph: -1}}
+	erc20AbiNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "Erc20AbiNode", FriendlyName: "ERC20 ABI", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Blockchain.Ethereum"}}
 	erc20AbiNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "ABI for ERC20 contract on Ethereum"}}
 )
 

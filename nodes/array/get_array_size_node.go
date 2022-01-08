@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	getArraySizeNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetArraySizeNode", FriendlyName: "Get Array Size", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array", BlockLimitPerGraph: -1}}
+	getArraySizeNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetArraySizeNode", FriendlyName: "Get Array Size", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array"}}
 	getArraySizeNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Get the size of an array"}}
 )
 

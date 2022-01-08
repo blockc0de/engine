@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	onGraphStartNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnGraphStartNode", FriendlyName: "On Graph Start", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Common", BlockLimitPerGraph: -1}}
+	onGraphStartNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnGraphStartNode", FriendlyName: "On Graph Start", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Common"}}
 	onGraphStartNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "This event is called when the graph start, usefull for initialize variables"}}
 )
 

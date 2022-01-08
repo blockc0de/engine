@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	botInstanceNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "TelegramBotInstanceNode", FriendlyName: "Telegram Bot", NodeType: attributes.NodeTypeEnumConnector, GroupName: "Telegram", BlockLimitPerGraph: -1}}
+	botInstanceNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "TelegramBotInstanceNode", FriendlyName: "Telegram Bot", NodeType: attributes.NodeTypeEnumConnector, GroupName: "Telegram"}}
 	botInstanceNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Telegram connector, to retrieve your AccessToken talk to BotFather to create a new bot"}}
 )
 

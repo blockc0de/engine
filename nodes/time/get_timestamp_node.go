@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	getTimestampNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetTimestampNode", FriendlyName: "Get Timestamp", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Time", BlockLimitPerGraph: -1}}
+	getTimestampNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "GetTimestampNode", FriendlyName: "Get Timestamp", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Time"}}
 	getTimestampNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Return the current timestamp of the engine localtime"}}
 )
 

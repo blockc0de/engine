@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	addJsonValueNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddJsonValueNode", FriendlyName: "Add JSON Property", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	addJsonValueNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddJsonValueNode", FriendlyName: "Add JSON Property", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON"}}
 	addJsonValueNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Add a property into a JSON Object"}}
 )
 

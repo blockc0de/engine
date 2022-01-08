@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	onEventLogNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnEventLogNode", FriendlyName: "On Ethereum Event Log", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Blockchain.Ethereum", BlockLimitPerGraph: -1}}
+	onEventLogNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnEventLogNode", FriendlyName: "On Ethereum Event Log", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Blockchain.Ethereum", BlockLimitPerGraph: 3}}
 	onEventLogNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Event that occurs everytime a new contract event log is emitted"}}
 )
 

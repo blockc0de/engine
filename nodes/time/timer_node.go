@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	timerNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "TimerNode", FriendlyName: "Timer", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Time", BlockLimitPerGraph: -1}}
+	timerNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "TimerNode", FriendlyName: "Timer", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Time", BlockLimitPerGraph: 3}}
 	timerNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Start a timer that will init a new execution cycle, from in parameter specified time."}}
 )
 

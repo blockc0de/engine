@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	jsonSelectorNodeNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "JsonSelectorNodeNode", FriendlyName: "JSON Selector", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	jsonSelectorNodeNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "JsonSelectorNodeNode", FriendlyName: "JSON Selector", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON"}}
 	jsonSelectorNodeNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Select a specific value in a json object and return it as string parameter"}}
 )
 

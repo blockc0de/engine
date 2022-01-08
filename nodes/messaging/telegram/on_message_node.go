@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	onMessageTelegramBotNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnMessageTelegramBotNode", FriendlyName: "On Telegram Message", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Telegram", BlockLimitPerGraph: -1}}
+	onMessageTelegramBotNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "OnMessageTelegramBotNode", FriendlyName: "On Telegram Message", NodeType: attributes.NodeTypeEnumEvent, GroupName: "Telegram"}}
 	onMessageTelegramBotNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "This event allow you to handle a message from Telegram in your grap"}}
 )
 

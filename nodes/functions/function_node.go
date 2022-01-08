@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	functionNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FunctionNode", FriendlyName: "Function", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function", BlockLimitPerGraph: -1}}
+	functionNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FunctionNode", FriendlyName: "Function", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function"}}
 	functionNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Create a new function"}}
 )
 

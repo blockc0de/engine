@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	convertToJsonNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ConvertToJsonNode", FriendlyName: "Convert To JSON", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	convertToJsonNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ConvertToJsonNode", FriendlyName: "Convert To JSON", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON"}}
 	convertToJsonNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Convert the received any type parameter into a JSON object readable"}}
 )
 

@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	boolBranchNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "BoolBranchNode", FriendlyName: "Bool Branch", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Base Condition", BlockLimitPerGraph: -1}}
+	boolBranchNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "BoolBranchNode", FriendlyName: "Bool Branch", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Base Condition"}}
 	boolBranchNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Trigger different node path on a condition based on a bool variable value state (true/false)."}}
 )
 

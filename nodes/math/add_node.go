@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	addNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddNode", FriendlyName: "Add A + B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	addNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddNode", FriendlyName: "Add A + B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	addNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Calculate the value of A + B (both sent in params) and return it as out parameter."}}
 )
 

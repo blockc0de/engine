@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	printNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "PrintNode", FriendlyName: "Print", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Log", BlockLimitPerGraph: -1}}
+	printNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "PrintNode", FriendlyName: "Print", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Log"}}
 	printNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Display a message in the console logs"}}
 )
 

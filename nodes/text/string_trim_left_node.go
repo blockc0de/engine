@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	stringTrimLeftNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringTrimLeftNode", FriendlyName: "Trim Left String", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String", BlockLimitPerGraph: -1}}
+	stringTrimLeftNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringTrimLeftNode", FriendlyName: "Trim Left String", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String"}}
 	stringTrimLeftNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Returns a slice of the string with all leading."}}
 )
 

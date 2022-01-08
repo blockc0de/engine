@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	createArrayNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "CreateArrayNode", FriendlyName: "Create Array", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array", BlockLimitPerGraph: -1}}
+	createArrayNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "CreateArrayNode", FriendlyName: "Create Array", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Array"}}
 	createArrayNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "An array can store multiple variable in it"}}
 )
 

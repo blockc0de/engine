@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	integerToHexDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "IntegerToHexNode", FriendlyName: "Integer To Hex", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Web3.Util", BlockLimitPerGraph: -1}}
+	integerToHexDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "IntegerToHexNode", FriendlyName: "Integer To Hex", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Web3.Util"}}
 	integerToHexGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Returns the HEX representation of a given number value."}}
 )
 

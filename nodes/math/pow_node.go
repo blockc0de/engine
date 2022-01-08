@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	powNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "PowerNode", FriendlyName: "Power A ^ B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	powNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "PowerNode", FriendlyName: "Power A ^ B", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	powNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Calculate the power raised to the base value. It takes two arguments. It returns the power raised to the base value."}}
 )
 

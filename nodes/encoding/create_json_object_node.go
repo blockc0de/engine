@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	createJsonObjectNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "CreateJsonObjectNode", FriendlyName: "Create JSON Object", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	createJsonObjectNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "CreateJsonObjectNode", FriendlyName: "Create JSON Object", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON"}}
 	createJsonObjectNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Create a new empty JSON object"}}
 )
 

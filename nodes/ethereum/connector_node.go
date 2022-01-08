@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	ethConnectionDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "EthConnection", FriendlyName: "Ethereum Connector", NodeType: attributes.NodeTypeEnumConnector, GroupName: "Blockchain.Ethereum", BlockLimitPerGraph: -1}}
+	ethConnectionDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "EthConnection", FriendlyName: "Ethereum Connector", NodeType: attributes.NodeTypeEnumConnector, GroupName: "Blockchain.Ethereum"}}
 	ethConnectionGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Connection to the Ethereum network, can be used as Managed connection (without in parameters) or with your own node"}}
 )
 

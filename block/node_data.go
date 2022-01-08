@@ -14,6 +14,7 @@ type NodeData struct {
 	NodeGroupName            string
 	NodeBlockType            attributes.NodeTypeEnum
 	NodeDescription          string
+	BlockLimitPerGraph       int `json:",omitempty"`
 	InParameters             NodeParameters
 	OutParameters            NodeParameters
 	OutNode                  Node
@@ -42,6 +43,7 @@ func NewNodeData(id string, node Node, graph *Graph, nodeType string) *NodeData 
 		n.FriendlyName = nodeDefinition.FriendlyName
 		n.NodeBlockType = nodeDefinition.NodeType
 		n.NodeGroupName = nodeDefinition.GroupName
+		n.BlockLimitPerGraph = nodeDefinition.BlockLimitPerGraph
 	}
 
 	customAttributes = node.GetCustomAttributes(reflect.TypeOf(attributes.NodeCycleLimit{}))

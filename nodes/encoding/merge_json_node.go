@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	mergeJsonNodeNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "MergeJsonNodeNode", FriendlyName: "Merge JSON", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	mergeJsonNodeNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "MergeJsonNodeNode", FriendlyName: "Merge JSON", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON"}}
 	mergeJsonNodeNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Merge two JSON into one"}}
 )
 

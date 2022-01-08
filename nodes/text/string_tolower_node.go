@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	stringToLowerNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringToLowerNode", FriendlyName: "String To Lower", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String", BlockLimitPerGraph: -1}}
+	stringToLowerNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringToLowerNode", FriendlyName: "String To Lower", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String"}}
 	stringToLowerNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Returns s with all Unicode letters mapped to their lower case."}}
 )
 

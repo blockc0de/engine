@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	roundNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "RoundNode", FriendlyName: "Round", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	roundNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "RoundNode", FriendlyName: "Round", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	roundNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Round the value"}}
 )
 

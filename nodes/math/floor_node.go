@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	floorNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FloorNode", FriendlyName: "Floor", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	floorNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FloorNode", FriendlyName: "Floor", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	floorNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Floor the value"}}
 )
 

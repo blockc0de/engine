@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	stringContainsNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringContainsNode", FriendlyName: "String Contains", NodeType: attributes.NodeTypeEnumCondition, GroupName: "String", BlockLimitPerGraph: -1}}
+	stringContainsNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringContainsNode", FriendlyName: "String Contains", NodeType: attributes.NodeTypeEnumCondition, GroupName: "String"}}
 	stringContainsNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Check if a string contains a other string"}}
 )
 

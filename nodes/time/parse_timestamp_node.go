@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	parseTimestampNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ParseTimestamp", FriendlyName: "Parse Timestamp", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Time", BlockLimitPerGraph: -1}}
+	parseTimestampNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ParseTimestamp", FriendlyName: "Parse Timestamp", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Time"}}
 	parseTimestampNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Parse a timestamp with a given pattern"}}
 )
 

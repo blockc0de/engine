@@ -19,7 +19,7 @@ func DecimalToWei(amount decimal.Decimal, decimals int) *big.Int {
 }
 
 var (
-	toWeiNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ToWeiNode", FriendlyName: "Decimals To Wei", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Web3.Util", BlockLimitPerGraph: -1}}
+	toWeiNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "ToWeiNode", FriendlyName: "Decimals To Wei", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Web3.Util"}}
 	toWeiNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Converts any decimals value value into wei"}}
 )
 

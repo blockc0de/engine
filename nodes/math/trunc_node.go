@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	truncNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "TruncateNode", FriendlyName: "Truncate", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math", BlockLimitPerGraph: -1}}
+	truncNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "TruncateNode", FriendlyName: "Truncate", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Math"}}
 	truncNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Truncates off digits from the number, without rounding."}}
 )
 

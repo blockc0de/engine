@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	stringReplaceNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringReplaceNode", FriendlyName: "Replace String", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String", BlockLimitPerGraph: -1}}
+	stringReplaceNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringReplaceNode", FriendlyName: "Replace String", NodeType: attributes.NodeTypeEnumFunction, GroupName: "String"}}
 	stringReplaceNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Split two string by a specific delimiter and return it as out parameter."}}
 )
 

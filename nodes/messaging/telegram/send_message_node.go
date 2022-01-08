@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	sendMessageNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "SendTelegramMessageNode", FriendlyName: "Send Telegram Message", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Telegram", BlockLimitPerGraph: -1}}
+	sendMessageNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "SendTelegramMessageNode", FriendlyName: "Send Telegram Message", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Telegram"}}
 	sendMessageNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Send a message on Telegram"}}
 )
 
@@ -84,7 +84,7 @@ func (n *SendMessageNode) OnExecution(ctx context.Context, scheduler block.NodeS
 		return block.ErrInvalidParameter{Name: "message"}
 	}
 
-	_, err := botInstanceNode.bot.Send( tgbotapi.NewMessage(chatId.IntPart(), message))
+	_, err := botInstanceNode.bot.Send(tgbotapi.NewMessage(chatId.IntPart(), message))
 	if err != nil {
 		scheduler.AppendLog("warn", fmt.Sprintf("Failed to send telegram message, reason: %s", err.Error()))
 	}

@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	entryPointNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "EntryPointNode", FriendlyName: "Entry Point", NodeType: attributes.NodeTypeEnumEntryPoint, GroupName: "Common", BlockLimitPerGraph: -1}}
+	entryPointNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "EntryPointNode", FriendlyName: "Entry Point", NodeType: attributes.NodeTypeEnumEntryPoint, GroupName: "Common"}}
 	entryPointNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Basic Graph entry point, start the execution of a graph"}}
 )
 

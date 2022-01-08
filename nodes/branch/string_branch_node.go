@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	stringBranchNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringBranchNode", FriendlyName: "String Branch", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Base Condition", BlockLimitPerGraph: -1}}
+	stringBranchNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "StringBranchNode", FriendlyName: "String Branch", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Base Condition"}}
 	stringBranchNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Trigger a condition over two string value to compare if their are equals to each other"}}
 )
 

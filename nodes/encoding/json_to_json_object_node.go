@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	jsonToJsonObjectNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "JsonToJsonObjectNode", FriendlyName: "JSON to JSON Object", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON", BlockLimitPerGraph: -1}}
+	jsonToJsonObjectNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "JsonToJsonObjectNode", FriendlyName: "JSON to JSON Object", NodeType: attributes.NodeTypeEnumFunction, GroupName: "JSON"}}
 	jsonToJsonObjectNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Convert a plain json string to a json object"}}
 )
 
