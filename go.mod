@@ -3,6 +3,8 @@ module github.com/blockc0de/engine
 go 1.17
 
 require (
+	github.com/ethereum/go-ethereum v1.10.13
+	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/google/uuid v1.3.0
 	github.com/shopspring/decimal v1.3.1
 	github.com/tidwall/gjson v1.12.1
@@ -22,12 +24,9 @@ require (
 	github.com/btcsuite/btcd v0.20.1-beta // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/deckarep/golang-set v0.0.0-20180603214616-504e848d77ea // indirect
-	github.com/ethereum/go-ethereum v1.10.13 // indirect
 	github.com/go-ole/go-ole v1.2.1 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
-	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/kr/pretty v0.2.1 // indirect
 	github.com/lib/pq v1.10.4 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
@@ -39,6 +38,5 @@ require (
 	github.com/tklauser/numcpus v0.2.2 // indirect
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/sys v0.0.0-20210816183151-1e6c022a8912 // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 )
