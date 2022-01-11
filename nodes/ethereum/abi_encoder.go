@@ -82,6 +82,14 @@ func (e *AbiEncoder) convertValue(value interface{}, t abi.Type) (interface{}, e
 		return e.convertToBool(value, t)
 	case abi.StringTy:
 		return e.convertToString(value, t)
+	case abi.TupleTy:
+		return e.convertToTuple(value, t)
+	case abi.ArrayTy:
+		return e.convertToArray(value, t)
+	case abi.SliceTy:
+		return e.convertToSlice(value, t)
+	case abi.BytesTy:
+		return e.convertToBytes(value, t)
 	case abi.AddressTy:
 		return e.convertToAddress(value, t)
 	case abi.FixedBytesTy:
@@ -163,6 +171,22 @@ func (e *AbiEncoder) convertToBool(value interface{}, t abi.Type) (interface{}, 
 	return b, nil
 }
 
+func (e *AbiEncoder) convertToBytes(value interface{}, t abi.Type) (interface{}, error) {
+	if t.T != abi.BytesTy {
+		return nil, ErrInvalidParamType(t.String())
+	}
+
+	s, ok := value.(string)
+	if !ok {
+		return nil, ErrInvalidParamType(t.String())
+	}
+	if strings.HasPrefix(s, "0x") || strings.HasPrefix(s, "0X") {
+		s = s[2:]
+	}
+
+	return hex.DecodeString(s)
+}
+
 func (e *AbiEncoder) convertToString(value interface{}, t abi.Type) (interface{}, error) {
 	if t.T != abi.StringTy {
 		return nil, ErrInvalidParamType(t.String())
@@ -174,6 +198,75 @@ func (e *AbiEncoder) convertToString(value interface{}, t abi.Type) (interface{}
 	}
 
 	return s, nil
+}
+
+func (e *AbiEncoder) convertToTuple(value interface{}, t abi.Type) (interface{}, error) {
+	if t.T != abi.TupleTy {
+		return nil, ErrInvalidParamType(t.String())
+	}
+
+	slice, ok := value.([]interface{})
+	if !ok {
+		return nil, ErrInvalidParamType(t.String())
+	}
+
+	if len(slice) != len(t.TupleElems) {
+		return nil, ErrInvalidParamType(t.String())
+	}
+
+	tuple := reflect.New(t.GetType())
+	for idx := 0; idx < len(t.TupleElems); idx++ {
+		elem, err := e.convertValue(slice[idx], *t.TupleElems[idx])
+		if err != nil {
+			return nil, err
+		}
+
+		field := tuple.Elem().Field(idx)
+		field.Set(reflect.ValueOf(elem))
+	}
+	return tuple.Elem().Interface(), nil
+}
+
+func (e *AbiEncoder) convertToArray(value interface{}, t abi.Type) (interface{}, error) {
+	if t.T != abi.ArrayTy {
+		return nil, ErrInvalidParamType(t.String())
+	}
+
+	slice, ok := value.([]interface{})
+	if !ok {
+		return nil, ErrInvalidParamType(t.String())
+	}
+
+	goSlice := reflect.New(t.GetType())
+	for idx := 0; idx < len(slice); idx++ {
+		elem, err := e.convertValue(slice[idx], *t.Elem)
+		if err != nil {
+			return nil, err
+		}
+		goSlice.Elem().Index(idx).Set(reflect.ValueOf(elem))
+	}
+	return goSlice.Elem().Interface(), nil
+}
+
+func (e *AbiEncoder) convertToSlice(value interface{}, t abi.Type) (interface{}, error) {
+	if t.T != abi.SliceTy {
+		return nil, ErrInvalidParamType(t.String())
+	}
+
+	slice, ok := value.([]interface{})
+	if !ok {
+		return nil, ErrInvalidParamType(t.String())
+	}
+
+	goSlice := reflect.New(t.GetType())
+	for idx := 0; idx < len(slice); idx++ {
+		elem, err := e.convertValue(slice[idx], *t.Elem)
+		if err != nil {
+			return nil, err
+		}
+		goSlice.Elem().Set(reflect.Append(goSlice.Elem(), reflect.ValueOf(elem)))
+	}
+	return goSlice.Elem().Interface(), nil
 }
 
 func (e *AbiEncoder) convertToAddress(value interface{}, t abi.Type) (interface{}, error) {
@@ -213,5 +306,5 @@ func (e *AbiEncoder) convertToFixedBytes(value interface{}, t abi.Type) (interfa
 	for idx := 0; idx < t.Size; idx++ {
 		goArray.Elem().Index(idx).Set(reflect.ValueOf(fixedBytes[idx]))
 	}
-	return goArray.Interface(), nil
+	return goArray.Elem().Interface(), nil
 }
