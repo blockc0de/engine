@@ -34,75 +34,75 @@ func unpackToJSON(t *testing.T, method string, data []byte) string {
 func TestAbiEncoder(t *testing.T) {
 	encoder := NewAbiEncoder(TestABI)
 
-	data, err := encoder.Encode("setInt8", `[88]`)
+	data, err := encoder.EncodeInputs("setInt8", `["88"]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setInt8", data), `[88]`)
 
-	data, err = encoder.Encode("setInt16", `[1024]`)
+	data, err = encoder.EncodeInputs("setInt16", `[1024]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setInt16", data), `[1024]`)
 
-	data, err = encoder.Encode("setInt32", `[1024000]`)
+	data, err = encoder.EncodeInputs("setInt32", `[1024000]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setInt32", data), `[1024000]`)
 
-	data, err = encoder.Encode("setInt64", `[1024000]`)
+	data, err = encoder.EncodeInputs("setInt64", `[1024000]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setInt64", data), `[1024000]`)
 
-	data, err = encoder.Encode("setInt256", `[1024000]`)
+	data, err = encoder.EncodeInputs("setInt256", `[1024000]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setInt256", data), `[1024000]`)
 
-	data, err = encoder.Encode("setUint8", `[88]`)
+	data, err = encoder.EncodeInputs("setUint8", `["88"]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setUint8", data), `[88]`)
 
-	data, err = encoder.Encode("setUint16", `[1024]`)
+	data, err = encoder.EncodeInputs("setUint16", `[1024]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setUint16", data), `[1024]`)
 
-	data, err = encoder.Encode("setUint32", `[1024000]`)
+	data, err = encoder.EncodeInputs("setUint32", `[1024000]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setUint32", data), `[1024000]`)
 
-	data, err = encoder.Encode("setUint64", `[1024000]`)
+	data, err = encoder.EncodeInputs("setUint64", `[1024000]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setUint64", data), `[1024000]`)
 
-	data, err = encoder.Encode("setUint256", `[1024000]`)
+	data, err = encoder.EncodeInputs("setUint256", `[1024000]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setUint256", data), `[1024000]`)
 
-	data, err = encoder.Encode("setBool", `[true]`)
+	data, err = encoder.EncodeInputs("setBool", `[true]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setBool", data), `[true]`)
 
-	data, err = encoder.Encode("setBytes32", `["0x42797465733332"]`)
+	data, err = encoder.EncodeInputs("setBytes32", `["0x42797465733332"]`)
 	assert.Nil(t, err)
 	assert.Equal(t, hex.EncodeToString(data), "4279746573333200000000000000000000000000000000000000000000000000")
 
-	data, err = encoder.Encode("setBytes", `["0x42797465733332"]`)
+	data, err = encoder.EncodeInputs("setBytes", `["0x42797465733332"]`)
 	assert.Nil(t, err)
 	assert.Equal(t, hex.EncodeToString(data), "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000074279746573333200000000000000000000000000000000000000000000000000")
 
-	data, err = encoder.Encode("setString", `["hello"]`)
+	data, err = encoder.EncodeInputs("setString", `["hello"]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setString", data), `["hello"]`)
 
-	data, err = encoder.Encode("setStringSlice", `[["hello","world"]]`)
+	data, err = encoder.EncodeInputs("setStringSlice", `[["hello","world"]]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setStringSlice", data), `[["hello","world"]]`)
 
-	data, err = encoder.Encode("setStringArray", `[["hello","world"]]`)
+	data, err = encoder.EncodeInputs("setStringArray", `[["hello","world"]]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setStringArray", data), `[["hello","world"]]`)
 
-	data, err = encoder.Encode("setAddress", `["0xe66666657a9b513288bf5b58be33a405f04f1749"]`)
+	data, err = encoder.EncodeInputs("setAddress", `["0xe66666657a9b513288bf5b58be33a405f04f1749"]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setAddress", data), `["0xe66666657a9b513288bf5b58be33a405f04f1749"]`)
 
-	data, err = encoder.Encode("setStruct", `[[1024, ["0xe66666657a9b513288bf5b58be33a405f04f1749"]]]`)
+	data, err = encoder.EncodeInputs("setStruct", `[[1024, ["0xe66666657a9b513288bf5b58be33a405f04f1749"]]]`)
 	assert.Nil(t, err)
 	assert.Equal(t, unpackToJSON(t, "setStruct", data), `[{"amount":1024,"addresses":["0xe66666657a9b513288bf5b58be33a405f04f1749"]}]`)
 }
