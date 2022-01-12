@@ -75,7 +75,11 @@ func (n *JsonSelectorNodeNode) OnExecution(context.Context, block.NodeScheduler)
 	}
 
 	value := gjson.Get(js, selector)
-	n.NodeData.OutParameters.Get("value").Value = block.NodeParameterString(value.String())
+	if value.Type == gjson.Null {
+		n.NodeData.OutParameters.Get("value").Value = block.NodeParameterString("null")
+	} else {
+		n.NodeData.OutParameters.Get("value").Value = block.NodeParameterString(value.String())
+	}
 
 	return nil
 }
