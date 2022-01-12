@@ -14,11 +14,11 @@ import (
 )
 
 var (
-	abiDecoderNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AbiDecoderNode", FriendlyName: "Ethereum ABI Decoder", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Blockchain.Ethereum"}}
+	abiDecoderNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AbiDecoderNode", FriendlyName: "Ethereum ABI Decoder", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Blockchain.Ethereum"}}
 	abiDecoderNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Decoding data params from ethereum transactions"}}
 )
 
-type methodInput struct {
+type abiDecodeResult struct {
 	Method string        `json:"method"`
 	Inputs []interface{} `json:"inputs"`
 }
@@ -108,20 +108,20 @@ func (n *AbiDecoderNode) OnExecution(ctx context.Context, scheduler block.NodeSc
 	return nil
 }
 
-func (n *AbiDecoderNode) decodeMethodInput(abiInstance abi.ABI, input string) (methodInput, error) {
+func (n *AbiDecoderNode) decodeMethodInput(abiInstance abi.ABI, input string) (abiDecodeResult, error) {
 	data, err := hex.DecodeString(input)
 	if err != nil {
-		return methodInput{}, err
+		return abiDecodeResult{}, err
 	}
 
 	method, err := abiInstance.MethodById(data)
 	if err != nil {
-		return methodInput{}, err
+		return abiDecodeResult{}, err
 	}
 
 	inputs, err := method.Inputs.Unpack(data[4:])
 	if err != nil {
-		return methodInput{}, err
+		return abiDecodeResult{}, err
 	}
 
 	for idx, input := range inputs {
@@ -129,5 +129,5 @@ func (n *AbiDecoderNode) decodeMethodInput(abiInstance abi.ABI, input string) (m
 			inputs[idx] = bn.String()
 		}
 	}
-	return methodInput{Method: method.RawName, Inputs: inputs}, nil
+	return abiDecodeResult{Method: method.RawName, Inputs: inputs}, nil
 }

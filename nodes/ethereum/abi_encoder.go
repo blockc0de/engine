@@ -46,7 +46,40 @@ func (e *AbiEncoder) Encode(method string, jsonArray string) ([]byte, error) {
 		return nil, err
 	}
 
+	data, err := m.Inputs.PackValues(values)
+	if err != nil {
+		return nil, err
+	}
+
+	return append(m.ID, data...), nil
+}
+
+func (e *AbiEncoder) EncodeInputs(method string, jsonArray string) ([]byte, error) {
+	m, ok := e.abi.Methods[method]
+	if !ok {
+		return nil, errors.New("method not found")
+	}
+
+	values, err := e.parseParams(m, jsonArray)
+	if err != nil {
+		return nil, err
+	}
+
 	return m.Inputs.PackValues(values)
+}
+
+func (e *AbiEncoder) EncodeOutputs(method string, jsonArray string) ([]byte, error) {
+	m, ok := e.abi.Methods[method]
+	if !ok {
+		return nil, errors.New("method not found")
+	}
+
+	values, err := e.parseParams(m, jsonArray)
+	if err != nil {
+		return nil, err
+	}
+
+	return m.Outputs.PackValues(values)
 }
 
 func (e *AbiEncoder) parseParams(method abi.Method, jsonArray string) ([]interface{}, error) {
@@ -104,14 +137,21 @@ func (e *AbiEncoder) convertToInt(value interface{}, t abi.Type) (interface{}, e
 		return nil, ErrInvalidParamType(t.String())
 	}
 
-	number, ok := value.(json.Number)
-	if !ok {
+	var n int64
+	var err error
+	switch value := value.(type) {
+	case string:
+		n, err = strconv.ParseInt(value, 10, 64)
+		if err != nil {
+			return nil, err
+		}
+	case json.Number:
+		n, err = strconv.ParseInt(string(value), 10, 64)
+		if err != nil {
+			return nil, err
+		}
+	default:
 		return nil, ErrInvalidParamType(t.String())
-	}
-
-	n, err := strconv.ParseInt(string(number), 10, 64)
-	if err != nil {
-		return nil, err
 	}
 
 	switch t.Size {
@@ -133,17 +173,24 @@ func (e *AbiEncoder) convertToUInt(value interface{}, t abi.Type) (interface{}, 
 		return nil, ErrInvalidParamType(t.String())
 	}
 
-	number, ok := value.(json.Number)
-	if !ok {
+	var ok bool
+	var bn *big.Int
+	switch value := value.(type) {
+	case string:
+		bn, ok = big.NewInt(0).SetString(value, 10)
+		if !ok {
+			return nil, ErrInvalidParamType(t.String())
+		}
+	case json.Number:
+		bn, ok = big.NewInt(0).SetString(string(value), 10)
+		if !ok {
+			return nil, ErrInvalidParamType(t.String())
+		}
+	default:
 		return nil, ErrInvalidParamType(t.String())
 	}
 
-	b, ok := big.NewInt(0).SetString(string(number), 10)
-	if !ok {
-		return nil, ErrInvalidParamType(t.String())
-	}
-
-	n := b.Uint64()
+	n := bn.Uint64()
 	switch t.Size {
 	case 8:
 		return uint8(n), nil
@@ -154,7 +201,7 @@ func (e *AbiEncoder) convertToUInt(value interface{}, t abi.Type) (interface{}, 
 	case 64:
 		return n, nil
 	default:
-		return b, nil
+		return bn, nil
 	}
 }
 
