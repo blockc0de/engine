@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	logDecoderNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "LogDecoderNode", FriendlyName: "Ethereum Log Decoder", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Blockchain.Ethereum"}}
+	logDecoderNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "LogDecoderNode", FriendlyName: "Ethereum Log Decoder", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Blockchain.Ethereum"}}
 	logDecoderNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Decoding event logs from ethereum transactions"}}
 )
 

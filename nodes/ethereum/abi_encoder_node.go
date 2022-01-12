@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	abiEncoderNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AbiEncoderNode", FriendlyName: "Ethereum ABI Encoder", NodeType: attributes.NodeTypeEnumCondition, GroupName: "Blockchain.Ethereum"}}
+	abiEncoderNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AbiEncoderNode", FriendlyName: "Ethereum ABI Encoder", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Blockchain.Ethereum"}}
 	abiEncoderNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Encoding data params from ethereum transactions"}}
 )
 
