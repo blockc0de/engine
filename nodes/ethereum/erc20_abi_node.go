@@ -1,12 +1,17 @@
 package ethereum
 
 import (
+	"context"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/ethclient"
 )
 
 var ERC20ABI abi.ABI
@@ -24,6 +29,29 @@ var (
 	erc20AbiNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "Erc20AbiNode", FriendlyName: "ERC20 ABI", NodeType: attributes.NodeTypeEnumVariable, GroupName: "Blockchain.Ethereum"}}
 	erc20AbiNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "ABI for ERC20 contract on Ethereum"}}
 )
+
+func erc20Call(ctx context.Context, client *ethclient.Client,
+	contract common.Address, name string, args ...interface{}) ([]interface{}, error) {
+
+	data, err := ERC20ABI.Pack(name, args...)
+	if err != nil {
+		return nil, err
+	}
+
+	c, cancel := context.WithTimeout(ctx, time.Second*30)
+	defer cancel()
+
+	msg := ethereum.CallMsg{
+		To:   &contract,
+		Data: data,
+	}
+	output, err := client.CallContract(c, msg, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return ERC20ABI.Unpack(name, output)
+}
 
 type Erc20AbiNode struct {
 	block.NodeBase
