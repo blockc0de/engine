@@ -108,11 +108,15 @@ var (
 		// Blockchain.Ethereum
 		{reflect.TypeOf(new(ethereum.EthConnection)).String(), ethereum.NewEthConnection},
 		{reflect.TypeOf(new(ethereum.GetBalanceNode)).String(), ethereum.NewGetBalanceNode},
+		{reflect.TypeOf(new(ethereum.GetErc20BalanceNode)).String(), ethereum.NewGetErc20BalanceNode},
 		{reflect.TypeOf(new(ethereum.GetErc20TokenInfoNode)).String(), ethereum.NewGetErc20TokenInfoNode},
 		{reflect.TypeOf(new(ethereum.OnNewBlockEventNode)).String(), ethereum.NewOnNewBlockEventNode},
 		{reflect.TypeOf(new(ethereum.OnEventLogNode)).String(), ethereum.NewOnEventLogNode},
+		{reflect.TypeOf(new(ethereum.CallContractNode)).String(), ethereum.NewCallContractNode},
 		{reflect.TypeOf(new(ethereum.JsonAbiNode)).String(), ethereum.NewJsonAbiNode},
 		{reflect.TypeOf(new(ethereum.Erc20AbiNode)).String(), ethereum.NewErc20AbiNode},
+		{reflect.TypeOf(new(ethereum.CallResultDecoderNode)).String(), ethereum.NewCallResultDecoderNode},
+		{reflect.TypeOf(new(ethereum.AbiEncoderNode)).String(), ethereum.NewAbiEncoderNode},
 		{reflect.TypeOf(new(ethereum.AbiDecoderNode)).String(), ethereum.NewAbiDecoderNode},
 		{reflect.TypeOf(new(ethereum.LogDecoderNode)).String(), ethereum.NewLogDecoderNode},
 
