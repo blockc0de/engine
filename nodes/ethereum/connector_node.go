@@ -2,6 +2,7 @@ package ethereum
 
 import (
 	"context"
+	"os"
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
@@ -54,12 +55,18 @@ func (n *EthConnection) SetupConnector(scheduler block.NodeScheduler) error {
 	var converter block.NodeParameterConverter
 	url, ok := converter.ToString(n.Data().InParameters.Get("url").ComputeValue())
 	if !ok {
-		url = "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+		url = os.Getenv("ETH_RPC_URL")
+		if url == "" {
+			url = "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+		}
 	}
 
 	socketUrl, ok := converter.ToString(n.Data().InParameters.Get("socketUrl").ComputeValue())
 	if !ok {
-		socketUrl = "wss://mainnet.infura.io/ws/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+		socketUrl = os.Getenv("ETH_SOCKET_URL")
+		if url == "" {
+			url = "wss://mainnet.infura.io/ws/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+		}
 	}
 
 	var err error
