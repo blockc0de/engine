@@ -12,6 +12,8 @@ import (
 	"github.com/blockc0de/engine/block"
 	"github.com/blockc0de/engine/nodes"
 	"github.com/blockc0de/engine/nodes/functions"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/go-redis/redis"
 )
 
 var (
@@ -57,23 +59,26 @@ func (x EventNodeSlice) Swap(i, j int) { x[i], x[j] = x[j], x[i] }
 func (x EventNodeSlice) Sort() { sort.Sort(x) }
 
 type Engine struct {
-	Graph         *block.Graph
-	ExecutedNodes []block.Node
-
+	Graph              *block.Graph
+	ExecutedNodes      []block.Node
 	running            bool
 	stopping           bool
-	singleCycle        bool
+	client             redis.Cmdable
+	owner              common.Address
+	event              Event
 	context            context.Context
 	cancel             context.CancelFunc
-	event              Event
+	onlyOneCycle       bool
 	currentCycle       *GraphExecutionCycle
 	pendingCyclesQueue chan *GraphExecutionCycle
 }
 
-func NewEngine(graph *block.Graph, event Event) *Engine {
+func NewEngine(graph *block.Graph, owner common.Address, client redis.Cmdable, event Event) *Engine {
 	engine := Engine{
 		Graph:         graph,
 		event:         event,
+		client:        client,
+		owner:         owner,
 		ExecutedNodes: make([]block.Node, 0),
 	}
 	return &engine
@@ -126,7 +131,7 @@ loop:
 				e.event.CycleCost(cycle.GetCycleExecutedGasPrice())
 			}
 
-			if e.singleCycle {
+			if e.onlyOneCycle {
 				e.Stop()
 			}
 		}
@@ -222,6 +227,20 @@ func (e *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 func (e *Engine) startNodes() {
 	var count int
 
+	// Init storage
+	for _, node := range e.Graph.NodeList {
+		storageNode, ok := node.(block.StorageNode)
+		if !ok {
+			continue
+		}
+
+		if err := storageNode.SetupDatabase(e.owner.String(), e.client); err != nil {
+			e.AppendLog("error", "Can't setup the database: "+node.Data().FriendlyName+", "+err.Error())
+			e.Stop()
+			return
+		}
+	}
+
 	// Init connectors
 	for _, node := range e.Graph.NodeList {
 		if node.Data().NodeBlockType == attributes.NodeTypeEnumConnector {
@@ -256,7 +275,7 @@ func (e *Engine) startNodes() {
 	if entryPointNode != nil {
 		count += 1
 		if count == 1 {
-			e.singleCycle = true
+			e.onlyOneCycle = true
 		}
 		e.AddCycle(entryPointNode.(*nodes.EntryPointNode), nil)
 	}

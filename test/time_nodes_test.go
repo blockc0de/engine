@@ -9,6 +9,7 @@ import (
 
 	"github.com/blockc0de/engine"
 	"github.com/blockc0de/engine/interop"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,7 +29,7 @@ func TestTimeNodes(t *testing.T) {
 			}
 		},
 	}
-	e = engine.NewEngine(graph, event)
+	e = engine.NewEngine(graph, common.Address{}, nil, event)
 	err = e.Run(context.Background())
 	assert.Nil(t, err)
 

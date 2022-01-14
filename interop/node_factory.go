@@ -15,6 +15,7 @@ import (
 	"github.com/blockc0de/engine/nodes/functions"
 	"github.com/blockc0de/engine/nodes/math"
 	"github.com/blockc0de/engine/nodes/messaging/telegram"
+	"github.com/blockc0de/engine/nodes/storage"
 	"github.com/blockc0de/engine/nodes/text"
 	"github.com/blockc0de/engine/nodes/time"
 	"github.com/blockc0de/engine/nodes/vars"
@@ -98,6 +99,12 @@ var (
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},
+
+		// Storage
+		{reflect.TypeOf(new(storage.SetWalletKeyNode)).String(), storage.NewSetWalletKeyNode},
+		{reflect.TypeOf(new(storage.GetWalletKeyNode)).String(), storage.NewGetWalletKeyNode},
+		{reflect.TypeOf(new(storage.ListWalletKeyNode)).String(), storage.NewListWalletKeyNode},
+		{reflect.TypeOf(new(storage.DelWalletKeyNode)).String(), storage.NewDelWalletKeyNode},
 
 		// Web3.Util
 		{reflect.TypeOf(new(web3util.HexToIntegerNode)).String(), web3util.NewHexToIntegerNode},

@@ -3,6 +3,8 @@ package block
 import (
 	"context"
 	"reflect"
+
+	"github.com/go-redis/redis"
 )
 
 type Node interface {
@@ -22,6 +24,11 @@ type EventNode interface {
 	Node
 	SetupEvent(NodeScheduler) error
 	OnStop() error
+}
+
+type StorageNode interface {
+	Node
+	SetupDatabase(string, redis.Cmdable) error
 }
 
 type ConnectorNode interface {
