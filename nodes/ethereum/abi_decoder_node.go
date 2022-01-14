@@ -43,7 +43,7 @@ func NewAbiDecoderNode(id string, graph *block.Graph) (block.Node, error) {
 	}
 	node.NodeData.InParameters.Append(abi)
 
-	result, err := block.NewNodeParameter(node, "result", block.NodeParameterTypeEnumString, false, nil)
+	result, err := block.NewDynamicNodeParameter(node, "result", block.NodeParameterTypeEnumString, false)
 	if err != nil {
 		return nil, err
 	}

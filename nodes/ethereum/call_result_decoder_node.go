@@ -45,7 +45,7 @@ func NewCallResultDecoderNode(id string, graph *block.Graph) (block.Node, error)
 	}
 	node.NodeData.InParameters.Append(result)
 
-	output, err := block.NewNodeParameter(node, "output", block.NodeParameterTypeEnumString, false, nil)
+	output, err := block.NewDynamicNodeParameter(node, "output", block.NodeParameterTypeEnumString, false)
 	if err != nil {
 		return nil, err
 	}
