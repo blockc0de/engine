@@ -10,4 +10,4 @@ The Base Engine running graphs over GraphLinq Protocol
 ```bash
 go run ./cmd/export_schema
 ```
-Output to the "node_schema.json" file in the current directory.
+Output to the `node_schema.json` file in the current directory.
