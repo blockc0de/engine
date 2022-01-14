@@ -2,7 +2,7 @@ package console
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
@@ -52,11 +52,12 @@ func (n *PrintNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *PrintNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
 	var converter block.NodeParameterConverter
-	messageVal, ok := converter.ToString(n.Data().InParameters.Get("message").ComputeValue())
+	value := n.Data().InParameters.Get("message").ComputeValue()
+	message, ok := converter.ToString(value)
 	if !ok {
-		return errors.New("invalid message")
+		message = fmt.Sprintf("%+v", value)
 	}
 
-	scheduler.AppendLog("info", messageVal)
+	scheduler.AppendLog("info", message)
 	return nil
 }
