@@ -120,6 +120,7 @@ var (
 		{reflect.TypeOf(new(ethereum.OnNewBlockEventNode)).String(), ethereum.NewOnNewBlockEventNode},
 		{reflect.TypeOf(new(ethereum.OnEventLogNode)).String(), ethereum.NewOnEventLogNode},
 		{reflect.TypeOf(new(ethereum.CallContractNode)).String(), ethereum.NewCallContractNode},
+		{reflect.TypeOf(new(ethereum.SendTransactionNode)).String(), ethereum.NewSendTransactionNode},
 		{reflect.TypeOf(new(ethereum.JsonAbiNode)).String(), ethereum.NewJsonAbiNode},
 		{reflect.TypeOf(new(ethereum.Erc20AbiNode)).String(), ethereum.NewErc20AbiNode},
 		{reflect.TypeOf(new(ethereum.CallResultDecoderNode)).String(), ethereum.NewCallResultDecoderNode},

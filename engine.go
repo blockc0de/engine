@@ -3,6 +3,7 @@ package engine
 import (
 	"context"
 	"errors"
+	"fmt"
 	"math/big"
 	"reflect"
 	"sort"
@@ -206,12 +207,14 @@ func (e *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 
 	err := executableNode.OnExecution(ctx, e)
 	if err != nil {
-		e.AppendLog("error", "Error on node execution '"+node.Data().FriendlyName+"', "+err.Error())
+		e.AppendLog("error", fmt.Sprintf("[%s] Error on node execution, reason: %s",
+			executableNode.Data().FriendlyName, err.Error()))
 
 		if executableNode.Data().CurrentTraceItem != nil {
 			executableNode.Data().CurrentTraceItem.ExecutionError = err
 		}
 
+		e.Stop()
 		return false
 	}
 
