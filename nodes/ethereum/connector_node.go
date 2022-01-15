@@ -2,8 +2,12 @@ package ethereum
 
 import (
 	"context"
+	"errors"
+	"fmt"
+	"math/big"
 	"os"
 	"reflect"
+	"time"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
@@ -17,8 +21,10 @@ var (
 
 type EthConnection struct {
 	block.NodeBase
-	Web3Client   *ethclient.Client `json:"-"`
-	SocketClient *ethclient.Client `json:"-"`
+	ChainID          *big.Int          `json:"-"`
+	IsSupportEIP1559 bool              `json:"-"`
+	Web3Client       *ethclient.Client `json:"-"`
+	SocketClient     *ethclient.Client `json:"-"`
 }
 
 func NewEthConnection(id string, graph *block.Graph) (block.Node, error) {
@@ -75,13 +81,62 @@ func (n *EthConnection) SetupConnector(scheduler block.NodeScheduler) error {
 		return err
 	}
 
+	chainId1, err := n.getChainID(n.Web3Client)
+	if err != nil {
+		return err
+	}
+
 	n.SocketClient, err = ethclient.Dial(socketUrl)
 	if err != nil {
 		return err
 	}
 
+	chainId2, err := n.getChainID(n.SocketClient)
+	if err != nil {
+		return err
+	}
+
+	if chainId1.Cmp(chainId2) != 0 {
+		return errors.New("chain id are not equal")
+	}
+	n.ChainID = chainId1
+
+	n.IsSupportEIP1559, err = n.isSupportEIP1559(n.Web3Client)
+	if err != nil {
+		return err
+	}
+
+	scheduler.AppendLog("info",
+		fmt.Sprintf("[%s] Successful connection to RPC node, chain: %d, eip1559: %v",
+			n.Data().FriendlyName, chainId1.Int64(), n.IsSupportEIP1559))
+
 	scheduler.AddCycle(n, nil)
 	return nil
+}
+
+func (n *EthConnection) getChainID(client *ethclient.Client) (*big.Int, error) {
+	c, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+
+	return client.ChainID(c)
+}
+
+func (n *EthConnection) isSupportEIP1559(client *ethclient.Client) (bool, error) {
+	c, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	blockNumber, err := client.BlockNumber(c)
+	if err != nil {
+		cancel()
+		return false, err
+	}
+	cancel()
+
+	c, cancel = context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+	block, err := client.BlockByNumber(c, big.NewInt(int64(blockNumber)))
+	if err != nil {
+		return false, err
+	}
+	return block.BaseFee() != nil, nil
 }
 
 func (n *EthConnection) GetCustomAttributes(t reflect.Type) []interface{} {
