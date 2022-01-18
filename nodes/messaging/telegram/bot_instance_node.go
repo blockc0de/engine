@@ -6,6 +6,7 @@ import (
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/config"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
@@ -57,7 +58,7 @@ func (n *BotInstanceNode) SetupConnector(scheduler block.NodeScheduler) error {
 	}
 
 	var err error
-	n.bot, err = tgbotapi.NewBotAPI(accessToken)
+	n.bot, err = tgbotapi.NewBotAPIWithAPIEndpoint(accessToken, config.TELEGRAM_API_ENDPOINT)
 	if err != nil {
 		return err
 	}

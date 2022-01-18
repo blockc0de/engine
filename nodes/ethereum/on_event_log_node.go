@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"time"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/config"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -95,7 +95,7 @@ func (n *OnEventLogNode) SetupEvent(scheduler block.NodeScheduler) error {
 	n.ch = make(chan types.Log, 64)
 	n.client = connection.SocketClient
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	ctx, cancel := context.WithTimeout(context.Background(), config.TIMEOUT)
 	defer cancel()
 
 	filter := ethereum.FilterQuery{Addresses: []common.Address{common.HexToAddress(contract)}}

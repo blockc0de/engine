@@ -5,12 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
-	"os"
 	"reflect"
-	"time"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/config"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
@@ -61,18 +60,12 @@ func (n *EthConnection) SetupConnector(scheduler block.NodeScheduler) error {
 	var converter block.NodeParameterConverter
 	url, ok := converter.ToString(n.Data().InParameters.Get("url").ComputeValue())
 	if !ok {
-		url = os.Getenv("ETH_RPC_URL")
-		if url == "" {
-			url = "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
-		}
+		url = config.ETH_RPC_URL
 	}
 
 	socketUrl, ok := converter.ToString(n.Data().InParameters.Get("socketUrl").ComputeValue())
 	if !ok {
-		socketUrl = os.Getenv("ETH_SOCKET_URL")
-		if url == "" {
-			url = "wss://mainnet.infura.io/ws/v3/9aa3d95b3bc440fa88ea12eaa4456161"
-		}
+		socketUrl = config.ETH_SOCKET_URL
 	}
 
 	var err error
@@ -115,14 +108,14 @@ func (n *EthConnection) SetupConnector(scheduler block.NodeScheduler) error {
 }
 
 func (n *EthConnection) getChainID(client *ethclient.Client) (*big.Int, error) {
-	c, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	c, cancel := context.WithTimeout(context.Background(), config.TIMEOUT)
 	defer cancel()
 
 	return client.ChainID(c)
 }
 
 func (n *EthConnection) isSupportEIP1559(client *ethclient.Client) (bool, error) {
-	c, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	c, cancel := context.WithTimeout(context.Background(), config.TIMEOUT)
 	blockNumber, err := client.BlockNumber(c)
 	if err != nil {
 		cancel()
@@ -130,7 +123,7 @@ func (n *EthConnection) isSupportEIP1559(client *ethclient.Client) (bool, error)
 	}
 	cancel()
 
-	c, cancel = context.WithTimeout(context.Background(), time.Second*30)
+	c, cancel = context.WithTimeout(context.Background(), config.TIMEOUT)
 	defer cancel()
 	block, err := client.BlockByNumber(c, big.NewInt(int64(blockNumber)))
 	if err != nil {

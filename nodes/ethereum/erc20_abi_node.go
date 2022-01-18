@@ -4,10 +4,10 @@ import (
 	"context"
 	"reflect"
 	"strings"
-	"time"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/config"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
@@ -38,7 +38,7 @@ func erc20Call(ctx context.Context, client *ethclient.Client,
 		return nil, err
 	}
 
-	c, cancel := context.WithTimeout(ctx, time.Second*30)
+	c, cancel := context.WithTimeout(ctx, config.TIMEOUT)
 	defer cancel()
 
 	msg := ethereum.CallMsg{

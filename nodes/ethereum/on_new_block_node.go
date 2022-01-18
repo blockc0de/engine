@@ -6,10 +6,10 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"time"
 
 	"github.com/blockc0de/engine/attributes"
 	"github.com/blockc0de/engine/block"
+	"github.com/blockc0de/engine/config"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -53,7 +53,7 @@ func (n *OnNewBlockEventNode) CanExecute() bool {
 
 func (n *OnNewBlockEventNode) handleRead(scheduler block.NodeScheduler) {
 	for header := range n.ch {
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+		ctx, cancel := context.WithTimeout(context.Background(), config.TIMEOUT)
 		fullBlock, err := n.client.BlockByHash(ctx, header.Hash())
 		if err != nil {
 			cancel()
@@ -96,7 +96,7 @@ func (n *OnNewBlockEventNode) SetupEvent(scheduler block.NodeScheduler) error {
 	n.ch = make(chan *types.Header, 64)
 	n.client = connection.SocketClient
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	ctx, cancel := context.WithTimeout(context.Background(), config.TIMEOUT)
 	defer cancel()
 
 	n.subscription, err = connection.SocketClient.SubscribeNewHead(ctx, n.ch)
