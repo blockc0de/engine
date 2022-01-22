@@ -19,6 +19,7 @@ type GetVariableNode struct {
 func NewGetVariableNode(id string, graph *block.Graph) (block.Node, error) {
 	node := new(GetVariableNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
+	node.NodeData.CanBeSerialized = false
 
 	name, err := block.NewNodeParameter(node, "name", block.NodeParameterTypeEnumString, true, nil)
 	if err != nil {
