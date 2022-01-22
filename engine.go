@@ -69,7 +69,7 @@ type Engine struct {
 	event              Event
 	context            context.Context
 	cancel             context.CancelFunc
-	onlyOneCycle       bool
+	countdown          int
 	currentCycle       *GraphExecutionCycle
 	pendingCyclesQueue chan *GraphExecutionCycle
 }
@@ -132,8 +132,11 @@ loop:
 				e.event.CycleCost(cycle.GetCycleExecutedGasPrice())
 			}
 
-			if e.onlyOneCycle {
-				e.Stop()
+			if e.countdown > 0 {
+				e.countdown -= 1
+				if e.countdown == 0 {
+					e.Stop()
+				}
 			}
 		}
 	}
@@ -228,7 +231,24 @@ func (e *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 }
 
 func (e *Engine) startNodes() {
-	var count int
+	var numberOfEventNode int
+	var numberOfConnectorNode int
+	for _, node := range e.Graph.NodeList {
+		if node.Data().IsEventNode {
+			numberOfEventNode += 1
+		}
+		if node.Data().NodeBlockType == attributes.NodeTypeEnumConnector {
+			numberOfConnectorNode += 1
+		}
+	}
+
+	entryPointNode := e.Graph.GetFirstEntryPointNode()
+	if numberOfEventNode == 0 {
+		e.countdown = numberOfConnectorNode
+		if entryPointNode != nil {
+			e.countdown += 1
+		}
+	}
 
 	// Init storage
 	for _, node := range e.Graph.NodeList {
@@ -257,7 +277,6 @@ func (e *Engine) startNodes() {
 				e.Stop()
 				return
 			}
-			count += 1
 		}
 	}
 
@@ -270,20 +289,12 @@ func (e *Engine) startNodes() {
 			e.Stop()
 			return
 		}
-		count += 1
 	}
 
 	// Execute entry point node
-	entryPointNode := e.Graph.GetFirstEntryPointNode()
 	if entryPointNode != nil {
-		count += 1
-		if count == 1 {
-			e.onlyOneCycle = true
-		}
 		e.AddCycle(entryPointNode.(*nodes.EntryPointNode), nil)
-	}
-
-	if count == 0 {
+	} else if numberOfEventNode == 0 && numberOfConnectorNode == 0 {
 		e.Stop()
 	}
 }
