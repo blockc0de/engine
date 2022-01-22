@@ -24,7 +24,6 @@ type GetErc20BalanceNode struct {
 func NewGetErc20BalanceNode(id string, graph *block.Graph) (block.Node, error) {
 	node := new(GetErc20BalanceNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
-	node.NodeData.IsEventNode = true
 
 	connection, err := block.NewNodeParameter(node, "connection", block.NodeParameterTypeEnumObject, true, nil)
 	if err != nil {

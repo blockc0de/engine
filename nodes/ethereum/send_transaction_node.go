@@ -32,7 +32,6 @@ type SendTransactionNode struct {
 func NewSendTransactionNode(id string, graph *block.Graph) (block.Node, error) {
 	node := new(SendTransactionNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
-	node.NodeData.IsEventNode = true
 
 	connection, err := block.NewNodeParameter(node, "connection", block.NodeParameterTypeEnumObject, true, nil)
 	if err != nil {
