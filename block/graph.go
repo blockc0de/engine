@@ -84,3 +84,14 @@ func (g *Graph) GetFirstEntryPointNode() Node {
 	}
 	return nil
 }
+
+func (g *Graph) GetMaxExecutionTime() int64 {
+	var maxTimeout int64
+	baseTime := int64(1000 * 60)
+	for _, node := range g.NodeList {
+		if node.Data().CustomTimeout > maxTimeout {
+			maxTimeout = node.Data().CustomTimeout
+		}
+	}
+	return baseTime + maxTimeout
+}

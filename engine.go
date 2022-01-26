@@ -70,8 +70,8 @@ type Engine struct {
 	context            context.Context
 	cancel             context.CancelFunc
 	countdown          int
-	currentCycle       *GraphExecutionCycle
-	pendingCyclesQueue chan *GraphExecutionCycle
+	currentCycle       *block.GraphExecutionCycle
+	pendingCyclesQueue chan *block.GraphExecutionCycle
 }
 
 func NewEngine(graph *block.Graph, owner common.Address, client redis.Cmdable, event Event) *Engine {
@@ -94,7 +94,8 @@ func (e *Engine) Run(ctx context.Context) error {
 	e.stopping = false
 	e.ExecutedNodes = e.ExecutedNodes[:0]
 	e.context, e.cancel = context.WithCancel(ctx)
-	e.pendingCyclesQueue = make(chan *GraphExecutionCycle, 128)
+	e.pendingCyclesQueue = make(chan *block.GraphExecutionCycle, 128)
+	maxExecutionTime := time.Second * time.Duration(e.Graph.GetMaxExecutionTime())
 
 	e.startNodes()
 
@@ -121,10 +122,10 @@ loop:
 			e.currentCycle = cycle
 			cycle.StartNode.Data().LastCycleAt = time.Now().UnixMilli()
 
-			c, cancel := context.WithTimeout(e.context, time.Second*time.Duration(cycle.GetCycleMaxExecutionTime()))
+			c, cancel := context.WithTimeout(e.context, maxExecutionTime)
 			cycle.Execute(c)
 			if c.Err() != nil && c.Err() != context.Canceled {
-				e.AppendLog("error", "Timeout occurred on last cycle from graph hash: "+cycle.engine.Graph.Hash)
+				e.AppendLog("error", "Timeout occurred on last cycle from graph hash: "+e.Graph.Hash)
 			}
 			cancel()
 
@@ -173,8 +174,12 @@ func (e *Engine) AddCycle(startNode block.StartNode, parameters block.NodeParame
 		return
 	}
 
-	cycle := NewGraphExecutionCycle(e, time.Now().Unix(), startNode, parameters)
+	cycle := block.NewGraphExecutionCycle(e, time.Now().Unix(), startNode, parameters)
 	e.pendingCyclesQueue <- cycle
+}
+
+func (e *Engine) CurrentCycle() *block.GraphExecutionCycle {
+	return e.currentCycle
 }
 
 func (e *Engine) NextNode(ctx context.Context, node block.Node) bool {
@@ -196,7 +201,7 @@ func (e *Engine) ExecuteNode(ctx context.Context, node block.Node, executedFromN
 		return false
 	}
 
-	traceItem := e.currentCycle.addExecutedNode(node)
+	traceItem := e.currentCycle.AddExecutedNode(node)
 
 	if node.Data().NodeType != reflect.TypeOf(new(nodes.EntryPointNode)).String() &&
 		node.Data().NodeType != reflect.TypeOf(new(functions.FunctionNode)).String() {

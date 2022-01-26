@@ -54,7 +54,7 @@ func (n *SetVariableNode) GetCustomAttributes(t reflect.Type) []interface{} {
 		return nil
 	}
 }
-func (n *SetVariableNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *SetVariableNode) OnExecution(context.Context, block.Engine) error {
 	var converter block.NodeParameterConverter
 	name, ok := converter.ToString(n.Data().InParameters.Get("name").ComputeValue())
 	if !ok {

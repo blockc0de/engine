@@ -8,6 +8,10 @@ import (
 	"github.com/blockc0de/engine/block"
 )
 
+const (
+	CurrentFunctionContext = "CurrentFunctionContext"
+)
+
 var (
 	functionNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FunctionNode", FriendlyName: "Function", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function"}}
 	functionNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Create a new function"}}
@@ -15,7 +19,8 @@ var (
 
 type FunctionNode struct {
 	block.NodeBase
-	Context *FunctionContext
+	Context        *FunctionContext   `json:"-"`
+	CallParameters FunctionParameters `json:"-"`
 }
 
 func NewFunctionNode(id string, graph *block.Graph) (block.Node, error) {
@@ -46,6 +51,11 @@ func (n *FunctionNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *FunctionNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *FunctionNode) OnExecution(ctx context.Context, engine block.Engine) error {
+	n.Context = NewFunctionContext(n)
+	n.CallParameters = make(FunctionParameters)
+
+	engine.CurrentCycle().LocalStorage.Add(CurrentFunctionContext, n.Context)
+
 	return nil
 }

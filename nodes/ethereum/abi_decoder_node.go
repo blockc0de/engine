@@ -71,7 +71,7 @@ func (n *AbiDecoderNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *AbiDecoderNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *AbiDecoderNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	value := n.Data().InParameters.Get("abi").ComputeValue()
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "abi"}

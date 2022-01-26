@@ -56,7 +56,7 @@ func (n *IsVariableExistNode) GetCustomAttributes(t reflect.Type) []interface{} 
 		return nil
 	}
 }
-func (n *IsVariableExistNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *IsVariableExistNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	name, ok := converter.ToString(n.Data().InParameters.Get("name").ComputeValue())
 	if !ok {
@@ -66,11 +66,11 @@ func (n *IsVariableExistNode) OnExecution(ctx context.Context, scheduler block.N
 	_, exist := n.Data().Graph.MemoryVariables[name]
 	if exist {
 		if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	} else {
 		if outNode, ok := n.Data().OutParameters.Get("false").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 

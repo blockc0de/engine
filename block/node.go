@@ -17,12 +17,12 @@ type Node interface {
 
 type StartNode interface {
 	ExecutableNode
-	BeginCycle(context.Context, NodeScheduler)
+	BeginCycle(context.Context, Engine)
 }
 
 type EventNode interface {
 	Node
-	SetupEvent(NodeScheduler) error
+	SetupEvent(Engine) error
 	OnStop() error
 }
 
@@ -33,13 +33,13 @@ type StorageNode interface {
 
 type ConnectorNode interface {
 	Node
-	SetupConnector(NodeScheduler) error
+	SetupConnector(Engine) error
 	OnStop() error
 }
 
 type ExecutableNode interface {
 	Node
-	OnExecution(context.Context, NodeScheduler) error
+	OnExecution(context.Context, Engine) error
 }
 
 // NodeBase Base class for all nodes

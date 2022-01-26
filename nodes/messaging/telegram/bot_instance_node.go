@@ -50,7 +50,7 @@ func (n *BotInstanceNode) CanExecute() bool {
 	return true
 }
 
-func (n *BotInstanceNode) SetupConnector(scheduler block.NodeScheduler) error {
+func (n *BotInstanceNode) SetupConnector(engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	accessToken, ok := converter.ToString(n.Data().InParameters.Get("accessToken").ComputeValue())
 	if !ok {
@@ -65,7 +65,7 @@ func (n *BotInstanceNode) SetupConnector(scheduler block.NodeScheduler) error {
 
 	n.Data().OutParameters.Get("username").Value = block.NodeParameterString(n.bot.Self.UserName)
 
-	scheduler.AddCycle(n, nil)
+	engine.AddCycle(n, nil)
 	return nil
 }
 
@@ -80,8 +80,8 @@ func (n *BotInstanceNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *BotInstanceNode) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
-	scheduler.NextNode(ctx, n)
+func (n *BotInstanceNode) BeginCycle(ctx context.Context, engine block.Engine) {
+	engine.NextNode(ctx, n)
 }
 
 func (n *BotInstanceNode) ComputeParameterValue(parameterId string, value interface{}) interface{} {
@@ -91,7 +91,7 @@ func (n *BotInstanceNode) ComputeParameterValue(parameterId string, value interf
 	return value
 }
 
-func (n *BotInstanceNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *BotInstanceNode) OnExecution(context.Context, block.Engine) error {
 	return nil
 }
 

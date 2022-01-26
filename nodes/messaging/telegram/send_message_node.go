@@ -63,7 +63,7 @@ func (n *SendMessageNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *SendMessageNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *SendMessageNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	value := n.Data().InParameters.Get("telegramBot").ComputeValue()
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "telegramBot"}
@@ -86,7 +86,7 @@ func (n *SendMessageNode) OnExecution(ctx context.Context, scheduler block.NodeS
 
 	_, err := botInstanceNode.bot.Send(tgbotapi.NewMessage(chatId.IntPart(), message))
 	if err != nil {
-		scheduler.AppendLog("warn", fmt.Sprintf("Failed to send telegram message, reason: %s", err.Error()))
+		engine.AppendLog("warn", fmt.Sprintf("Failed to send telegram message, reason: %s", err.Error()))
 	}
 
 	return nil

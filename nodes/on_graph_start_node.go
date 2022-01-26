@@ -28,13 +28,13 @@ func (n *OnGraphStartNode) CanExecute() bool {
 	return true
 }
 
-func (n *OnGraphStartNode) SetupEvent(scheduler block.NodeScheduler) error {
-	scheduler.AddCycle(n, nil)
+func (n *OnGraphStartNode) SetupEvent(engine block.Engine) error {
+	engine.AddCycle(n, nil)
 	return nil
 }
 
-func (n *OnGraphStartNode) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
-	scheduler.NextNode(ctx, n)
+func (n *OnGraphStartNode) BeginCycle(ctx context.Context, engine block.Engine) {
+	engine.NextNode(ctx, n)
 }
 
 func (n *OnGraphStartNode) GetCustomAttributes(t reflect.Type) []interface{} {
@@ -48,7 +48,7 @@ func (n *OnGraphStartNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *OnGraphStartNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *OnGraphStartNode) OnExecution(context.Context, block.Engine) error {
 	return nil
 }
 

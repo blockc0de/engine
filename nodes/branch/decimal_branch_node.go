@@ -81,7 +81,7 @@ func (n *DecimalBranchNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *DecimalBranchNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *DecimalBranchNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	valueA, ok := converter.ToDecimal(n.Data().InParameters.Get("valueA").ComputeValue())
 	if !ok {
@@ -95,31 +95,31 @@ func (n *DecimalBranchNode) OnExecution(ctx context.Context, scheduler block.Nod
 
 	if valueA.GreaterThan(valueB) {
 		if outNode, ok := n.Data().OutParameters.Get(">").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 
 	if valueA.GreaterThanOrEqual(valueB) {
 		if outNode, ok := n.Data().OutParameters.Get(">=").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 
 	if valueA.Equal(valueB) {
 		if outNode, ok := n.Data().OutParameters.Get("==").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 
 	if valueA.LessThanOrEqual(valueB) {
 		if outNode, ok := n.Data().OutParameters.Get("<=").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 
 	if valueA.LessThan(valueB) {
 		if outNode, ok := n.Data().OutParameters.Get("<").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 

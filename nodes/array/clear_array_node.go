@@ -49,7 +49,7 @@ func (n *ClearArrayNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *ClearArrayNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *ClearArrayNode) OnExecution(context.Context, block.Engine) error {
 	value := n.NodeData.InParameters.Get("array").ComputeValue()
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "array"}

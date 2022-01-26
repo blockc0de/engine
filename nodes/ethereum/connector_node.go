@@ -56,7 +56,7 @@ func (n *EthConnection) CanExecute() bool {
 	return true
 }
 
-func (n *EthConnection) SetupConnector(scheduler block.NodeScheduler) error {
+func (n *EthConnection) SetupConnector(engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	url, ok := converter.ToString(n.Data().InParameters.Get("url").ComputeValue())
 	if !ok {
@@ -99,11 +99,11 @@ func (n *EthConnection) SetupConnector(scheduler block.NodeScheduler) error {
 		return err
 	}
 
-	scheduler.AppendLog("info",
+	engine.AppendLog("info",
 		fmt.Sprintf("[%s] Successful connection to RPC node, chain: %d, eip1559: %v",
 			n.Data().FriendlyName, chainId1.Int64(), n.IsSupportEIP1559))
 
-	scheduler.AddCycle(n, nil)
+	engine.AddCycle(n, nil)
 	return nil
 }
 
@@ -143,8 +143,8 @@ func (n *EthConnection) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *EthConnection) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
-	scheduler.NextNode(ctx, n)
+func (n *EthConnection) BeginCycle(ctx context.Context, engine block.Engine) {
+	engine.NextNode(ctx, n)
 }
 
 func (n *EthConnection) ComputeParameterValue(parameterId string, value interface{}) interface{} {
@@ -154,7 +154,7 @@ func (n *EthConnection) ComputeParameterValue(parameterId string, value interfac
 	return value
 }
 
-func (n *EthConnection) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *EthConnection) OnExecution(context.Context, block.Engine) error {
 	return nil
 }
 

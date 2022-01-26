@@ -49,7 +49,7 @@ func (n *CreateArrayNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *CreateArrayNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *CreateArrayNode) OnExecution(context.Context, block.Engine) error {
 	array := make([]interface{}, 0)
 	n.NodeData.OutParameters.Get("array").Value = &array
 	return nil

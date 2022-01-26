@@ -61,7 +61,7 @@ func (n *EachElementArrayNode) GetCustomAttributes(t reflect.Type) []interface{}
 	}
 }
 
-func (n *EachElementArrayNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *EachElementArrayNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	value := n.NodeData.InParameters.Get("array").ComputeValue()
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "array"}
@@ -84,7 +84,7 @@ func (n *EachElementArrayNode) OnExecution(ctx context.Context, scheduler block.
 
 	for _, item := range *array {
 		n.Data().OutParameters.Get("item").Value = item
-		scheduler.ExecuteNode(ctx, eachNode, nil)
+		engine.ExecuteNode(ctx, eachNode, nil)
 	}
 
 	return nil

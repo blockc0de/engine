@@ -64,7 +64,7 @@ func (n *GetWalletKeyNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *GetWalletKeyNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *GetWalletKeyNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	key, ok := converter.ToString(n.Data().InParameters.Get("key").ComputeValue())
 	if !ok {

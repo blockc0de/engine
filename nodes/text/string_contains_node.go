@@ -64,7 +64,7 @@ func (n *StringContainsNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *StringContainsNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *StringContainsNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	s, ok := converter.ToString(n.Data().InParameters.Get("string").ComputeValue())
 	if !ok {
@@ -78,11 +78,11 @@ func (n *StringContainsNode) OnExecution(ctx context.Context, scheduler block.No
 
 	if strings.Contains(strings.ToLower(s), strings.ToLower(toSearch)) {
 		if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	} else {
 		if outNode, ok := n.Data().OutParameters.Get("false").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 

@@ -51,7 +51,7 @@ func (n *LastNodeToJsonNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *LastNodeToJsonNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *LastNodeToJsonNode) OnExecution(context.Context, block.Engine) error {
 	if n.Data().LastExecutionFrom == nil {
 		return errors.New("last node not found")
 	}

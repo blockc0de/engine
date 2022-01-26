@@ -63,7 +63,7 @@ func (n *StringBranchNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *StringBranchNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *StringBranchNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	valueA, ok := converter.ToString(n.Data().InParameters.Get("valueA").ComputeValue())
 	if !ok {
@@ -77,11 +77,11 @@ func (n *StringBranchNode) OnExecution(ctx context.Context, scheduler block.Node
 
 	if valueA == valueB {
 		if outNode, ok := n.Data().OutParameters.Get("==").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	} else {
 		if outNode, ok := n.Data().OutParameters.Get("!=").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 

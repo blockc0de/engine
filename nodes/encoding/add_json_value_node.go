@@ -68,7 +68,7 @@ func (n *AddJsonValueNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *AddJsonValueNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *AddJsonValueNode) OnExecution(context.Context, block.Engine) error {
 	var converter block.NodeParameterConverter
 	key, ok := converter.ToString(n.NodeData.InParameters.Get("key").ComputeValue())
 	if !ok {

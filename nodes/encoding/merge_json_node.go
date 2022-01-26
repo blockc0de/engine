@@ -62,7 +62,7 @@ func (n *MergeJsonNodeNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *MergeJsonNodeNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *MergeJsonNodeNode) OnExecution(context.Context, block.Engine) error {
 	var converter block.NodeParameterConverter
 	json1, ok := converter.ToString(n.NodeData.InParameters.Get("json1").ComputeValue())
 	if !ok {

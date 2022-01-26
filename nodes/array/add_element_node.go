@@ -55,7 +55,7 @@ func (n *AddElementNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *AddElementNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *AddElementNode) OnExecution(context.Context, block.Engine) error {
 	value := n.NodeData.InParameters.Get("array").ComputeValue()
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "array"}

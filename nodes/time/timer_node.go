@@ -37,7 +37,7 @@ func (n *TimerNode) CanExecute() bool {
 	return true
 }
 
-func (n *TimerNode) SetupEvent(scheduler block.NodeScheduler) error {
+func (n *TimerNode) SetupEvent(engine block.Engine) error {
 	seconds, err := n.getIntervalInSeconds()
 	if err != nil {
 		return err
@@ -47,21 +47,21 @@ func (n *TimerNode) SetupEvent(scheduler block.NodeScheduler) error {
 
 	go func() {
 		for range n.timer.C {
-			scheduler.AddCycle(n, nil)
+			engine.AddCycle(n, nil)
 		}
 	}()
 
-	scheduler.AddCycle(n, nil)
+	engine.AddCycle(n, nil)
 	return nil
 }
 
-func (n *TimerNode) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
-	scheduler.NextNode(ctx, n)
+func (n *TimerNode) BeginCycle(ctx context.Context, engine block.Engine) {
+	engine.NextNode(ctx, n)
 
 	if n.timer != nil {
 		seconds, err := n.getIntervalInSeconds()
 		if err != nil {
-			scheduler.Stop()
+			engine.Stop()
 		} else {
 			n.timer.Reset(seconds)
 		}
@@ -79,7 +79,7 @@ func (n *TimerNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *TimerNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *TimerNode) OnExecution(context.Context, block.Engine) error {
 	return nil
 }
 

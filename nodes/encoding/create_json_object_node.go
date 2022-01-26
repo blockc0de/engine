@@ -49,7 +49,7 @@ func (n *CreateJsonObjectNode) GetCustomAttributes(t reflect.Type) []interface{}
 	}
 }
 
-func (n *CreateJsonObjectNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *CreateJsonObjectNode) OnExecution(context.Context, block.Engine) error {
 	jsonObject := make(map[string]interface{})
 	n.NodeData.OutParameters.Get("jsonObject").Value = jsonObject
 	return nil

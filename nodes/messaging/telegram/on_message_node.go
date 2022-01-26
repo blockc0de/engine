@@ -62,7 +62,7 @@ func (n *OnMessageTelegramBotNode) CanExecute() bool {
 	return true
 }
 
-func (n *OnMessageTelegramBotNode) pollingUpdates(bot *tgbotapi.BotAPI, scheduler block.NodeScheduler) {
+func (n *OnMessageTelegramBotNode) pollingUpdates(bot *tgbotapi.BotAPI, engine block.Engine) {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 	ch := bot.GetUpdatesChan(u)
@@ -106,11 +106,11 @@ func (n *OnMessageTelegramBotNode) pollingUpdates(bot *tgbotapi.BotAPI, schedule
 		message.Value = block.NodeParameterString(update.Message.Text)
 		parameters.Append(message)
 
-		scheduler.AddCycle(n, parameters)
+		engine.AddCycle(n, parameters)
 	}
 }
 
-func (n *OnMessageTelegramBotNode) SetupEvent(scheduler block.NodeScheduler) error {
+func (n *OnMessageTelegramBotNode) SetupEvent(engine block.Engine) error {
 	value := n.Data().InParameters.Get("telegramBot").ComputeValue()
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "telegramBot"}
@@ -120,13 +120,13 @@ func (n *OnMessageTelegramBotNode) SetupEvent(scheduler block.NodeScheduler) err
 		return block.ErrInvalidParameter{Name: "telegramBot"}
 	}
 
-	go n.pollingUpdates(botInstanceNode.bot, scheduler)
+	go n.pollingUpdates(botInstanceNode.bot, engine)
 
 	return nil
 }
 
-func (n *OnMessageTelegramBotNode) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
-	scheduler.NextNode(ctx, n)
+func (n *OnMessageTelegramBotNode) BeginCycle(ctx context.Context, engine block.Engine) {
+	engine.NextNode(ctx, n)
 }
 
 func (n *OnMessageTelegramBotNode) GetCustomAttributes(t reflect.Type) []interface{} {
@@ -140,7 +140,7 @@ func (n *OnMessageTelegramBotNode) GetCustomAttributes(t reflect.Type) []interfa
 	}
 }
 
-func (n *OnMessageTelegramBotNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *OnMessageTelegramBotNode) OnExecution(context.Context, block.Engine) error {
 	return nil
 }
 

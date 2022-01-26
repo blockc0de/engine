@@ -109,7 +109,7 @@ func (n *SendTransactionNode) GetCustomAttributes(t reflect.Type) []interface{} 
 	}
 }
 
-func (n *SendTransactionNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *SendTransactionNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	conn := n.Data().InParameters.Get("connection").ComputeValue()
 	if conn == nil {
 		return block.ErrInvalidParameter{Name: "connection"}
@@ -220,7 +220,7 @@ func (n *SendTransactionNode) OnExecution(ctx context.Context, scheduler block.N
 	// Send signed transaction
 	err = connection.Web3Client.SendTransaction(ctx, signedTx)
 	if err != nil {
-		scheduler.AppendLog("error", fmt.Sprintf(
+		engine.AppendLog("error", fmt.Sprintf(
 			"[%s] Failed to send transaction, from: %s, to: %s, hash: %s, reason: %s",
 			n.Data().FriendlyName, fromAddress.String(), toAddress.String(), tx.Hash().String(), err.Error()))
 		return err
@@ -228,7 +228,7 @@ func (n *SendTransactionNode) OnExecution(ctx context.Context, scheduler block.N
 
 	n.NodeData.OutParameters.Get("hash").Value = block.NodeParameterString(tx.Hash().String())
 
-	scheduler.AppendLog("info", fmt.Sprintf(
+	engine.AppendLog("info", fmt.Sprintf(
 		"[%s] Broadcast transaction, from: %s, to: %s, hash: %s",
 		n.Data().FriendlyName, fromAddress.String(), toAddress.String(), tx.Hash().String()))
 

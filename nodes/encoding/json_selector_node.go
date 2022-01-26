@@ -62,7 +62,7 @@ func (n *JsonSelectorNodeNode) GetCustomAttributes(t reflect.Type) []interface{}
 	}
 }
 
-func (n *JsonSelectorNodeNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *JsonSelectorNodeNode) OnExecution(context.Context, block.Engine) error {
 	var converter block.NodeParameterConverter
 	js, ok := converter.ToString(n.NodeData.InParameters.Get("json").ComputeValue())
 	if !ok {

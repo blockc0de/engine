@@ -57,25 +57,25 @@ func (n *OnEventLogNode) CanExecute() bool {
 	return true
 }
 
-func (n *OnEventLogNode) handleRead(scheduler block.NodeScheduler) {
+func (n *OnEventLogNode) handleRead(engine block.Engine) {
 	for eventLog := range n.ch {
 		data, err := eventLog.MarshalJSON()
 		if err != nil {
-			scheduler.AppendLog("error", fmt.Sprintf("Failed to marshal event log, reason: %s", err.Error()))
+			engine.AppendLog("error", fmt.Sprintf("Failed to marshal event log, reason: %s", err.Error()))
 			break
 		}
 
 		p, err := block.NewDynamicNodeParameter(n, "eventLog", block.NodeParameterTypeEnumString, false)
 		if err != nil {
-			scheduler.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
+			engine.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
 			break
 		}
 		p.Value = block.NodeParameterString(data)
-		scheduler.AddCycle(n, []*block.NodeParameter{p})
+		engine.AddCycle(n, []*block.NodeParameter{p})
 	}
 }
 
-func (n *OnEventLogNode) SetupEvent(scheduler block.NodeScheduler) error {
+func (n *OnEventLogNode) SetupEvent(engine block.Engine) error {
 	value := n.Data().InParameters.Get("connection").ComputeValue()
 	if value == nil {
 		return errors.New("invalid connection")
@@ -104,7 +104,7 @@ func (n *OnEventLogNode) SetupEvent(scheduler block.NodeScheduler) error {
 		return err
 	}
 
-	go n.handleRead(scheduler)
+	go n.handleRead(engine)
 
 	return nil
 }
@@ -120,11 +120,11 @@ func (n *OnEventLogNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *OnEventLogNode) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
-	scheduler.NextNode(ctx, n)
+func (n *OnEventLogNode) BeginCycle(ctx context.Context, engine block.Engine) {
+	engine.NextNode(ctx, n)
 }
 
-func (n *OnEventLogNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *OnEventLogNode) OnExecution(context.Context, block.Engine) error {
 	return nil
 }
 

@@ -1,4 +1,4 @@
-package engine
+package block
 
 import (
 	"context"
@@ -6,32 +6,47 @@ import (
 	"reflect"
 
 	"github.com/blockc0de/engine/attributes"
-	"github.com/blockc0de/engine/block"
-	"github.com/blockc0de/engine/nodes/functions"
 )
 
-type GraphExecutionCycle struct {
-	engine                          *Engine
-	Timestamp                       int64
-	StartNode                       block.StartNode
-	ExecutedNodesInCycle            []block.Node
-	Trace                           *block.GraphTrace
-	StartNodeInstantiatedParameters block.NodeParameters
-	CurrentFunctionContext          *functions.FunctionContext
+type LocalStorage struct {
+	m map[string]interface{}
 }
 
-func NewGraphExecutionCycle(engine *Engine,
-	timestamp int64, startNode block.StartNode, parameters block.NodeParameters) *GraphExecutionCycle {
+func (s LocalStorage) Get(key string) interface{} {
+	val, ok := s.m[key]
+	if !ok {
+		return nil
+	}
+	return val
+}
+
+func (s LocalStorage) Add(key string, val interface{}) {
+	s.m[key] = val
+}
+
+type GraphExecutionCycle struct {
+	engine                          Engine
+	Timestamp                       int64
+	StartNode                       StartNode
+	ExecutedNodesInCycle            []Node
+	Trace                           *GraphTrace
+	LocalStorage                    LocalStorage
+	StartNodeInstantiatedParameters NodeParameters
+}
+
+func NewGraphExecutionCycle(engine Engine,
+	timestamp int64, startNode StartNode, parameters NodeParameters) *GraphExecutionCycle {
 
 	cycle := GraphExecutionCycle{
 		engine:               engine,
 		Timestamp:            timestamp,
 		StartNode:            startNode,
-		ExecutedNodesInCycle: make([]block.Node, 0),
-		Trace:                block.NewGraphTrace(),
+		ExecutedNodesInCycle: make([]Node, 0),
+		LocalStorage:         LocalStorage{m: map[string]interface{}{}},
+		Trace:                NewGraphTrace(),
 	}
 
-	cycle.addExecutedNode(startNode)
+	cycle.AddExecutedNode(startNode)
 	cycle.StartNodeInstantiatedParameters = parameters
 	if parameters == nil {
 		cycle.StartNodeInstantiatedParameters = cycle.StartNode.Data().OutParameters
@@ -62,18 +77,7 @@ func (c *GraphExecutionCycle) GetCycleExecutedGasPrice() *big.Int {
 	return total
 }
 
-func (c *GraphExecutionCycle) GetCycleMaxExecutionTime() int64 {
-	var maxTimeout int64
-	baseTime := int64(1000 * 60)
-	for _, node := range c.engine.Graph.NodeList {
-		if node.Data().CustomTimeout > maxTimeout {
-			maxTimeout = node.Data().CustomTimeout
-		}
-	}
-	return baseTime + maxTimeout
-}
-
-func (c *GraphExecutionCycle) addExecutedNode(node block.Node) *block.NodeTrace {
+func (c *GraphExecutionCycle) AddExecutedNode(node Node) *NodeTrace {
 	c.ExecutedNodesInCycle = append(c.ExecutedNodesInCycle, node)
 	return c.Trace.AppendTrace(node)
 }

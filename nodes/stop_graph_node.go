@@ -38,7 +38,7 @@ func (n *StopGraphNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *StopGraphNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
-	scheduler.Stop()
+func (n *StopGraphNode) OnExecution(ctx context.Context, engine block.Engine) error {
+	engine.Stop()
 	return nil
 }

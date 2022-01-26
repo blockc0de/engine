@@ -71,7 +71,7 @@ func (n *GetErc20BalanceNode) GetCustomAttributes(t reflect.Type) []interface{} 
 	}
 }
 
-func (n *GetErc20BalanceNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *GetErc20BalanceNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	value := n.Data().InParameters.Get("connection").ComputeValue()
 	if value == nil {
 		return block.ErrInvalidParameter{Name: "connection"}

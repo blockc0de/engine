@@ -51,13 +51,13 @@ func (n *OnNewBlockEventNode) CanExecute() bool {
 	return true
 }
 
-func (n *OnNewBlockEventNode) handleRead(scheduler block.NodeScheduler) {
+func (n *OnNewBlockEventNode) handleRead(engine block.Engine) {
 	for header := range n.ch {
 		ctx, cancel := context.WithTimeout(context.Background(), config.TIMEOUT)
 		fullBlock, err := n.client.BlockByHash(ctx, header.Hash())
 		if err != nil {
 			cancel()
-			scheduler.AppendLog("error", fmt.Sprintf("Failed to get block by hash, reason: %s", err.Error()))
+			engine.AppendLog("error", fmt.Sprintf("Failed to get block by hash, reason: %s", err.Error()))
 			break
 		}
 		cancel()
@@ -68,21 +68,21 @@ func (n *OnNewBlockEventNode) handleRead(scheduler block.NodeScheduler) {
 		}{header, fullBlock.Transactions()}
 		data, err := json.Marshal(v)
 		if err != nil {
-			scheduler.AppendLog("error", fmt.Sprintf("Failed to marshal block, reason: %s", err.Error()))
+			engine.AppendLog("error", fmt.Sprintf("Failed to marshal block, reason: %s", err.Error()))
 			break
 		}
 
 		p, err := block.NewDynamicNodeParameter(n, "block", block.NodeParameterTypeEnumString, false)
 		if err != nil {
-			scheduler.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
+			engine.AppendLog("error", fmt.Sprintf("Failed to create dynamic node parameter, reason: %s", err.Error()))
 			break
 		}
 		p.Value = block.NodeParameterString(data)
-		scheduler.AddCycle(n, []*block.NodeParameter{p})
+		engine.AddCycle(n, []*block.NodeParameter{p})
 	}
 }
 
-func (n *OnNewBlockEventNode) SetupEvent(scheduler block.NodeScheduler) error {
+func (n *OnNewBlockEventNode) SetupEvent(engine block.Engine) error {
 	value := n.Data().InParameters.Get("connection").ComputeValue()
 	if value == nil {
 		return errors.New("invalid connection")
@@ -104,7 +104,7 @@ func (n *OnNewBlockEventNode) SetupEvent(scheduler block.NodeScheduler) error {
 		return err
 	}
 
-	go n.handleRead(scheduler)
+	go n.handleRead(engine)
 
 	return nil
 }
@@ -120,11 +120,11 @@ func (n *OnNewBlockEventNode) GetCustomAttributes(t reflect.Type) []interface{} 
 	}
 }
 
-func (n *OnNewBlockEventNode) BeginCycle(ctx context.Context, scheduler block.NodeScheduler) {
-	scheduler.NextNode(ctx, n)
+func (n *OnNewBlockEventNode) BeginCycle(ctx context.Context, engine block.Engine) {
+	engine.NextNode(ctx, n)
 }
 
-func (n *OnNewBlockEventNode) OnExecution(context.Context, block.NodeScheduler) error {
+func (n *OnNewBlockEventNode) OnExecution(context.Context, block.Engine) error {
 	return nil
 }
 

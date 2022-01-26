@@ -57,7 +57,7 @@ func (n *BoolBranchNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *BoolBranchNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *BoolBranchNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	condition, ok := converter.ToBool(n.Data().InParameters.Get("condition").ComputeValue())
 	if !ok {
@@ -66,11 +66,11 @@ func (n *BoolBranchNode) OnExecution(ctx context.Context, scheduler block.NodeSc
 
 	if condition {
 		if outNode, ok := n.Data().OutParameters.Get("true").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	} else {
 		if outNode, ok := n.Data().OutParameters.Get("false").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 

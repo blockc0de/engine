@@ -59,7 +59,7 @@ func (n *ListWalletKeyNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	}
 }
 
-func (n *ListWalletKeyNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *ListWalletKeyNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	mapper, err := n.client.HGetAll(redisWalletKey(n.scope)).Result()
 	if err != nil {
 		return err

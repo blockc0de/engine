@@ -75,7 +75,7 @@ func (n *DecimalRangeBranchNode) GetCustomAttributes(t reflect.Type) []interface
 	}
 }
 
-func (n *DecimalRangeBranchNode) OnExecution(ctx context.Context, scheduler block.NodeScheduler) error {
+func (n *DecimalRangeBranchNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	var converter block.NodeParameterConverter
 	value, ok := converter.ToDecimal(n.Data().InParameters.Get("value").ComputeValue())
 	if !ok {
@@ -94,19 +94,19 @@ func (n *DecimalRangeBranchNode) OnExecution(ctx context.Context, scheduler bloc
 
 	if value.LessThan(rangeMin) {
 		if outNode, ok := n.Data().OutParameters.Get("< RangeMin").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 
 	if value.GreaterThan(rangeMax) {
 		if outNode, ok := n.Data().OutParameters.Get("> RangeMax").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 
 	if value.GreaterThanOrEqual(rangeMin) && value.LessThanOrEqual(rangeMax) {
 		if outNode, ok := n.Data().OutParameters.Get("In Range").Value.(block.ExecutableNode); ok && outNode != nil {
-			return outNode.OnExecution(ctx, scheduler)
+			return outNode.OnExecution(ctx, engine)
 		}
 	}
 
