@@ -27,7 +27,7 @@ func NewJsonToJsonObjectNode(id string, graph *block.Graph) (block.Node, error) 
 	}
 	node.NodeData.InParameters.Append(json)
 
-	jsonObject, err := block.NewDynamicNodeParameter(node, "jsonObject", block.NodeParameterTypeEnumObject, false)
+	jsonObject, err := block.NewDynamicNodeParameter(node, "jsonObject", block.NodeParameterTypeEnumMapping, false)
 	if err != nil {
 		return nil, err
 	}

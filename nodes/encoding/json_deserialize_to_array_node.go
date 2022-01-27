@@ -27,7 +27,7 @@ func NewJsonDeserializeToArrayNode(id string, graph *block.Graph) (block.Node, e
 	}
 	node.NodeData.InParameters.Append(json)
 
-	array, err := block.NewDynamicNodeParameter(node, "array", block.NodeParameterTypeEnumObject, false)
+	array, err := block.NewDynamicNodeParameter(node, "array", block.NodeParameterTypeEnumArray, false)
 	if err != nil {
 		return nil, err
 	}

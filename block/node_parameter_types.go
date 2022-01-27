@@ -21,9 +21,10 @@ var (
 	NodeParameterTypeEnumNode    NodeParameterTypeEnum = "NodeBlock.Engine.Node"
 	NodeParameterTypeEnumBool    NodeParameterTypeEnum = "System.Boolean"
 	NodeParameterTypeEnumString  NodeParameterTypeEnum = "System.String"
-	NodeParameterTypeEnumDecimal NodeParameterTypeEnum = "System.Double"
 	NodeParameterTypeEnumObject  NodeParameterTypeEnum = "System.Object"
-	NodeParameterTypeEnumArray   NodeParameterTypeEnum = "System.Collections.Generic.List"
+	NodeParameterTypeEnumDecimal NodeParameterTypeEnum = "Decimal"
+	NodeParameterTypeEnumArray   NodeParameterTypeEnum = "List"
+	NodeParameterTypeEnumMapping NodeParameterTypeEnum = "Mapping"
 	NodeParameterTypeEnumUnknown NodeParameterTypeEnum = "Unknown"
 )
 

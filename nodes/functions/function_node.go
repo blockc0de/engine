@@ -13,19 +13,20 @@ const (
 )
 
 var (
+	functionNodeType             = reflect.TypeOf(FunctionNode{}).String()
 	functionNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FunctionNode", FriendlyName: "Function", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function"}}
 	functionNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Create a new function"}}
 )
 
 type FunctionNode struct {
 	block.NodeBase
-	Context        *FunctionContext   `json:"-"`
-	CallParameters FunctionParameters `json:"-"`
+	Context        *FunctionContext
+	CallParameters FunctionParameters
 }
 
 func NewFunctionNode(id string, graph *block.Graph) (block.Node, error) {
 	node := new(FunctionNode)
-	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
+	node.NodeData = block.NewNodeData(id, node, graph, functionNodeType)
 
 	name, err := block.NewNodeParameter(node, "name", block.NodeParameterTypeEnumString, true, nil)
 	if err != nil {

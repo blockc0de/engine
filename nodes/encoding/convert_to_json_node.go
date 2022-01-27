@@ -21,7 +21,7 @@ func NewConvertToJsonNode(id string, graph *block.Graph) (block.Node, error) {
 	node := new(ConvertToJsonNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
 
-	object, err := block.NewNodeParameter(node, "object", block.NodeParameterTypeEnumObject, true, nil)
+	object, err := block.NewNodeParameter(node, "object", block.NodeParameterTypeEnumMapping, true, nil)
 	if err != nil {
 		return nil, err
 	}

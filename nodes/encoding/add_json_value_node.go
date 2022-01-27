@@ -22,7 +22,7 @@ func NewAddJsonValueNode(id string, graph *block.Graph) (block.Node, error) {
 	node := new(AddJsonValueNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
 
-	jsonObject, err := block.NewNodeParameter(node, "jsonObject", block.NodeParameterTypeEnumObject, true, nil)
+	jsonObject, err := block.NewNodeParameter(node, "jsonObject", block.NodeParameterTypeEnumMapping, true, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func NewAddJsonValueNode(id string, graph *block.Graph) (block.Node, error) {
 	}
 	node.NodeData.InParameters.Append(value)
 
-	jsonObjectOut, err := block.NewDynamicNodeParameter(node, "jsonObjectOut", block.NodeParameterTypeEnumObject, false)
+	jsonObjectOut, err := block.NewDynamicNodeParameter(node, "jsonObjectOut", block.NodeParameterTypeEnumMapping, false)
 	if err != nil {
 		return nil, err
 	}

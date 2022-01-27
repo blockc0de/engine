@@ -21,7 +21,7 @@ func NewCreateJsonObjectNode(id string, graph *block.Graph) (block.Node, error) 
 	node := new(CreateJsonObjectNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
 
-	jsonObject, err := block.NewDynamicNodeParameter(node, "jsonObject", block.NodeParameterTypeEnumObject, false)
+	jsonObject, err := block.NewDynamicNodeParameter(node, "jsonObject", block.NodeParameterTypeEnumMapping, false)
 	if err != nil {
 		return nil, err
 	}
