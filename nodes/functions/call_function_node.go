@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	callFunctionNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "CallFunctionNode", FriendlyName: "Create Function Parameters", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function"}}
+	callFunctionNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "CallFunctionNode", FriendlyName: "Call Function", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function"}}
 	callFunctionNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Call a function in the graph"}}
 )
 

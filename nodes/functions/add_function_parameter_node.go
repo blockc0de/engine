@@ -9,16 +9,16 @@ import (
 )
 
 var (
-	adaddFunctionParameterNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddFunctionParameterNode", FriendlyName: "Add Function Parameter", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function"}}
-	adaddFunctionParameterNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Add a new parameter to a function parameters array"}}
+	addFunctionParameterNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "AddFunctionParameterNode", FriendlyName: "Add Function Parameter", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function"}}
+	addFunctionParameterNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Add a new parameter to a function parameters array"}}
 )
 
-type AdaddFunctionParameterNode struct {
+type AddFunctionParameterNode struct {
 	block.NodeBase
 }
 
-func NewAdaddFunctionParameterNode(id string, graph *block.Graph) (block.Node, error) {
-	node := new(AdaddFunctionParameterNode)
+func NewAddFunctionParameterNode(id string, graph *block.Graph) (block.Node, error) {
+	node := new(AddFunctionParameterNode)
 	node.NodeData = block.NewNodeData(id, node, graph, reflect.TypeOf(node).String())
 
 	parameters, err := block.NewNodeParameter(node, "parameters", block.NodeParameterTypeEnumMapping, true, nil)
@@ -48,26 +48,26 @@ func NewAdaddFunctionParameterNode(id string, graph *block.Graph) (block.Node, e
 	return node, nil
 }
 
-func (n *AdaddFunctionParameterNode) CanExecute() bool {
+func (n *AddFunctionParameterNode) CanExecute() bool {
 	return true
 }
 
-func (n *AdaddFunctionParameterNode) CanBeExecuted() bool {
+func (n *AddFunctionParameterNode) CanBeExecuted() bool {
 	return true
 }
 
-func (n *AdaddFunctionParameterNode) GetCustomAttributes(t reflect.Type) []interface{} {
+func (n *AddFunctionParameterNode) GetCustomAttributes(t reflect.Type) []interface{} {
 	switch t {
 	case reflect.TypeOf(attributes.NodeDefinition{}):
-		return adaddFunctionParameterNodeDefinition
+		return addFunctionParameterNodeDefinition
 	case reflect.TypeOf(attributes.NodeGraphDescription{}):
-		return adaddFunctionParameterNodeGraphDescription
+		return addFunctionParameterNodeGraphDescription
 	default:
 		return nil
 	}
 }
 
-func (n *AdaddFunctionParameterNode) OnExecution(context.Context, block.Engine) error {
+func (n *AddFunctionParameterNode) OnExecution(context.Context, block.Engine) error {
 	v := n.NodeData.InParameters.Get("parameters").ComputeValue()
 	if v == nil {
 		return block.ErrInvalidParameter{Name: "parameters"}
