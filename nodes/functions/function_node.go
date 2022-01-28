@@ -13,7 +13,7 @@ const (
 )
 
 var (
-	functionNodeType             = reflect.TypeOf(FunctionNode{}).String()
+	functionNodeType             = reflect.TypeOf(new(FunctionNode)).String()
 	functionNodeDefinition       = []interface{}{attributes.NodeDefinition{NodeName: "FunctionNode", FriendlyName: "Function", NodeType: attributes.NodeTypeEnumFunction, GroupName: "Function"}}
 	functionNodeGraphDescription = []interface{}{attributes.NodeGraphDescription{Description: "Create a new function"}}
 )
@@ -54,9 +54,11 @@ func (n *FunctionNode) GetCustomAttributes(t reflect.Type) []interface{} {
 
 func (n *FunctionNode) OnExecution(ctx context.Context, engine block.Engine) error {
 	n.Context = NewFunctionContext(n)
-	n.CallParameters = make(FunctionParameters)
+	n.Context.CallParameters = n.CallParameters
 
-	engine.CurrentCycle().LocalStorage.Add(CurrentFunctionContext, n.Context)
+	n.NodeData.Graph.CurrentCycle.LocalStorage.Add(CurrentFunctionContext, n.Context)
+
+	engine.NextNode(ctx, n)
 
 	return nil
 }

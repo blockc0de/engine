@@ -120,6 +120,7 @@ loop:
 			}
 
 			e.currentCycle = cycle
+			e.Graph.CurrentCycle = cycle
 			cycle.StartNode.Data().LastCycleAt = time.Now().UnixMilli()
 
 			c, cancel := context.WithTimeout(e.context, maxExecutionTime)
@@ -132,6 +133,9 @@ loop:
 			if e.event.CycleCost != nil {
 				e.event.CycleCost(cycle.GetCycleExecutedGasPrice())
 			}
+
+			e.currentCycle = nil
+			e.Graph.CurrentCycle = nil
 
 			if e.countdown > 0 {
 				e.countdown -= 1

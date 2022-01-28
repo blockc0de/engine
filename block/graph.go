@@ -10,6 +10,7 @@ type Graph struct {
 	Name            string
 	Nodes           map[string]Node
 	NodeList        []Node
+	CurrentCycle    *GraphExecutionCycle
 	MemoryVariables map[string]interface{}
 }
 
