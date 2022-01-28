@@ -99,9 +99,12 @@ var (
 
 		// Function
 		{reflect.TypeOf(new(functions.FunctionNode)).String(), functions.NewFunctionNode},
+		{reflect.TypeOf(new(functions.GetFunctionParameterNode)).String(), functions.NewGetFunctionParameterNode},
+		{reflect.TypeOf(new(functions.AddFunctionResultNode)).String(), functions.NewAddFunctionResultNode},
 		{reflect.TypeOf(new(functions.CreateFunctionParametersNode)).String(), functions.NewCreateFunctionParametersNode},
-		{reflect.TypeOf(new(functions.AdaddFunctionParameterNode)).String(), functions.NewAdaddFunctionParameterNode},
+		{reflect.TypeOf(new(functions.AddFunctionParameterNode)).String(), functions.NewAddFunctionParameterNode},
 		{reflect.TypeOf(new(functions.CallFunctionNode)).String(), functions.NewCallFunctionNode},
+		{reflect.TypeOf(new(functions.GetFunctionResultParameterNode)).String(), functions.NewGetFunctionResultParameterNode},
 
 		// Storage
 		{reflect.TypeOf(new(storage.SetWalletKeyNode)).String(), storage.NewSetWalletKeyNode},
